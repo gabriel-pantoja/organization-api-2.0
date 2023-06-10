@@ -4,6 +4,7 @@ import { UpdateDebtDto } from '../dtos/debt/update-debt.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Debt } from 'src/data/entities/debt.entity';
+import { Request } from 'express';
 
 @Injectable()
 export class DebtService {
@@ -13,22 +14,25 @@ export class DebtService {
   ) {}
 
   create(createDebtDto: CreateDebtDto) {
+    createDebtDto.isPay = false;
     const debt = this.repository.create(createDebtDto);
     return this.repository.save(debt);
   }
 
-  findAll(): Promise<Debt[]> {
+  async findAll(request: Request): Promise<Debt[]> {
     return this.repository.find({
       select: {
         id: true,
-        debtType: { name: true },
+        debtType: { id: true, name: true },
         price: true,
         payDate: true,
         dateMonthAndYear: true,
         isPay: true,
+        user: { id: true, userName: true },
         createdAt: true,
       },
       relations: { debtType: true, user: true },
+      where: request.query,
     });
   }
 
@@ -36,11 +40,12 @@ export class DebtService {
     return this.repository.findOne({
       select: {
         id: true,
-        debtType: { name: true },
+        debtType: { id: true, name: true },
         price: true,
         payDate: true,
         dateMonthAndYear: true,
         isPay: true,
+        user: { id: true, userName: true },
         createdAt: true,
       },
       relations: { debtType: true, user: true },

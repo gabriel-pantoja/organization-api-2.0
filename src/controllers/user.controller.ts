@@ -15,6 +15,7 @@ import { UpdateUserDto } from '../core/dtos/user/update-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { UpdateUserPasswordDto } from '../core/dtos/user/update-user-password.dto';
+import { UserDto } from 'src/core/dtos/user/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -34,9 +35,11 @@ export class UserController {
 
   @Get('selection')
   async findAllSelection(@Res() res: Response): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.userService.findAllSelection());
+    return res.status(HttpStatus.OK).send(
+      (await this.userService.findAllSelection()).map((x) => {
+        return UserDto.toSelectDto(x);
+      }),
+    );
   }
 
   @Get()

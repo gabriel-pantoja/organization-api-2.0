@@ -8,6 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { ErrorsInterceptor } from './core/security/errors.interceptor';
+import { HttpExceptionFilter } from './core/security/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,9 +17,9 @@ async function bootstrap() {
   //app.use(csurf()); //makes use of csurf to prevent attacks of cross-site request forgery;
 
   // app.use(LoggerMiddleware);
-  app.useGlobalInterceptors(new ErrorsInterceptor());
+  // app.useGlobalInterceptors(new ErrorsInterceptor());
   // app.useGlobalInterceptors(new TransformInterceptor());
-  //app.useGlobalFilters(new HttpExceptionFilter());
+  // app.useGlobalFilters(new HttpExceptionFilter());
 
   app.useGlobalPipes(new ValidationPipe());
 

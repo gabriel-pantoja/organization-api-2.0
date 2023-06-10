@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateDebtDto {
   @ApiProperty({ example: '1' })
@@ -16,7 +16,7 @@ export class CreateDebtDto {
   @IsNotEmpty()
   price: number;
 
-  @ApiProperty({ example: '203-04-27' })
+  @ApiProperty({ example: '2023-04-27' })
   @IsNotEmpty()
   payDate: Date;
 
@@ -26,5 +26,6 @@ export class CreateDebtDto {
   dateMonthAndYear: string;
 
   @ApiProperty({ example: null })
+  // @IsBoolean()
   isPay: boolean;
 }

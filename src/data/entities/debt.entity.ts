@@ -15,17 +15,17 @@ export class Debt {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  debtTypeId: number;
+
   @ManyToOne(() => DebtType, (debtType) => debtType.debt, { nullable: false })
   debtType: DebtType;
 
   @Column()
-  debtTypeId: number;
+  userId: number;
 
   @ManyToOne(() => User, (user) => user.debt, { nullable: false })
   user: User;
-
-  @Column()
-  userId: number;
 
   @Column({
     name: 'price',
@@ -42,7 +42,7 @@ export class Debt {
   @Column({ name: 'dateMonthAndYear', type: 'varchar', length: 10 })
   dateMonthAndYear: string;
 
-  @Column({ name: 'isPay', type: 'boolean', nullable: true })
+  @Column({ name: 'isPay', type: 'bool', default: false })
   isPay: boolean;
 
   @OneToMany(() => LinkedDebtUser, (linkedDebtUser) => linkedDebtUser.debt)

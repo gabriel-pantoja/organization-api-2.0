@@ -8,12 +8,16 @@ import {
   Res,
   HttpStatus,
   Put,
+  Req,
 } from '@nestjs/common';
 import { DebtService } from '../core/services/debt.service';
 import { CreateDebtDto } from '../core/dtos/debt/create-debt.dto';
 import { UpdateDebtDto } from '../core/dtos/debt/update-debt.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
+import { ApiPaginatedResponse } from 'src/core/decorators/paginated.decorator';
+import { DebtDto } from 'src/core/dtos/debt/debt.dto';
+import { Request } from 'express';
 
 @Controller('debt')
 export class DebtController {
@@ -32,8 +36,16 @@ export class DebtController {
   }
 
   @Get()
-  async findAll(@Res() res: Response): Promise<Response> {
-    return res.status(HttpStatus.OK).send(await this.debtService.findAll());
+  //@ApiPaginatedResponse(DebtDto)
+  async findAll(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
+    return res.status(HttpStatus.OK).send(
+      (await this.debtService.findAll(request)).map((x) => {
+        return DebtDto.toDto(x);
+      }),
+    );
   }
 
   @Get(':id')
@@ -41,7 +53,9 @@ export class DebtController {
     @Res() res: Response,
     @Param('id') id: string,
   ): Promise<Response> {
-    return res.status(HttpStatus.OK).send(await this.debtService.findById(+id));
+    return res
+      .status(HttpStatus.OK)
+      .send(DebtDto.toDto(await this.debtService.findById(+id)));
   }
 
   @Put(':id')
