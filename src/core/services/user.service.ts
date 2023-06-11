@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserPasswordDto } from '../dtos/user/update-user-password.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
 
 @Injectable()
 export class UserService {
@@ -22,11 +23,7 @@ export class UserService {
     return this.repository.save(user);
   }
 
-  findAllSelection(): Promise<User[]> {
-    return this.repository.find();
-  }
-
-  findAll(): Promise<User[]> {
+  findAll(request: Request): Promise<User[]> {
     return this.repository.find({
       select: {
         id: true,
@@ -35,7 +32,12 @@ export class UserService {
         userName: true,
         email: true,
       },
+      where: request.query,
     });
+  }
+
+  findAllSelection(): Promise<User[]> {
+    return this.repository.find();
   }
 
   findById(id: number): Promise<User> {

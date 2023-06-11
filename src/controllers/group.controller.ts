@@ -8,12 +8,13 @@ import {
   HttpStatus,
   Res,
   Put,
+  Req,
 } from '@nestjs/common';
 import { GroupService } from '../core/services/group.service';
 import { CreateGroupDto } from '../core/dtos/group/create-group.dto';
 import { UpdateGroupDto } from '../core/dtos/group/update-group.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Controller('group')
 export class GroupController {
@@ -32,8 +33,13 @@ export class GroupController {
   }
 
   @Get()
-  async findAll(@Res() res: Response): Promise<Response> {
-    return res.status(HttpStatus.OK).send(await this.groupService.findAll());
+  async findAll(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.groupService.findAll(request));
   }
 
   @Get(':id')

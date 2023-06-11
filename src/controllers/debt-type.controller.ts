@@ -8,12 +8,13 @@ import {
   Res,
   HttpStatus,
   Put,
+  Req,
 } from '@nestjs/common';
 import { DebtTypeService } from '../core/services/debt-type.service';
 import { CreateDebtTypeDto } from '../core/dtos/debt-type/create-debt-type.dto';
 import { UpdateDebtTypeDto } from '../core/dtos/debt-type/update-debt-type.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Controller('debt-type')
 export class DebtTypeController {
@@ -32,8 +33,13 @@ export class DebtTypeController {
   }
 
   @Get()
-  async findAll(@Res() res: Response): Promise<Response> {
-    return res.status(HttpStatus.OK).send(await this.debtTypeService.findAll());
+  async findAll(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.debtTypeService.findAll(request));
   }
 
   @Get('selection')

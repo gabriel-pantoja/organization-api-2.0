@@ -4,6 +4,7 @@ import { UpdateGroupDto } from '../dtos/group/update-group.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from 'src/data/entities/group.entity';
 import { Repository } from 'typeorm';
+import { Request } from 'express';
 
 @Injectable()
 export class GroupService {
@@ -16,8 +17,8 @@ export class GroupService {
     return this.repository.save(group);
   }
 
-  findAll(): Promise<Group[]> {
-    return this.repository.find();
+  findAll(request: Request): Promise<Group[]> {
+    return this.repository.find({ where: request.query });
   }
 
   findById(id: number): Promise<Group> {

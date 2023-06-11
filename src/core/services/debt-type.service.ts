@@ -4,6 +4,7 @@ import { UpdateDebtTypeDto } from '../dtos/debt-type/update-debt-type.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DebtType } from 'src/data/entities/debt-type.entity';
+import { Request } from 'express';
 
 @Injectable()
 export class DebtTypeService {
@@ -18,8 +19,8 @@ export class DebtTypeService {
     return this.repository.save(debtType);
   }
 
-  findAll(): Promise<DebtType[]> {
-    return this.repository.find();
+  findAll(request: Request): Promise<DebtType[]> {
+    return this.repository.find({ where: request.query });
   }
 
   findAllSelection(): Promise<DebtType[]> {

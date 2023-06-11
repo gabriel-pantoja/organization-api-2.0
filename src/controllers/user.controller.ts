@@ -8,12 +8,13 @@ import {
   Put,
   Res,
   HttpStatus,
+  Req,
 } from '@nestjs/common';
 import { UserService } from '../core/services/user.service';
 import { CreateUserDto } from '../core/dtos/user/create-user.dto';
 import { UpdateUserDto } from '../core/dtos/user/update-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { UpdateUserPasswordDto } from '../core/dtos/user/update-user-password.dto';
 import { UserDto } from 'src/core/dtos/user/user.dto';
 
@@ -33,6 +34,16 @@ export class UserController {
       .send(await this.userService.create(createUserDto));
   }
 
+  @Get()
+  async findAll(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.userService.findAll(request));
+  }
+
   @Get('selection')
   async findAllSelection(@Res() res: Response): Promise<Response> {
     return res.status(HttpStatus.OK).send(
@@ -40,11 +51,6 @@ export class UserController {
         return UserDto.toSelectDto(x);
       }),
     );
-  }
-
-  @Get()
-  async findAll(@Res() res: Response): Promise<Response> {
-    return res.status(HttpStatus.OK).send(await this.userService.findAll());
   }
 
   @Get(':id')
