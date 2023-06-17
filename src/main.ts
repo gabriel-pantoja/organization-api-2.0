@@ -17,7 +17,7 @@ async function bootstrap() {
   //app.use(csurf()); //makes use of csurf to prevent attacks of cross-site request forgery;
 
   // app.use(LoggerMiddleware);
-  // app.useGlobalInterceptors(new ErrorsInterceptor());
+  app.useGlobalInterceptors(new ErrorsInterceptor());
   // app.useGlobalInterceptors(new TransformInterceptor());
   // app.useGlobalFilters(new HttpExceptionFilter());
 

@@ -31,6 +31,26 @@ export class LinkedUserGroupService {
     });
   }
 
+  findAllSelection(): Promise<LinkedUserGroup[]> {
+    return this.repository.find();
+  }
+
+  findAllByGroupId(groupId: number): Promise<LinkedUserGroup[]> {
+    return this.repository.find({
+      select: {
+        user: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          userName: true,
+          email: true,
+        },
+      },
+      relations: { user: true, group: true },
+      where: { groupId },
+    });
+  }
+
   findById(id: number): Promise<LinkedUserGroup> {
     return this.repository.findOne({
       select: {
@@ -62,6 +82,14 @@ export class LinkedUserGroupService {
     const linkedUserGroup = await this.findById(id);
     if (!linkedUserGroup) {
       throw new NotFoundException(`User Group ${id} not found`);
+    }
+    return this.repository.remove(linkedUserGroup);
+  }
+
+  async removeByUserId(userId: number) {
+    const linkedUserGroup = await this.repository.findOneBy({ userId: userId });
+    if (!linkedUserGroup) {
+      throw new NotFoundException(`User Group By User ${userId} not found`);
     }
     return this.repository.remove(linkedUserGroup);
   }

@@ -18,6 +18,10 @@ export class Group {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany(() => LinkedUserGroup, (linkedUserGroup) => linkedUserGroup.group)
+  @OneToMany(
+    () => LinkedUserGroup,
+    (linkedUserGroup) => linkedUserGroup.group,
+    { cascade: true },
+  )
   linkedUserGroup: LinkedUserGroup[];
 }

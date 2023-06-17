@@ -16,6 +16,8 @@ export class LinkedUserGroup {
   @Column()
   groupId: number;
 
-  @ManyToOne(() => Group, (group) => group.linkedUserGroup)
+  @ManyToOne(() => Group, (group) => group.linkedUserGroup, {
+    onDelete: 'CASCADE',
+  })
   group: Group;
 }

@@ -14,6 +14,7 @@ import { CreateLinkedUserGroupDto } from '../core/dtos/linked-user-group/create-
 import { UpdateLinkedUserGroupDto } from '../core/dtos/linked-user-group/update-linked-user-group.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
+import { LinkedUserGroupDto } from 'src/core/dtos/linked-user-group/linked-user-group.dto';
 
 @Controller('linked-user-group')
 export class LinkedUserGroupController {
@@ -38,6 +39,15 @@ export class LinkedUserGroupController {
     return res
       .status(HttpStatus.OK)
       .send(await this.linkedUserGroupService.findAll());
+  }
+
+  @Get('selection')
+  async findAllSelection(@Res() res: Response): Promise<Response> {
+    return res.status(HttpStatus.OK).send(
+      (await this.linkedUserGroupService.findAllSelection()).map((x) => {
+        return LinkedUserGroupDto.toSelectDto(x);
+      }),
+    );
   }
 
   @Get(':id')

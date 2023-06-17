@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from 'src/data/entities/group.entity';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
+import { LinkedUserGroup } from 'src/data/entities/linked-user-group.entity';
 
 @Injectable()
 export class GroupService {
@@ -18,14 +19,26 @@ export class GroupService {
   }
 
   findAll(request: Request): Promise<Group[]> {
-    return this.repository.find({ where: request.query });
+    return this.repository.find({
+      where: request.query,
+      relations: { linkedUserGroup: { user: true } },
+    });
   }
 
   findById(id: number): Promise<Group> {
-    return this.repository.findOne({ where: { id } });
+    return this.repository.findOne({
+      where: { id },
+      relations: { linkedUserGroup: { user: true, group: true } },
+    });
   }
 
   async update(id: number, updateGroupDto: UpdateGroupDto) {
+    // const group = this.repository.create(updateGroupDto);
+    // group.linkedUserGroup = updateGroupDto.linkedUserGroup.map(
+    //   (x) =>
+    //     ({ id: x.id, groupId: x.groupId, userId: x.userId } as LinkedUserGroup),
+    // );
+    // group.id = id;
     const group = await this.repository.preload({
       id: id,
       ...updateGroupDto,
