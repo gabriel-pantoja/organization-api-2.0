@@ -45,7 +45,9 @@ export class Debt {
   @Column({ name: 'isPay', type: 'bool', default: false })
   isPay: boolean;
 
-  @OneToMany(() => LinkedDebtUser, (linkedDebtUser) => linkedDebtUser.debt)
+  @OneToMany(() => LinkedDebtUser, (linkedDebtUser) => linkedDebtUser.debt, {
+    cascade: true,
+  })
   linkedDebtUser: LinkedDebtUser[];
 
   @CreateDateColumn()

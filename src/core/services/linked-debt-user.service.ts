@@ -26,6 +26,22 @@ export class LinkedDebtUserService {
     });
   }
 
+  findAllByDebtId(debtId: number): Promise<LinkedDebtUser[]> {
+    return this.repository.find({
+      select: {
+        user: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          userName: true,
+          email: true,
+        },
+      },
+      relations: { user: true, debt: true },
+      where: { debtId },
+    });
+  }
+
   findById(id: number): Promise<LinkedDebtUser> {
     return this.repository.findOne({
       relations: {
@@ -53,5 +69,13 @@ export class LinkedDebtUserService {
       throw new NotFoundException(`LinkedDebtUser ${id} not found`);
     }
     return this.repository.remove(debt);
+  }
+
+  async removeByUserId(userId: number) {
+    const linkedDebtUser = await this.repository.findOneBy({ userId: userId });
+    if (!linkedDebtUser) {
+      throw new NotFoundException(`User Group By User ${userId} not found`);
+    }
+    return this.repository.remove(linkedDebtUser);
   }
 }

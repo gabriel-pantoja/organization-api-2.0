@@ -16,6 +16,11 @@ export class LinkedDebtUser {
   @Column()
   debtId: number;
 
-  @ManyToOne(() => Debt, (debt) => debt.linkedDebtUser)
+  @ManyToOne(() => Debt, (debt) => debt.linkedDebtUser, {
+    onDelete: 'CASCADE',
+  })
   debt: Debt;
+
+  @Column({ name: 'isPay', type: 'bool', default: false })
+  isPay: boolean;
 }

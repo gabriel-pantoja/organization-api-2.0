@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
+import { LinkedDebtUserDto } from '../linked-debt-user/linked-debt-user.dto';
 
 export class CreateDebtDto {
   @ApiProperty({ example: '1' })
@@ -28,4 +35,8 @@ export class CreateDebtDto {
   @ApiProperty({ example: null })
   // @IsBoolean()
   isPay: boolean;
+
+  @ApiProperty({ example: 'Usuários' })
+  @IsArray()
+  linkedDebtUser: LinkedDebtUserDto[];
 }

@@ -18,10 +18,15 @@ import { Response } from 'express';
 import { ApiPaginatedResponse } from 'src/core/decorators/paginated.decorator';
 import { DebtDto } from 'src/core/dtos/debt/debt.dto';
 import { Request } from 'express';
+import { LinkedDebtUserService } from 'src/core/services/linked-debt-user.service';
+import { LinkedDebtUser } from 'src/data/entities/linked-debt-user.entity';
 
 @Controller('debt')
 export class DebtController {
-  constructor(private readonly debtService: DebtService) {}
+  constructor(
+    private readonly debtService: DebtService,
+    private readonly linkedDebtUserService: LinkedDebtUserService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create Debt' })
@@ -65,9 +70,27 @@ export class DebtController {
     @Param('id') id: string,
     @Body() updateDebtDto: UpdateDebtDto,
   ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.debtService.update(+id, updateDebtDto));
+    const data: LinkedDebtUser[] =
+      await this.linkedDebtUserService.findAllByDebtId(+id);
+
+    const userIds = data.map((x) => x.userId);
+    const userIdremove: number[] = [];
+
+    userIds.forEach((x) => {
+      if (!updateDebtDto.linkedDebtUser.find((i) => i.userId == x)) {
+        userIdremove.push(x);
+      }
+      if (!updateDebtDto.linkedDebtUser.length) {
+        userIdremove.push(x);
+      }
+    });
+
+    userIdremove.forEach(async (userId) => {
+      await this.linkedDebtUserService.removeByUserId(userId);
+    });
+
+    await this.debtService.update(+id, updateDebtDto);
+    return res.status(HttpStatus.OK).send();
   }
 
   @Delete(':id')

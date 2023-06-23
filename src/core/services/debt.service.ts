@@ -21,34 +21,22 @@ export class DebtService {
 
   async findAll(request: Request): Promise<Debt[]> {
     return this.repository.find({
-      select: {
-        id: true,
-        debtType: { id: true, name: true },
-        price: true,
-        payDate: true,
-        dateMonthAndYear: true,
-        isPay: true,
-        user: { id: true, userName: true },
-        createdAt: true,
+      relations: {
+        debtType: true,
+        user: true,
+        linkedDebtUser: { user: true, debt: true },
       },
-      relations: { debtType: true, user: true },
       where: request.query,
     });
   }
 
   findById(id: number): Promise<Debt> {
     return this.repository.findOne({
-      select: {
-        id: true,
-        debtType: { id: true, name: true },
-        price: true,
-        payDate: true,
-        dateMonthAndYear: true,
-        isPay: true,
-        user: { id: true, userName: true },
-        createdAt: true,
+      relations: {
+        debtType: true,
+        user: true,
+        linkedDebtUser: { user: true, debt: true },
       },
-      relations: { debtType: true, user: true },
       where: { id },
     });
   }

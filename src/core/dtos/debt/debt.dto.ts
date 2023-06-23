@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Debt } from 'src/data/entities/debt.entity';
+import { LinkedDebtUserDto } from '../linked-debt-user/linked-debt-user.dto';
 
 export class DebtDto {
   id: number;
@@ -11,6 +12,7 @@ export class DebtDto {
   payDate: Date;
   dateMonthAndYear: string;
   isPay: boolean;
+  linkedDebtUser: LinkedDebtUserDto[] = [];
   createdAt: Date;
 
   static toDto(data: Debt): DebtDto {
@@ -25,6 +27,9 @@ export class DebtDto {
     dto.payDate = data.payDate;
     dto.dateMonthAndYear = data.dateMonthAndYear;
     dto.isPay = data.isPay;
+    dto.linkedDebtUser = data.linkedDebtUser.map((x) => {
+      return LinkedDebtUserDto.toDto(x);
+    });
     dto.createdAt = data.createdAt;
 
     return dto;

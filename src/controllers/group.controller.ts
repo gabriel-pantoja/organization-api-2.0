@@ -17,7 +17,6 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request } from 'express';
 import { GroupDto } from 'src/core/dtos/group/group.dto';
 import { LinkedUserGroup } from 'src/data/entities/linked-user-group.entity';
-import { CreateLinkedUserGroupDto } from 'src/core/dtos/linked-user-group/create-linked-user-group.dto';
 import { LinkedUserGroupService } from 'src/core/services/linked-user-group.service';
 @Controller('group')
 export class GroupController {
