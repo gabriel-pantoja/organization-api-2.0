@@ -18,20 +18,13 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    createUserDto.userName = createUserDto.userName.toUpperCase();
+    createUserDto.email = createUserDto.email.toLowerCase();
     const user = this.repository.create(createUserDto);
     return this.repository.save(user);
   }
 
   findAll(request: Request): Promise<User[]> {
     return this.repository.find({
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        userName: true,
-        email: true,
-      },
       where: request.query,
     });
   }
@@ -42,23 +35,16 @@ export class UserService {
 
   findById(id: number): Promise<User> {
     return this.repository.findOne({
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        userName: true,
-        email: true,
-      },
       where: { id },
     });
   }
 
-  findByUserName(userName: string): Promise<User | undefined> {
-    return this.repository.findOne({ where: { userName } });
+  findByEmail(email: string): Promise<User | undefined> {
+    return this.repository.findOne({ where: { email } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    updateUserDto.userName = updateUserDto.userName.toUpperCase();
+    updateUserDto.email = updateUserDto.email.toLowerCase();
     const user = await this.repository.preload({
       id: id,
       ...updateUserDto,

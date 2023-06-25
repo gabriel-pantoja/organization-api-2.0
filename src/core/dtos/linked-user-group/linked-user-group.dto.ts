@@ -3,7 +3,9 @@ import { LinkedUserGroup } from 'src/data/entities/linked-user-group.entity';
 export class LinkedUserGroupDto {
   id: number;
   userId: number;
-  userName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   groupId: number;
 
   static toDto(data: LinkedUserGroup): LinkedUserGroupDto {
@@ -11,7 +13,9 @@ export class LinkedUserGroupDto {
 
     dto.id = data.id;
     dto.userId = data.userId;
-    dto.userName = data.user.userName;
+    dto.firstName = data.user.firstName;
+    dto.lastName = data.user.lastName;
+    dto.email = data.user.email;
     dto.groupId = data.groupId;
     return dto;
   }
@@ -21,7 +25,9 @@ export class LinkedUserGroupDto {
 
     dto.id = data.id;
     dto.userId = data.userId;
-    dto.userName = data.user.userName;
+    dto.firstName = data.user.firstName;
+    dto.lastName = data.user.lastName;
+    dto.email = data.user.email;
 
     return dto;
   }

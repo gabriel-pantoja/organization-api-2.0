@@ -2,13 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
 import { Debt } from './debt.entity';
 import { LinkedUserGroup } from './linked-user-group.entity';
 import { LinkedDebtUser } from './linked-debt-user.entity';
+import { Plan } from './plan.entity';
 
 @Entity()
 export class User {
@@ -21,11 +24,8 @@ export class User {
   @Column({ name: 'lastName', type: 'varchar', length: 50 })
   lastName: string;
 
-  @Column({ name: 'userName', type: 'varchar', length: 50 })
-  @Unique('Duplicate username', ['userName'])
-  userName: string;
-
   @Column({ name: 'email', type: 'varchar', length: 50 })
+  @Unique('Duplicate email', ['email'])
   email: string;
 
   @Column({
@@ -52,6 +52,12 @@ export class User {
 
   @OneToMany(() => Debt, (debt) => debt.user)
   debt: Debt[];
+
+  @Column({ default: null, nullable: true })
+  planId: number;
+
+  @ManyToOne(() => Plan, (plan) => plan.user)
+  plan: Plan;
 
   @CreateDateColumn()
   createdAt: Date;

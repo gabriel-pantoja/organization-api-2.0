@@ -14,8 +14,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(userName: string, pass: string): Promise<any> {
-    const user = await this.userService.findByUserName(userName);
+  async signIn(email: string, pass: string): Promise<any> {
+    const user = await this.userService.findByEmail(email);
     if (!user) {
       throw new UnauthorizedException();
     }
@@ -23,7 +23,7 @@ export class AuthService {
     //   throw new UnauthorizedException();
     // }
     const payload = {
-      userName: user.userName,
+      email: user.email,
       sub: user.id,
     };
     return {
@@ -36,7 +36,18 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);
     }
-    const payload = { id: user.id, userName: user.userName };
+    const payload = { id: user.id, email: user.email };
+    return {
+      token: await this.jwtService.signAsync(payload),
+    };
+  }
+
+  async recoverPassword(email: string) {
+    const user = await this.userService.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException(`User ${email} not found`);
+    }
+    const payload = { id: user.id, email: user.email };
     return {
       token: await this.jwtService.signAsync(payload),
     };

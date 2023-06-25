@@ -7,6 +7,7 @@ import { DebtType } from './entities/debt-type.entity';
 import { Group } from './entities/group.entity';
 import { LinkedUserGroup } from './entities/linked-user-group.entity';
 import { LinkedDebtUser } from './entities/linked-debt-user.entity';
+import { Plan } from './entities/plan.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,15 @@ import { LinkedDebtUser } from './entities/linked-debt-user.entity';
       database: process.env.DB_DATABASE,
       synchronize: true,
       logging: false,
-      entities: [User, Group, LinkedUserGroup, Debt, DebtType, LinkedDebtUser],
+      entities: [
+        User,
+        Group,
+        LinkedUserGroup,
+        Debt,
+        DebtType,
+        LinkedDebtUser,
+        Plan,
+      ],
       migrations: [],
       subscribers: [],
     }),

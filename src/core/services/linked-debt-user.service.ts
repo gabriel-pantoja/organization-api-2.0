@@ -33,7 +33,6 @@ export class LinkedDebtUserService {
           id: true,
           firstName: true,
           lastName: true,
-          userName: true,
           email: true,
         },
       },

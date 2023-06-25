@@ -17,6 +17,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request } from 'express';
 import { UpdateUserPasswordDto } from '../core/dtos/user/update-user-password.dto';
 import { UserDto } from 'src/core/dtos/user/user.dto';
+import { Public } from 'src/core/decorators/public.decorator';
 
 @Controller('user')
 export class UserController {
@@ -26,6 +27,19 @@ export class UserController {
   @ApiOperation({ summary: 'Create User' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(
+    @Res() res: Response,
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.CREATED)
+      .send(await this.userService.create(createUserDto));
+  }
+
+  @Public()
+  @Post('new')
+  @ApiOperation({ summary: 'Create Newn User' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async newUser(
     @Res() res: Response,
     @Body() createUserDto: CreateUserDto,
   ): Promise<Response> {

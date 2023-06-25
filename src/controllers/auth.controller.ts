@@ -22,9 +22,7 @@ export class AuthController {
   async signIn(@Res() res: Response, @Body() signInDto: Record<string, any>) {
     return res
       .status(HttpStatus.OK)
-      .send(
-        await this.authService.signIn(signInDto.userName, signInDto.password),
-      );
+      .send(await this.authService.signIn(signInDto.email, signInDto.password));
   }
 
   @Get('reset-password/:id')
@@ -35,5 +33,16 @@ export class AuthController {
     return res
       .status(HttpStatus.OK)
       .send(await this.authService.resetPassword(+id));
+  }
+
+  @Public()
+  @Get('recover-password/:email')
+  async recoverPassword(
+    @Res() res: Response,
+    @Param('email') email: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.authService.recoverPassword(email));
   }
 }

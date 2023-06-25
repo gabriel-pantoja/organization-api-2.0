@@ -6,7 +6,6 @@ export class UserDto {
   id: number;
   firstName: string;
   lastName: string;
-  userName: string;
   email: string;
   createdAt: Date;
 
@@ -14,7 +13,9 @@ export class UserDto {
     const dto = new UserDto();
 
     dto.id = data.id;
-    dto.userName = data.userName;
+    dto.firstName = data.firstName;
+    dto.lastName = data.lastName;
+    dto.email = data.email;
 
     return dto;
   }
