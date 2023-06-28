@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -58,6 +59,13 @@ export class User {
 
   @ManyToOne(() => Plan, (plan) => plan.user)
   plan: Plan;
+
+  @Column({ default: null, nullable: true })
+  userId: number;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'userId' })
+  user: User[];
 
   @CreateDateColumn()
   createdAt: Date;

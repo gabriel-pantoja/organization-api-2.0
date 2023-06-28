@@ -23,6 +23,9 @@ export class AuthService {
     //   throw new UnauthorizedException();
     // }
     const payload = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       sub: user.id,
     };

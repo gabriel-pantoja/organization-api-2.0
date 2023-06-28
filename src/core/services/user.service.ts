@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateUserDto } from '../dtos/user/create-user.dto';
 import { UpdateUserDto } from '../dtos/user/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,6 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { UpdateUserPasswordDto } from '../dtos/user/update-user-password.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { PlanEnum } from '../enums/plan.enum';
 
 @Injectable()
 export class UserService {
@@ -18,9 +23,30 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    const quantiyUsers = (await this.findAllByUserId(createUserDto.userId))
+      .length;
+    const userPlanId = (await this.findById(createUserDto.userId)).planId;
+
     createUserDto.email = createUserDto.email.toLowerCase();
     const user = this.repository.create(createUserDto);
-    return this.repository.save(user);
+
+    if (userPlanId == PlanEnum.Basic) {
+      if (5 == quantiyUsers) {
+        throw new BadRequestException(
+          `Plano: Basic - Excedeu quantitade de usuários`,
+        );
+      }
+      return this.repository.save(user);
+    } else if (userPlanId === PlanEnum.Plus) {
+      if (10 == quantiyUsers) {
+        throw new BadRequestException(
+          `Plano: Plus - Excedeu quantitade de usuários`,
+        );
+      }
+      return this.repository.save(user);
+    } else if (userPlanId === PlanEnum.Premium) {
+      return this.repository.save(user);
+    }
   }
 
   findAll(request: Request): Promise<User[]> {
@@ -36,6 +62,12 @@ export class UserService {
   findById(id: number): Promise<User> {
     return this.repository.findOne({
       where: { id },
+    });
+  }
+
+  findAllByUserId(userId: number): Promise<User[]> {
+    return this.repository.find({
+      where: { userId },
     });
   }
 

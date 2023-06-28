@@ -20,4 +20,7 @@ export class CreateUserDto {
 
   @ApiProperty({ example: 'null' })
   planId: number;
+
+  @ApiProperty({ example: 'null' })
+  userId: number;
 }
