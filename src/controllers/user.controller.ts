@@ -18,6 +18,9 @@ import { Response, Request } from 'express';
 import { UpdateUserPasswordDto } from '../core/dtos/user/update-user-password.dto';
 import { UserDto } from 'src/core/dtos/user/user.dto';
 import { Public } from 'src/core/decorators/public.decorator';
+import { CreateNewUserDto } from 'src/core/dtos/user/create-new-user.dto';
+import { CreateUserPasswordDto } from 'src/core/dtos/user/create-user-password.dto';
+import { RedefineUserPasswordDto } from 'src/core/dtos/user/redefine-user-password.dto';
 
 @Controller('user')
 export class UserController {
@@ -37,15 +40,15 @@ export class UserController {
 
   @Public()
   @Post('new')
-  @ApiOperation({ summary: 'Create Newn User' })
+  @ApiOperation({ summary: 'Create New User' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async newUser(
     @Res() res: Response,
-    @Body() createUserDto: CreateUserDto,
+    @Body() createUserDto: CreateNewUserDto,
   ): Promise<Response> {
     return res
       .status(HttpStatus.CREATED)
-      .send(await this.userService.create(createUserDto));
+      .send(await this.userService.newUser(createUserDto));
   }
 
   @Get()
@@ -75,6 +78,27 @@ export class UserController {
     return res.status(HttpStatus.OK).send(await this.userService.findById(+id));
   }
 
+  @Get('reset-password/:id')
+  async resetPassword(
+    @Res() res: Response,
+    @Param('id') id: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.userService.resetPassword(+id));
+  }
+
+  @Public()
+  @Get('forgot-password/:email')
+  async forgotPassword(
+    @Res() res: Response,
+    @Param('email') email: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.userService.forgotPassword(email));
+  }
+
   @Put(':id')
   @ApiOperation({ summary: 'Update User' })
   async update(
@@ -95,13 +119,37 @@ export class UserController {
     return res.status(HttpStatus.OK).send(await this.userService.remove(+id));
   }
 
-  @Post('update-password')
+  @Public()
+  @Post('create-password')
+  async createPassword(
+    @Res() res: Response,
+    @Body() createUserPasswordDto: CreateUserPasswordDto,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.userService.createPassword(createUserPasswordDto));
+  }
+
+  @Public()
+  @Post('redefine-password')
+  async redefinePassword(
+    @Res() res: Response,
+    @Body() redefineUserPasswordDto: RedefineUserPasswordDto,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.userService.redefinePassword(redefineUserPasswordDto));
+  }
+
+  @Put('update-password/:id')
+  @ApiOperation({ summary: 'Update User Password' })
   async updatePassword(
     @Res() res: Response,
+    @Param('id') id: string,
     @Body() updateUserPasswordDto: UpdateUserPasswordDto,
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.userService.updatePassword(updateUserPasswordDto));
+      .send(await this.userService.updatePassword(+id, updateUserPasswordDto));
   }
 }

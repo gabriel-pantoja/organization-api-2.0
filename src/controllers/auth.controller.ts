@@ -24,25 +24,4 @@ export class AuthController {
       .status(HttpStatus.OK)
       .send(await this.authService.signIn(signInDto.email, signInDto.password));
   }
-
-  @Get('reset-password/:id')
-  async resetPassword(
-    @Res() res: Response,
-    @Param('id') id: string,
-  ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.authService.resetPassword(+id));
-  }
-
-  @Public()
-  @Get('recover-password/:email')
-  async recoverPassword(
-    @Res() res: Response,
-    @Param('email') email: string,
-  ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.authService.recoverPassword(email));
-  }
 }

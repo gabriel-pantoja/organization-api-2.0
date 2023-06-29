@@ -13,6 +13,9 @@ import { UpdateUserPasswordDto } from '../dtos/user/update-user-password.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { PlanEnum } from '../enums/plan.enum';
+import { CreateNewUserDto } from '../dtos/user/create-new-user.dto';
+import { CreateUserPasswordDto } from '../dtos/user/create-user-password.dto';
+import { RedefineUserPasswordDto } from '../dtos/user/redefine-user-password.dto';
 
 @Injectable()
 export class UserService {
@@ -23,12 +26,18 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const quantiyUsers = (await this.findAllByUserId(createUserDto.userId))
-      .length;
-    const userPlanId = (await this.findById(createUserDto.userId)).planId;
-
     createUserDto.email = createUserDto.email.toLowerCase();
     const user = this.repository.create(createUserDto);
+    return this.repository.save(user);
+  }
+
+  async newUser(createNewUserDto: CreateNewUserDto): Promise<any> {
+    const quantiyUsers = (await this.findAllByUserId(createNewUserDto.userId))
+      .length;
+    const userPlanId = (await this.findById(createNewUserDto.userId)).planId;
+
+    createNewUserDto.email = createNewUserDto.email.toLowerCase();
+    const user = this.repository.create(createNewUserDto);
 
     if (userPlanId == PlanEnum.Basic) {
       if (5 == quantiyUsers) {
@@ -36,17 +45,21 @@ export class UserService {
           `Plano: Basic - Excedeu quantitade de usuários`,
         );
       }
-      return this.repository.save(user);
     } else if (userPlanId === PlanEnum.Plus) {
       if (10 == quantiyUsers) {
         throw new BadRequestException(
           `Plano: Plus - Excedeu quantitade de usuários`,
         );
       }
-      return this.repository.save(user);
-    } else if (userPlanId === PlanEnum.Premium) {
-      return this.repository.save(user);
     }
+
+    const response = await this.repository.save(user);
+    const payload = { id: response.id, email: response.email };
+    const token = await this.jwtService.signAsync(payload);
+
+    return {
+      url: process.env.URL + '/#/senha/criar/' + token,
+    };
   }
 
   findAll(request: Request): Promise<User[]> {
@@ -75,6 +88,32 @@ export class UserService {
     return this.repository.findOne({ where: { email } });
   }
 
+  async resetPassword(id: number): Promise<any> {
+    const user = await this.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+    const hash = await bcrypt.hash(user.firstName, await bcrypt.genSalt());
+    const userModel = await this.repository.preload({
+      id: id,
+      password: hash,
+    });
+    this.repository.save(userModel);
+  }
+
+  async forgotPassword(email: string): Promise<any> {
+    const user = await this.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException(`User ${email} not found`);
+    }
+    const payload = { id: user.id, email: user.email };
+    const token = await this.jwtService.signAsync(payload);
+
+    return {
+      url: process.env.URL + '/#/senha/redefinir/' + token,
+    };
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     updateUserDto.email = updateUserDto.email.toLowerCase();
     const user = await this.repository.preload({
@@ -87,7 +126,7 @@ export class UserService {
     return this.repository.save(user);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<any> {
     const user = await this.findById(id);
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);
@@ -95,8 +134,48 @@ export class UserService {
     return this.repository.remove(user);
   }
 
-  async updatePassword(updateUserPasswordDto: UpdateUserPasswordDto) {
-    const id = this.jwtService.decode(updateUserPasswordDto.token)['id'];
+  async createPassword(
+    createUserPasswordDto: CreateUserPasswordDto,
+  ): Promise<void> {
+    const id = this.jwtService.decode(createUserPasswordDto.token)['id'];
+    const hash = await bcrypt.hash(
+      createUserPasswordDto.password,
+      await bcrypt.genSalt(),
+    );
+    const user = await this.repository.preload({
+      id: id,
+      password: hash,
+    });
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+
+    this.repository.save(user);
+  }
+
+  async redefinePassword(
+    redefineUserPasswordDto: RedefineUserPasswordDto,
+  ): Promise<void> {
+    const id = this.jwtService.decode(redefineUserPasswordDto.token)['id'];
+    const hash = await bcrypt.hash(
+      redefineUserPasswordDto.password,
+      await bcrypt.genSalt(),
+    );
+    const user = await this.repository.preload({
+      id: id,
+      password: hash,
+    });
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+
+    this.repository.save(user);
+  }
+
+  async updatePassword(
+    id: number,
+    updateUserPasswordDto: UpdateUserPasswordDto,
+  ): Promise<void> {
     const hash = await bcrypt.hash(
       updateUserPasswordDto.password,
       await bcrypt.genSalt(),
