@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { PlanEnum } from 'src/core/enums/plan.enum';
 
 export class CreateNewUserDto {
   @ApiProperty({ example: 'Gabriel' })
@@ -18,8 +19,8 @@ export class CreateNewUserDto {
   @IsEmail()
   email: string;
 
-  @ApiProperty({ example: 'null' })
-  planId: number;
+  @ApiProperty({ enum: PlanEnum })
+  planId: PlanEnum;
 
   @ApiProperty({ example: 'null' })
   userId: number;

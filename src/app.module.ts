@@ -12,7 +12,7 @@ import { LinkedUserGroupModule } from './modules/linked-user-group.module';
 import { LinkedDebtUserModule } from './modules/linked-debt-user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './core/guards/auth.guard';
-import { RolesGuard } from './core/guards/roles.guard';
+import { ProfileGuard } from './core/guards/profile.guard';
 
 @Module({
   imports: [
@@ -33,10 +33,10 @@ import { RolesGuard } from './core/guards/roles.guard';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: ProfileGuard,
+    },
   ],
 })
 export class AppModule {}

@@ -13,6 +13,8 @@ import { Debt } from './debt.entity';
 import { LinkedUserGroup } from './linked-user-group.entity';
 import { LinkedDebtUser } from './linked-debt-user.entity';
 import { Plan } from './plan.entity';
+import { Profile } from './profile.entity';
+import { ProfileIdEnum } from 'src/core/enums/profile.enum';
 
 @Entity()
 export class User {
@@ -60,12 +62,21 @@ export class User {
   @ManyToOne(() => Plan, (plan) => plan.user)
   plan: Plan;
 
+  @Column({ enum: ProfileIdEnum, nullable: false })
+  profileId: ProfileIdEnum;
+
+  @ManyToOne(() => Profile, (profile) => profile.user)
+  profile: Profile;
+
   @Column({ default: null, nullable: true })
   userId: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'userId' })
   user: User[];
+
+  @Column()
+  ativo: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

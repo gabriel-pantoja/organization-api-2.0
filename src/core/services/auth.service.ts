@@ -6,6 +6,7 @@ import {
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { ProfileIdEnum, ProfileNameEnum } from '../enums/profile.enum';
 
 @Injectable()
 export class AuthService {
@@ -19,15 +20,23 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException();
     }
+
+    if (!user.ativo) {
+      throw new UnauthorizedException();
+    }
+
     if (!(await bcrypt.compare(pass, user.password))) {
       throw new UnauthorizedException();
     }
+
     const payload = {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       sub: user.id,
+      profileId: ProfileIdEnum.Admin,
+      profile: ProfileNameEnum.Admin,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),

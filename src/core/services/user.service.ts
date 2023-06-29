@@ -16,36 +16,42 @@ import { PlanEnum } from '../enums/plan.enum';
 import { CreateNewUserDto } from '../dtos/user/create-new-user.dto';
 import { CreateUserPasswordDto } from '../dtos/user/create-user-password.dto';
 import { RedefineUserPasswordDto } from '../dtos/user/redefine-user-password.dto';
+import { PlanService } from './plan.service';
+import { ProfileIdEnum } from '../enums/profile.enum';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private repository: Repository<User>,
+    private planService: PlanService,
     private jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     createUserDto.email = createUserDto.email.toLowerCase();
     const user = this.repository.create(createUserDto);
+    user.profileId = ProfileIdEnum.User;
     return this.repository.save(user);
   }
 
   async newUser(createNewUserDto: CreateNewUserDto): Promise<any> {
     const quantiyUsers = (await this.findAllByUserId(createNewUserDto.userId))
       .length;
-    const userPlanId = (await this.findById(createNewUserDto.userId)).planId;
+
+    const plan = await this.planService.findById(createNewUserDto.planId);
 
     createNewUserDto.email = createNewUserDto.email.toLowerCase();
     const user = this.repository.create(createNewUserDto);
+    user.profileId = ProfileIdEnum.Admin;
 
-    if (userPlanId == PlanEnum.Basic) {
+    if (plan.id == PlanEnum.Basic) {
       if (5 == quantiyUsers) {
         throw new BadRequestException(
           `Plano: Basic - Excedeu quantitade de usuários`,
         );
       }
-    } else if (userPlanId === PlanEnum.Plus) {
+    } else if (plan.id === PlanEnum.Plus) {
       if (10 == quantiyUsers) {
         throw new BadRequestException(
           `Plano: Plus - Excedeu quantitade de usuários`,
@@ -145,6 +151,7 @@ export class UserService {
     const user = await this.repository.preload({
       id: id,
       password: hash,
+      ativo: true,
     });
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);

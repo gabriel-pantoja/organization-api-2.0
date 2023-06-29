@@ -21,6 +21,8 @@ import { Public } from 'src/core/decorators/public.decorator';
 import { CreateNewUserDto } from 'src/core/dtos/user/create-new-user.dto';
 import { CreateUserPasswordDto } from 'src/core/dtos/user/create-user-password.dto';
 import { RedefineUserPasswordDto } from 'src/core/dtos/user/redefine-user-password.dto';
+import { Profiles } from 'src/core/decorators/profiles.decorator';
+import { ProfileNameEnum } from 'src/core/enums/profile.enum';
 
 @Controller('user')
 export class UserController {
@@ -52,6 +54,7 @@ export class UserController {
   }
 
   @Get()
+  @Profiles(ProfileNameEnum.Admin, ProfileNameEnum.User)
   async findAll(
     @Res() res: Response,
     @Req() request: Request,
