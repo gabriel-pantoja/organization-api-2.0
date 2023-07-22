@@ -18,6 +18,7 @@ import { CreateUserPasswordDto } from '../dtos/user/create-user-password.dto';
 import { RedefineUserPasswordDto } from '../dtos/user/redefine-user-password.dto';
 import { PlanService } from './plan.service';
 import { ProfileIdEnum } from '../enums/profile.enum';
+import { FinancialControlService } from './financial-control.service';
 
 @Injectable()
 export class UserService {
@@ -25,6 +26,7 @@ export class UserService {
     @InjectRepository(User)
     private repository: Repository<User>,
     private planService: PlanService,
+    private financialControlService: FinancialControlService,
     private jwtService: JwtService,
   ) {}
 
@@ -32,6 +34,7 @@ export class UserService {
     createUserDto.email = createUserDto.email.toLowerCase();
     const user = this.repository.create(createUserDto);
     user.profileId = ProfileIdEnum.User;
+    user.ativo = true;
     return this.repository.save(user);
   }
 
@@ -44,6 +47,7 @@ export class UserService {
     createNewUserDto.email = createNewUserDto.email.toLowerCase();
     const user = this.repository.create(createNewUserDto);
     user.profileId = ProfileIdEnum.Admin;
+    user.ativo = true;
 
     if (plan.id == PlanEnum.Basic) {
       if (5 == quantiyUsers) {
@@ -60,6 +64,14 @@ export class UserService {
     }
 
     const response = await this.repository.save(user);
+
+    this.financialControlService.create({
+      userId: response.id,
+      formPayment: createNewUserDto.formPayment,
+      hasPay: true,
+      datePayment: new Date(),
+    });
+
     const payload = { id: response.id, email: response.email };
     const token = await this.jwtService.signAsync(payload);
 
@@ -91,7 +103,10 @@ export class UserService {
   }
 
   findByEmail(email: string): Promise<User | undefined> {
-    return this.repository.findOne({ where: { email } });
+    return this.repository.findOne({
+      relations: { financialControl: true },
+      where: { email },
+    });
   }
 
   async resetPassword(id: number): Promise<any> {

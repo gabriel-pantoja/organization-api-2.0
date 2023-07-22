@@ -15,6 +15,7 @@ import { LinkedDebtUser } from './linked-debt-user.entity';
 import { Plan } from './plan.entity';
 import { Profile } from './profile.entity';
 import { ProfileIdEnum } from 'src/core/enums/profile.enum';
+import { FinancialControl } from './financial-control.entity';
 
 @Entity()
 export class User {
@@ -55,6 +56,12 @@ export class User {
 
   @OneToMany(() => Debt, (debt) => debt.user)
   debt: Debt[];
+
+  @OneToMany(
+    () => FinancialControl,
+    (financialControl) => financialControl.user,
+  )
+  financialControl: FinancialControl[];
 
   @Column({ default: null, nullable: true })
   planId: number;

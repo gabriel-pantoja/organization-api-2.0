@@ -9,6 +9,6 @@ export class Profile {
   @Column({ name: 'name', type: 'varchar', length: 50 })
   name: string;
 
-  @OneToMany(() => User, (user) => user.plan)
+  @OneToMany(() => User, (user) => user.profile)
   user: User[];
 }

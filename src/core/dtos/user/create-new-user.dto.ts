@@ -24,4 +24,9 @@ export class CreateNewUserDto {
 
   @ApiProperty({ example: 'null' })
   userId: number;
+
+  @ApiProperty({ example: 'pix' })
+  @IsString()
+  @IsNotEmpty()
+  formPayment: string;
 }
