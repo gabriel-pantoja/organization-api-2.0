@@ -67,7 +67,7 @@ export class DebtTypeController {
     @Body() updateDebtTypeDto: UpdateDebtTypeDto,
   ): Promise<Response> {
     return res
-      .status(HttpStatus.OK)
+      .status(HttpStatus.NO_CONTENT)
       .send(await this.debtTypeService.update(+id, updateDebtTypeDto));
   }
 

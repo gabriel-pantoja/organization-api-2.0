@@ -21,6 +21,6 @@ export class LinkedDebtUser {
   })
   debt: Debt;
 
-  @Column({ name: 'isPay', type: 'bool', default: false })
+  @Column({ name: 'isPay', type: 'bool', nullable: true, default: null })
   isPay: boolean;
 }

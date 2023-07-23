@@ -90,7 +90,7 @@ export class DebtController {
     });
 
     await this.debtService.update(+id, updateDebtDto);
-    return res.status(HttpStatus.OK).send();
+    return res.status(HttpStatus.NO_CONTENT).send();
   }
 
   @Delete(':id')

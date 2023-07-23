@@ -110,7 +110,7 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<Response> {
     return res
-      .status(HttpStatus.OK)
+      .status(HttpStatus.NO_CONTENT)
       .send(await this.userService.update(+id, updateUserDto));
   }
 

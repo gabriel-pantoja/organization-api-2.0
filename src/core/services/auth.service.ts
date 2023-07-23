@@ -46,7 +46,7 @@ export class AuthService {
         throw new UnauthorizedException();
       }
 
-      const today = new Date(2023, 7, 8);
+      const today = new Date();
       today.setHours(0, 0, 0, 0);
 
       const nextMonthPayment = new Date(financialControl.datePayment);
