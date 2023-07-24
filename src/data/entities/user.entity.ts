@@ -67,9 +67,16 @@ export class User {
   planId: number;
 
   @ManyToOne(() => Plan, (plan) => plan.user)
-  plan: Plan;
+  plan?: Plan;
 
-  @Column({ enum: ProfileIdEnum, nullable: false })
+  // @Column({
+  //   type: 'enum',
+  //   enum: ProfileIdEnum,
+  //   default: ProfileIdEnum.User,
+  // })
+  // profileId: ProfileIdEnum;
+
+  @Column('int')
   profileId: ProfileIdEnum;
 
   @ManyToOne(() => Profile, (profile) => profile.user)
@@ -80,9 +87,9 @@ export class User {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'userId' })
-  user: User[];
+  user?: User[];
 
-  @Column()
+  @Column({ name: 'ativo', type: 'bool', default: false })
   ativo: boolean;
 
   @CreateDateColumn()
