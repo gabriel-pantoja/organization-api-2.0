@@ -29,6 +29,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @Profiles(ProfileNameEnum.Admin)
   @ApiOperation({ summary: 'Create User' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(
@@ -54,7 +55,7 @@ export class UserController {
   }
 
   @Get()
-  @Profiles(ProfileNameEnum.Admin, ProfileNameEnum.User)
+  @Profiles(ProfileNameEnum.Admin)
   async findAll(
     @Res() res: Response,
     @Req() request: Request,
@@ -74,6 +75,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @Profiles(ProfileNameEnum.Admin)
   async findOne(
     @Res() res: Response,
     @Param('id') id: string,
@@ -82,6 +84,7 @@ export class UserController {
   }
 
   @Get('reset-password/:id')
+  @Profiles(ProfileNameEnum.Admin)
   async resetPassword(
     @Res() res: Response,
     @Param('id') id: string,
@@ -103,6 +106,7 @@ export class UserController {
   }
 
   @Put(':id')
+  @Profiles(ProfileNameEnum.Admin)
   @ApiOperation({ summary: 'Update User' })
   async update(
     @Res() res: Response,
@@ -115,6 +119,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @Profiles(ProfileNameEnum.Admin)
   async remove(
     @Res() res: Response,
     @Param('id') id: string,

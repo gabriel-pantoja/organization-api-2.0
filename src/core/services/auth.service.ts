@@ -23,7 +23,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    if (!user.ativo) {
+    if (!user.active) {
       throw new UnauthorizedException();
     }
 
@@ -80,10 +80,14 @@ export class AuthService {
       lastName: user.lastName,
       email: user.email,
       sub: user.id,
-      profileId: ProfileIdEnum.Admin,
-      profile: ProfileNameEnum.Admin,
+      profileId: user.profileId,
+      profile: user.profile.name,
       planId: user.planId,
+      lastAccess: user.lastAccess,
     };
+
+    this.userService.updateLastAccess(user.id);
+
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

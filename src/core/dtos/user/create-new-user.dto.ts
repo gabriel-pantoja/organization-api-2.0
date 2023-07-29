@@ -27,9 +27,6 @@ export class CreateNewUserDto {
   @ApiProperty({ enum: PlanEnum })
   planId: PlanEnum;
 
-  @ApiProperty({ example: 'null' })
-  userId: number;
-
   @ApiProperty({ example: 'pix' })
   @IsString()
   @IsNotEmpty()

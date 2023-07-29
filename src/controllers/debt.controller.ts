@@ -20,6 +20,8 @@ import { DebtDto } from 'src/core/dtos/debt/debt.dto';
 import { Request } from 'express';
 import { LinkedDebtUserService } from 'src/core/services/linked-debt-user.service';
 import { LinkedDebtUser } from 'src/data/entities/linked-debt-user.entity';
+import { ProfileNameEnum } from 'src/core/enums/profile.enum';
+import { Profiles } from 'src/core/decorators/profiles.decorator';
 
 @Controller('debt')
 export class DebtController {
@@ -29,6 +31,7 @@ export class DebtController {
   ) {}
 
   @Post()
+  @Profiles(ProfileNameEnum.Admin)
   @ApiOperation({ summary: 'Create Debt' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(
@@ -41,6 +44,7 @@ export class DebtController {
   }
 
   @Get()
+  @Profiles(ProfileNameEnum.Admin, ProfileNameEnum.Usuario)
   //@ApiPaginatedResponse(DebtDto)
   async findAll(
     @Res() res: Response,
@@ -54,6 +58,7 @@ export class DebtController {
   }
 
   @Get(':id')
+  @Profiles(ProfileNameEnum.Admin, ProfileNameEnum.Usuario)
   async findOne(
     @Res() res: Response,
     @Param('id') id: string,
@@ -64,6 +69,7 @@ export class DebtController {
   }
 
   @Put(':id')
+  @Profiles(ProfileNameEnum.Admin)
   @ApiOperation({ summary: 'Update Debt' })
   async update(
     @Res() res: Response,
@@ -94,6 +100,7 @@ export class DebtController {
   }
 
   @Delete(':id')
+  @Profiles(ProfileNameEnum.Admin)
   async remove(
     @Res() res: Response,
     @Param('id') id: string,

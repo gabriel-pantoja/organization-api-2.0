@@ -1,6 +1,8 @@
 import { Controller, Get, Res, Req, HttpStatus } from '@nestjs/common';
 import { FinancialControlService } from '../core/services/financial-control.service';
 import { Response, Request } from 'express';
+import { ProfileNameEnum } from 'src/core/enums/profile.enum';
+import { Profiles } from 'src/core/decorators/profiles.decorator';
 
 @Controller('financial-control')
 export class FinancialControlController {
@@ -9,6 +11,7 @@ export class FinancialControlController {
   ) {}
 
   @Get()
+  @Profiles(ProfileNameEnum.Admin)
   async findAll(
     @Res() res: Response,
     @Req() request: Request,

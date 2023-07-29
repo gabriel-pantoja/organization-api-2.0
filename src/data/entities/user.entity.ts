@@ -87,10 +87,13 @@ export class User {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'userId' })
-  user?: User[];
+  users?: User[];
 
-  @Column({ name: 'ativo', type: 'bool', default: false })
-  ativo: boolean;
+  @Column({ name: 'active', type: 'bool', default: false })
+  active: boolean;
+
+  @Column({ name: 'lastAccess', type: 'datetime', nullable: true })
+  lastAccess: Date;
 
   @CreateDateColumn()
   createdAt: Date;

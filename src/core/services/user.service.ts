@@ -31,23 +31,13 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    createUserDto.email = createUserDto.email.toLowerCase();
-    const user = this.repository.create(createUserDto);
-    user.profileId = ProfileIdEnum.User;
-    user.ativo = true;
-    return this.repository.save(user);
-  }
+    const user = await this.findById(createUserDto.userId);
+    if (!user) {
+      throw new NotFoundException(`User ${createUserDto.userId} not found`);
+    }
 
-  async newUser(createNewUserDto: CreateNewUserDto): Promise<any> {
-    const quantiyUsers = (await this.findAllByUserId(createNewUserDto.userId))
-      .length;
-
-    const plan = await this.planService.findById(createNewUserDto.planId);
-
-    createNewUserDto.email = createNewUserDto.email.toLowerCase();
-    const user = this.repository.create(createNewUserDto);
-    user.profileId = ProfileIdEnum.Admin;
-    user.ativo = true;
+    const quantiyUsers = (await this.findAllByUserId(user.id)).length;
+    const plan = await this.planService.findById(user.planId);
 
     if (plan.id == PlanEnum.Basic) {
       if (5 == quantiyUsers) {
@@ -62,6 +52,18 @@ export class UserService {
         );
       }
     }
+
+    createUserDto.email = createUserDto.email.toLowerCase();
+    const userCreate = this.repository.create(createUserDto);
+    userCreate.profileId = ProfileIdEnum.Usuario;
+    userCreate.active = true;
+    return this.repository.save(userCreate);
+  }
+
+  async newUser(createNewUserDto: CreateNewUserDto): Promise<any> {
+    createNewUserDto.email = createNewUserDto.email.toLowerCase();
+    const user = this.repository.create(createNewUserDto);
+    user.profileId = ProfileIdEnum.Admin;
 
     const response = await this.repository.save(user);
 
@@ -92,6 +94,7 @@ export class UserService {
 
   findById(id: number): Promise<User> {
     return this.repository.findOne({
+      relations: { users: true },
       where: { id },
     });
   }
@@ -104,7 +107,7 @@ export class UserService {
 
   findByEmail(email: string): Promise<User | undefined> {
     return this.repository.findOne({
-      relations: { financialControl: true },
+      relations: { financialControl: true, profile: true },
       where: { email },
     });
   }
@@ -114,7 +117,10 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);
     }
-    const hash = await bcrypt.hash(user.firstName, await bcrypt.genSalt());
+    const hash = await bcrypt.hash(
+      user.firstName.toUpperCase(),
+      await bcrypt.genSalt(),
+    );
     const userModel = await this.repository.preload({
       id: id,
       password: hash,
@@ -166,7 +172,7 @@ export class UserService {
     const user = await this.repository.preload({
       id: id,
       password: hash,
-      ativo: true,
+      active: true,
     });
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);
@@ -205,6 +211,18 @@ export class UserService {
     const user = await this.repository.preload({
       id: id,
       password: hash,
+    });
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+
+    this.repository.save(user);
+  }
+
+  async updateLastAccess(id: number): Promise<void> {
+    const user = await this.repository.preload({
+      id: id,
+      lastAccess: new Date(),
     });
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);

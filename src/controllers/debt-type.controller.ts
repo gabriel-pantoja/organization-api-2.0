@@ -15,12 +15,15 @@ import { CreateDebtTypeDto } from '../core/dtos/debt-type/create-debt-type.dto';
 import { UpdateDebtTypeDto } from '../core/dtos/debt-type/update-debt-type.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request } from 'express';
+import { ProfileNameEnum } from 'src/core/enums/profile.enum';
+import { Profiles } from 'src/core/decorators/profiles.decorator';
 
 @Controller('debt-type')
 export class DebtTypeController {
   constructor(private readonly debtTypeService: DebtTypeService) {}
 
   @Post()
+  @Profiles(ProfileNameEnum.Admin)
   @ApiOperation({ summary: 'Create DebtType' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(
@@ -33,6 +36,7 @@ export class DebtTypeController {
   }
 
   @Get()
+  @Profiles(ProfileNameEnum.Admin)
   async findAll(
     @Res() res: Response,
     @Req() request: Request,
@@ -43,6 +47,7 @@ export class DebtTypeController {
   }
 
   @Get('selection')
+  @Profiles(ProfileNameEnum.Admin, ProfileNameEnum.Usuario)
   async findAllSelection(@Res() res: Response): Promise<Response> {
     return res
       .status(HttpStatus.OK)
@@ -50,6 +55,7 @@ export class DebtTypeController {
   }
 
   @Get(':id')
+  @Profiles(ProfileNameEnum.Admin)
   async findOne(
     @Res() res: Response,
     @Param('id') id: string,
@@ -60,6 +66,7 @@ export class DebtTypeController {
   }
 
   @Put(':id')
+  @Profiles(ProfileNameEnum.Admin)
   @ApiOperation({ summary: 'Update Debt' })
   async update(
     @Res() res: Response,
@@ -72,6 +79,7 @@ export class DebtTypeController {
   }
 
   @Delete(':id')
+  @Profiles(ProfileNameEnum.Admin)
   async remove(
     @Res() res: Response,
     @Param('id') id: string,

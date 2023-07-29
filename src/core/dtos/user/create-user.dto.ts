@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { PlanEnum } from 'src/core/enums/plan.enum';
 import validator from 'validator';
 
 export class CreateUserDto {
@@ -22,4 +23,7 @@ export class CreateUserDto {
   @IsEmail()
   @Transform(({ value }) => validator.trim(value))
   email: string;
+
+  @ApiProperty({ example: 'null' })
+  userId: number;
 }
