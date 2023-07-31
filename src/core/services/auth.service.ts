@@ -82,6 +82,7 @@ export class AuthService {
       sub: user.id,
       profileId: user.profileId,
       profile: user.profile.name,
+      userId: user.userId,
       planId: user.planId,
       lastAccess: user.lastAccess,
     };

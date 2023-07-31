@@ -14,6 +14,7 @@ export class DebtService {
   ) {}
 
   create(createDebtDto: CreateDebtDto) {
+    createDebtDto.name = createDebtDto.name.toUpperCase();
     createDebtDto.isPay = false;
     const debt = this.repository.create(createDebtDto);
     return this.repository.save(debt);

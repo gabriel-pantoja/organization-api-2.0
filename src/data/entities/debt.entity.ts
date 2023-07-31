@@ -15,10 +15,13 @@ export class Debt {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ name: 'name', type: 'varchar', length: 50 })
+  name: string;
+
+  @Column({ nullable: true })
   debtTypeId: number;
 
-  @ManyToOne(() => DebtType, (debtType) => debtType.debt, { nullable: false })
+  @ManyToOne(() => DebtType, (debtType) => debtType.debt)
   debtType: DebtType;
 
   @Column()

@@ -47,7 +47,6 @@ export class DebtTypeController {
   }
 
   @Get('selection')
-  @Profiles(ProfileNameEnum.Admin, ProfileNameEnum.Usuario)
   async findAllSelection(@Res() res: Response): Promise<Response> {
     return res
       .status(HttpStatus.OK)

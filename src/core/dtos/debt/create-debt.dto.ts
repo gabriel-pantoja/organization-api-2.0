@@ -7,12 +7,20 @@ import {
   IsString,
 } from 'class-validator';
 import { LinkedDebtUserDto } from '../linked-debt-user/linked-debt-user.dto';
+import { Transform } from 'class-transformer';
+import validator from 'validator';
 
 export class CreateDebtDto {
-  @ApiProperty({ example: '1' })
-  @IsNumber()
+  @ApiProperty({ example: 'NET' })
+  @IsString()
   @IsNotEmpty()
-  debtTypeId: number;
+  @Transform(({ value }) => validator.trim(value))
+  name: string;
+
+  // @ApiProperty({ example: '1' })
+  // @IsNumber()
+  // @IsNotEmpty()
+  // debtTypeId: number;
 
   @ApiProperty({ example: '1' })
   @IsNumber()

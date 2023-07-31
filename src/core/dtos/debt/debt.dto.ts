@@ -4,8 +4,8 @@ import { LinkedDebtUserDto } from '../linked-debt-user/linked-debt-user.dto';
 
 export class DebtDto {
   id: number;
-  debtTypeId: number;
-  debtTypeName: string;
+  name: string;
+  // debtTypeId: number;
   userId: number;
   firstName: string;
   lastName: string;
@@ -21,8 +21,8 @@ export class DebtDto {
     const dto = new DebtDto();
 
     dto.id = data.id;
-    dto.debtTypeId = data.debtType.id;
-    dto.debtTypeName = data.debtType.name;
+    dto.name = data.name;
+    // dto.debtTypeId = data.debtType.id;
     dto.userId = data.user.id;
     dto.firstName = data.user.firstName;
     dto.lastName = data.user.lastName;

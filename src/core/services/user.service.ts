@@ -88,8 +88,10 @@ export class UserService {
     });
   }
 
-  findAllSelection(): Promise<User[]> {
-    return this.repository.find();
+  findAllSelection(request: Request): Promise<User[]> {
+    return this.repository.find({
+      where: request.query,
+    });
   }
 
   findById(id: number): Promise<User> {

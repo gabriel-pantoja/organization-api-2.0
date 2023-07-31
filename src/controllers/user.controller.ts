@@ -66,9 +66,12 @@ export class UserController {
   }
 
   @Get('selection')
-  async findAllSelection(@Res() res: Response): Promise<Response> {
+  async findAllSelection(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
     return res.status(HttpStatus.OK).send(
-      (await this.userService.findAllSelection()).map((x) => {
+      (await this.userService.findAllSelection(request)).map((x) => {
         return UserDto.toSelectDto(x);
       }),
     );
