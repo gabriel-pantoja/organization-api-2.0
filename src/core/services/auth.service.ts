@@ -38,39 +38,54 @@ export class AuthService {
           x.datePayment.getFullYear() == new Date().getFullYear(),
       );
 
-      if (!financialControl) {
-        throw new UnauthorizedException();
-      }
-
-      if (!financialControl.hasPay) {
-        throw new UnauthorizedException();
-      }
-
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      const nextMonthPayment = new Date(financialControl.datePayment);
-      nextMonthPayment.setMonth(nextMonthPayment.getMonth() + 1);
+      if (!financialControl) {
+        const lastFinancialControl = user.financialControl.pop();
+        const nextDatePayment = new Date(lastFinancialControl.datePayment);
+        nextDatePayment.setMonth(nextDatePayment.getMonth() + 1);
 
-      const differenceInDays = Math.ceil(
-        (today.getTime() - nextMonthPayment.getTime()) / (1000 * 3600 * 24),
-      );
-
-      if (differenceInDays >= -10) {
-        const hasNextMonthPayment = user.financialControl.find(
-          (x) =>
-            x.datePayment.getMonth() == nextMonthPayment.getMonth() &&
-            x.datePayment.getFullYear() == nextMonthPayment.getFullYear() &&
-            x.userId == user.id,
-        );
-        if (!hasNextMonthPayment) {
-          this.financialControlService.create({
-            userId: user.id,
-            formPayment: null,
-            hasPay: null,
-            datePayment: nextMonthPayment,
-          });
+        this.financialControlService.create({
+          userId: user.id,
+          formPayment: null,
+          hasPay: null,
+          datePayment: nextDatePayment,
+        });
+      } else {
+        if (!financialControl.hasPay) {
+          const differenceInDays = Math.ceil(
+            (today.getTime() - financialControl.datePayment.getTime()) /
+              (1000 * 3600 * 24),
+          );
+          if (differenceInDays == 10) {
+            throw new UnauthorizedException();
+          }
         }
+
+        // const nextMonthPayment = new Date(financialControl.datePayment);
+        // nextMonthPayment.setMonth(nextMonthPayment.getMonth() + 1);
+
+        // const differenceInDays = Math.ceil(
+        //   (today.getTime() - nextMonthPayment.getTime()) / (1000 * 3600 * 24),
+        // );
+
+        // if (differenceInDays >= -10) {
+        //   const hasNextMonthPayment = user.financialControl.find(
+        //     (x) =>
+        //       x.datePayment.getMonth() == nextMonthPayment.getMonth() &&
+        //       x.datePayment.getFullYear() == nextMonthPayment.getFullYear() &&
+        //       x.userId == user.id,
+        //   );
+        //   if (!hasNextMonthPayment) {
+        //     this.financialControlService.create({
+        //       userId: user.id,
+        //       formPayment: null,
+        //       hasPay: null,
+        //       datePayment: nextMonthPayment,
+        //     });
+        //   }
+        // }
       }
     }
 

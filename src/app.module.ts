@@ -14,6 +14,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileGuard } from './core/guards/profile.guard';
 import { FinancialControlModule } from './modules/financial-control.module';
+import { LinkedFriendModule } from './modules/linked-friend.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { FinancialControlModule } from './modules/financial-control.module';
     LinkedUserGroupModule,
     LinkedDebtUserModule,
     FinancialControlModule,
+    LinkedFriendModule,
   ],
   controllers: [AppController],
   providers: [

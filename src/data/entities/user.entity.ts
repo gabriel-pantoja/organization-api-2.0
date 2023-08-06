@@ -16,6 +16,7 @@ import { Plan } from './plan.entity';
 import { Profile } from './profile.entity';
 import { ProfileIdEnum } from 'src/core/enums/profile.enum';
 import { FinancialControl } from './financial-control.entity';
+import { LinkedFriend } from './linked-friend.entity';
 
 @Entity()
 export class User {
@@ -94,6 +95,11 @@ export class User {
 
   @Column({ name: 'lastAccess', type: 'datetime', nullable: true })
   lastAccess: Date;
+
+  @OneToMany(() => LinkedFriend, (linkedFriend) => linkedFriend.user, {
+    cascade: true,
+  })
+  linkedFriend: LinkedFriend[];
 
   @CreateDateColumn()
   createdAt: Date;

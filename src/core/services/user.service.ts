@@ -19,6 +19,7 @@ import { RedefineUserPasswordDto } from '../dtos/user/redefine-user-password.dto
 import { PlanService } from './plan.service';
 import { ProfileIdEnum } from '../enums/profile.enum';
 import { FinancialControlService } from './financial-control.service';
+import { InviteFriendDto } from '../dtos/user/invite-friend.dto';
 
 @Injectable()
 export class UserService {
@@ -82,6 +83,10 @@ export class UserService {
     };
   }
 
+  async inviteFriend(inviteFriendDto: InviteFriendDto): Promise<any> {
+    return { message: `${inviteFriendDto.email} e-mail enviado!` };
+  }
+
   findAll(request: Request): Promise<User[]> {
     return this.repository.find({
       where: request.query,
@@ -94,7 +99,7 @@ export class UserService {
     });
   }
 
-  findById(id: number): Promise<User> {
+  findById(id: number): Promise<User | undefined> {
     return this.repository.findOne({
       relations: { users: true },
       where: { id },
@@ -111,6 +116,12 @@ export class UserService {
     return this.repository.findOne({
       relations: { financialControl: true, profile: true },
       where: { email },
+    });
+  }
+
+  findFriend(email: string): Promise<User | undefined> {
+    return this.repository.findOne({
+      where: { email, userId: null, profileId: ProfileIdEnum.Admin },
     });
   }
 

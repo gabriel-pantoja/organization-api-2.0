@@ -1,5 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Debt } from 'src/data/entities/debt.entity';
 import { User } from 'src/data/entities/user.entity';
 
 export class UserDto {
@@ -9,13 +7,54 @@ export class UserDto {
   email: string;
   createdAt: Date;
 
-  static toSelectDto(data: User): UserDto {
+  static toGetDto(data: User): UserDto {
     const dto = new UserDto();
 
-    dto.id = data.id;
-    dto.firstName = data.firstName;
-    dto.lastName = data.lastName;
-    dto.email = data.email;
+    if (data) {
+      dto.id = data.id;
+      dto.firstName = data.firstName;
+      dto.lastName = data.lastName;
+      dto.email = data.email;
+    }
+
+    return dto;
+  }
+
+  static toGetByIdDto(data: User): UserDto {
+    const dto = new UserDto();
+
+    if (data) {
+      dto.id = data.id;
+      dto.firstName = data.firstName;
+      dto.lastName = data.lastName;
+      dto.email = data.email;
+    }
+
+    return dto;
+  }
+
+  static toGetSelectDto(data: User): UserDto {
+    const dto = new UserDto();
+
+    if (data) {
+      dto.id = data.id;
+      dto.firstName = data.firstName;
+      dto.lastName = data.lastName;
+      dto.email = data.email;
+    }
+
+    return dto;
+  }
+
+  static toGetFriendDto(data: User): UserDto {
+    const dto = new UserDto();
+
+    if (data) {
+      dto.id = data.id;
+      dto.firstName = data.firstName;
+      dto.lastName = data.lastName;
+      dto.email = data.email;
+    }
 
     return dto;
   }

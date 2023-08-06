@@ -10,6 +10,7 @@ import { LinkedDebtUser } from './entities/linked-debt-user.entity';
 import { Plan } from './entities/plan.entity';
 import { Profile } from './entities/profile.entity';
 import { FinancialControl } from './entities/financial-control.entity';
+import { LinkedFriend } from './entities/linked-friend.entity';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { FinancialControl } from './entities/financial-control.entity';
         Plan,
         Profile,
         FinancialControl,
+        LinkedFriend,
       ],
       migrations: [],
       subscribers: [],

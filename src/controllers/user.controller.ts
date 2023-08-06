@@ -23,6 +23,7 @@ import { CreateUserPasswordDto } from 'src/core/dtos/user/create-user-password.d
 import { RedefineUserPasswordDto } from 'src/core/dtos/user/redefine-user-password.dto';
 import { Profiles } from 'src/core/decorators/profiles.decorator';
 import { ProfileNameEnum } from 'src/core/enums/profile.enum';
+import { InviteFriendDto } from 'src/core/dtos/user/invite-friend.dto';
 
 @Controller('user')
 export class UserController {
@@ -39,6 +40,19 @@ export class UserController {
     return res
       .status(HttpStatus.CREATED)
       .send(await this.userService.create(createUserDto));
+  }
+
+  @Post('invite-friend')
+  @Profiles(ProfileNameEnum.Admin)
+  @ApiOperation({ summary: 'Invite Friend User' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async inviteFriend(
+    @Res() res: Response,
+    @Body() inviteFriendDto: InviteFriendDto,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.userService.inviteFriend(inviteFriendDto));
   }
 
   @Public()
@@ -60,9 +74,11 @@ export class UserController {
     @Res() res: Response,
     @Req() request: Request,
   ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.userService.findAll(request));
+    return res.status(HttpStatus.OK).send(
+      (await this.userService.findAll(request)).map((x) => {
+        return UserDto.toGetDto(x);
+      }),
+    );
   }
 
   @Get('selection')
@@ -72,7 +88,7 @@ export class UserController {
   ): Promise<Response> {
     return res.status(HttpStatus.OK).send(
       (await this.userService.findAllSelection(request)).map((x) => {
-        return UserDto.toSelectDto(x);
+        return UserDto.toGetSelectDto(x);
       }),
     );
   }
@@ -83,7 +99,20 @@ export class UserController {
     @Res() res: Response,
     @Param('id') id: string,
   ): Promise<Response> {
-    return res.status(HttpStatus.OK).send(await this.userService.findById(+id));
+    return res
+      .status(HttpStatus.OK)
+      .send(UserDto.toGetByIdDto(await this.userService.findById(+id)));
+  }
+
+  @Get('friend/:email')
+  @Profiles(ProfileNameEnum.Admin)
+  async findFriend(
+    @Res() res: Response,
+    @Param('email') email: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(UserDto.toGetFriendDto(await this.userService.findFriend(email)));
   }
 
   @Get('reset-password/:id')
