@@ -74,7 +74,7 @@ export class LinkedFriendController {
   @Put('status/:id')
   @Profiles(ProfileNameEnum.Admin)
   @ApiOperation({ summary: 'Update Status Linked Friend' })
-  async uptadeStatus(
+  async updateStatus(
     @Res() res: Response,
     @Param('id') id: string,
   ): Promise<Response> {

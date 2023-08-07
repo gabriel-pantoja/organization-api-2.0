@@ -20,6 +20,7 @@ import { PlanService } from './plan.service';
 import { ProfileIdEnum } from '../enums/profile.enum';
 import { FinancialControlService } from './financial-control.service';
 import { InviteFriendDto } from '../dtos/user/invite-friend.dto';
+import { JoinPlanDto } from '../dtos/user/join-plan.dto';
 
 @Injectable()
 export class UserService {
@@ -163,6 +164,27 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);
     }
+    return this.repository.save(user);
+  }
+
+  async joinPlan(id: number, joinPlanDto: JoinPlanDto): Promise<User> {
+    const user = await this.repository.preload({
+      id: id,
+      profileId: ProfileIdEnum.Admin,
+      ...joinPlanDto,
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+
+    this.financialControlService.create({
+      userId: id,
+      formPayment: joinPlanDto.formPayment,
+      hasPay: true,
+      datePayment: new Date(),
+    });
+
     return this.repository.save(user);
   }
 

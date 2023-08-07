@@ -24,6 +24,7 @@ import { RedefineUserPasswordDto } from 'src/core/dtos/user/redefine-user-passwo
 import { Profiles } from 'src/core/decorators/profiles.decorator';
 import { ProfileNameEnum } from 'src/core/enums/profile.enum';
 import { InviteFriendDto } from 'src/core/dtos/user/invite-friend.dto';
+import { JoinPlanDto } from 'src/core/dtos/user/join-plan.dto';
 
 @Controller('user')
 export class UserController {
@@ -191,5 +192,18 @@ export class UserController {
     return res
       .status(HttpStatus.OK)
       .send(await this.userService.updatePassword(+id, updateUserPasswordDto));
+  }
+
+  @Put('join-plan/:id')
+  @Profiles(ProfileNameEnum.Usuario)
+  @ApiOperation({ summary: 'Join Plan' })
+  async joinPlan(
+    @Res() res: Response,
+    @Param('id') id: string,
+    @Body() joinPlanDto: JoinPlanDto,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.NO_CONTENT)
+      .send(await this.userService.joinPlan(+id, joinPlanDto));
   }
 }
