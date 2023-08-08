@@ -21,6 +21,7 @@ import { ProfileIdEnum } from '../enums/profile.enum';
 import { FinancialControlService } from './financial-control.service';
 import { InviteFriendDto } from '../dtos/user/invite-friend.dto';
 import { JoinPlanDto } from '../dtos/user/join-plan.dto';
+import { LinkedDebtUserService } from './linked-debt-user.service';
 
 @Injectable()
 export class UserService {
@@ -30,6 +31,7 @@ export class UserService {
     private planService: PlanService,
     private financialControlService: FinancialControlService,
     private jwtService: JwtService,
+    private linkedDebtUserService: LinkedDebtUserService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -120,7 +122,7 @@ export class UserService {
     });
   }
 
-  findFriend(email: string): Promise<User | undefined> {
+  findFriend(email: string): Promise<User | null> {
     return this.repository.findOne({
       where: { email, userId: null, profileId: ProfileIdEnum.Admin },
     });
@@ -192,6 +194,10 @@ export class UserService {
     const user = await this.findById(id);
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);
+    }
+    const debt = await this.linkedDebtUserService.findByUserId(id);
+    if (debt) {
+      throw new BadRequestException(`Debito vinculado este usuário`);
     }
     return this.repository.remove(user);
   }

@@ -1,11 +1,10 @@
 import { LinkedDebtUser } from 'src/data/entities/linked-debt-user.entity';
+import { UserDto } from '../user/user.dto';
 
 export class LinkedDebtUserDto {
   id: number;
   userId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
+  user: UserDto;
   debtId: number;
   isPay: boolean;
 
@@ -14,9 +13,7 @@ export class LinkedDebtUserDto {
 
     dto.id = data.id;
     dto.userId = data.userId;
-    dto.firstName = data.user.firstName;
-    dto.lastName = data.user.lastName;
-    dto.email = data.user.email;
+    dto.user = data.user;
     dto.debtId = data.debtId;
     dto.isPay = data.isPay;
     return dto;
@@ -27,7 +24,7 @@ export class LinkedDebtUserDto {
 
     dto.id = data.id;
     dto.userId = data.userId;
-    dto.email = data.user.email;
+    dto.user = data.user;
     dto.isPay = data.isPay;
     return dto;
   }

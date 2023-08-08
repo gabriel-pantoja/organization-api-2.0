@@ -8,12 +8,13 @@ import {
   HttpStatus,
   Put,
   Res,
+  Req,
 } from '@nestjs/common';
 import { LinkedDebtUserService } from '../core/services/linked-debt-user.service';
 import { CreateLinkedDebtUserDto } from '../core/dtos/linked-debt-user/create-linked-debt-user.dto';
 import { UpdateLinkedDebtUserDto } from '../core/dtos/linked-debt-user/update-linked-debt-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Controller('linked-debt-user')
 export class LinkedDebtUserController {
@@ -32,10 +33,13 @@ export class LinkedDebtUserController {
   }
 
   @Get()
-  async findAll(@Res() res: Response): Promise<Response> {
+  async findAll(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.linkedDebtUserService.findAll());
+      .send(await this.linkedDebtUserService.findAll(request));
   }
 
   @Get(':id')

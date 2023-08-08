@@ -15,6 +15,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileGuard } from './core/guards/profile.guard';
 import { FinancialControlModule } from './modules/financial-control.module';
 import { LinkedFriendModule } from './modules/linked-friend.module';
+import { PaymentModule } from './modules/payment.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { LinkedFriendModule } from './modules/linked-friend.module';
     LinkedDebtUserModule,
     FinancialControlModule,
     LinkedFriendModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [

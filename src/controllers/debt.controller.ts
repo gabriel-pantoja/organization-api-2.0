@@ -44,7 +44,7 @@ export class DebtController {
   }
 
   @Get()
-  @Profiles(ProfileNameEnum.Admin, ProfileNameEnum.Usuario)
+  @Profiles(ProfileNameEnum.Admin)
   //@ApiPaginatedResponse(DebtDto)
   async findAll(
     @Res() res: Response,

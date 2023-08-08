@@ -47,9 +47,10 @@ export class UserDto {
   }
 
   static toGetFriendDto(data: User): UserDto {
-    const dto = new UserDto();
+    let dto = null;
 
     if (data) {
+      dto = new UserDto();
       dto.id = data.id;
       dto.firstName = data.firstName;
       dto.lastName = data.lastName;

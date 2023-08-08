@@ -4,6 +4,7 @@ import { UpdateLinkedDebtUserDto } from '../dtos/linked-debt-user/update-linked-
 import { InjectRepository } from '@nestjs/typeorm';
 import { LinkedDebtUser } from 'src/data/entities/linked-debt-user.entity';
 import { Repository } from 'typeorm';
+import { Request } from 'express';
 
 @Injectable()
 export class LinkedDebtUserService {
@@ -17,27 +18,74 @@ export class LinkedDebtUserService {
     return this.repository.save(linkedDebtUser);
   }
 
-  findAll(): Promise<LinkedDebtUser[]> {
+  findAllByDebtId(debtId: number): Promise<LinkedDebtUser[]> {
     return this.repository.find({
+      select: {
+        debt: {
+          id: true,
+          name: true,
+          userId: true,
+          user: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+          price: true,
+          payDate: true,
+          dateMonthAndYear: true,
+          isPay: true,
+          linkedDebtUser: {
+            id: true,
+            userId: true,
+            debtId: true,
+            isPay: true,
+            user: { id: true, firstName: true, lastName: true, email: true },
+          },
+        },
+      },
       relations: {
-        user: true,
-        debt: true,
+        debt: { user: true, linkedDebtUser: { user: true } },
+      },
+      where: {
+        debtId,
       },
     });
   }
 
-  findAllByDebtId(debtId: number): Promise<LinkedDebtUser[]> {
+  findAll(request: Request): Promise<LinkedDebtUser[]> {
     return this.repository.find({
       select: {
-        user: {
+        debt: {
           id: true,
-          firstName: true,
-          lastName: true,
-          email: true,
+          name: true,
+          userId: true,
+          user: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+          price: true,
+          payDate: true,
+          dateMonthAndYear: true,
+          isPay: true,
+          linkedDebtUser: {
+            id: true,
+            userId: true,
+            debtId: true,
+            isPay: true,
+            user: { id: true, firstName: true, lastName: true, email: true },
+          },
         },
       },
-      relations: { user: true, debt: true },
-      where: { debtId },
+      relations: {
+        debt: { user: true, linkedDebtUser: { user: true } },
+      },
+      where: {
+        userId: Number(request.query.userId),
+        debt: { dateMonthAndYear: request.query.dateMonthAndYear.toString() },
+      },
     });
   }
 
@@ -48,6 +96,12 @@ export class LinkedDebtUserService {
         debt: true,
       },
       where: { id },
+    });
+  }
+
+  findByUserId(userId: number): Promise<LinkedDebtUser | null> {
+    return this.repository.findOne({
+      where: { userId },
     });
   }
 

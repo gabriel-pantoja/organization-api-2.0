@@ -84,7 +84,13 @@ export class LinkedFriendController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.linkedFriendService.remove(+id);
+  @Profiles(ProfileNameEnum.Admin)
+  async remove(
+    @Res() res: Response,
+    @Param('id') id: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.linkedFriendService.remove(+id));
   }
 }

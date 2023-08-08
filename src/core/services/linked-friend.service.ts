@@ -11,7 +11,7 @@ import { Request } from 'express';
 import { FriendStatusEnum } from '../enums/friend-status.enum';
 import { UserService } from './user.service';
 import { ProfileIdEnum } from '../enums/profile.enum';
-import { UpdateLinkedFriendDto } from '../dtos/linked-friend/update-linked-friend.dto';
+import { LinkedDebtUserService } from './linked-debt-user.service';
 
 @Injectable()
 export class LinkedFriendService {
@@ -19,6 +19,7 @@ export class LinkedFriendService {
     @InjectRepository(LinkedFriend)
     private repository: Repository<LinkedFriend>,
     private userService: UserService,
+    private linkedDebtUserService: LinkedDebtUserService,
   ) {}
 
   async create(
@@ -132,7 +133,17 @@ export class LinkedFriendService {
     return this.repository.save(linkedFriend);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} linkedFriend`;
+  async remove(id: number): Promise<any> {
+    const linkedFriend = await this.findOneById(id);
+    if (!linkedFriend) {
+      throw new NotFoundException(`LinkedFriend ${id} not found`);
+    }
+    const debt = await this.linkedDebtUserService.findByUserId(
+      linkedFriend.userId,
+    );
+    if (debt) {
+      throw new BadRequestException(`Debito vinculado este usuário`);
+    }
+    return this.repository.remove(linkedFriend);
   }
 }
