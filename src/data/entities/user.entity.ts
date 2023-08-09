@@ -55,7 +55,7 @@ export class User {
   @OneToMany(() => LinkedDebtUser, (linkedDebtUser) => linkedDebtUser.user)
   linkedDebtUser: LinkedDebtUser[];
 
-  @OneToMany(() => Debt, (debt) => debt.user)
+  @OneToMany(() => Debt, (debt) => debt.responsible)
   debt: Debt[];
 
   @OneToMany(

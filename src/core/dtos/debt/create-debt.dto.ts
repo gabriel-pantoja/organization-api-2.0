@@ -25,7 +25,7 @@ export class CreateDebtDto {
   @ApiProperty({ example: '1' })
   @IsNumber()
   @IsNotEmpty()
-  userId: number;
+  responsibleId: number;
 
   @ApiProperty({ example: '100' })
   @IsNotEmpty()
@@ -47,4 +47,9 @@ export class CreateDebtDto {
   @ApiProperty({ example: 'Usuários' })
   @IsArray()
   linkedDebtUser: LinkedDebtUserDto[];
+
+  @ApiProperty({ example: '1' })
+  @IsNumber()
+  @IsNotEmpty()
+  creatorUserId: number;
 }

@@ -7,8 +7,8 @@ export class DebtDto {
   id: number;
   name: string;
   // debtTypeId: number;
-  userId: number;
-  user: UserDto;
+  responsibleId: number;
+  responsible: UserDto;
   price: number;
   payDate: Date;
   dateMonthAndYear: string;
@@ -22,8 +22,8 @@ export class DebtDto {
     dto.id = data.id;
     dto.name = data.name;
     // dto.debtTypeId = data.debtType.id;
-    dto.userId = data.user.id;
-    dto.user = data.user;
+    dto.responsibleId = data.responsibleId;
+    dto.responsible = data.responsible;
     dto.price = data.price;
     dto.payDate = data.payDate;
     dto.dateMonthAndYear = data.dateMonthAndYear;

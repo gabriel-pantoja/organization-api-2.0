@@ -18,49 +18,14 @@ export class LinkedDebtUserService {
     return this.repository.save(linkedDebtUser);
   }
 
-  findAllByDebtId(debtId: number): Promise<LinkedDebtUser[]> {
-    return this.repository.find({
-      select: {
-        debt: {
-          id: true,
-          name: true,
-          userId: true,
-          user: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-          },
-          price: true,
-          payDate: true,
-          dateMonthAndYear: true,
-          isPay: true,
-          linkedDebtUser: {
-            id: true,
-            userId: true,
-            debtId: true,
-            isPay: true,
-            user: { id: true, firstName: true, lastName: true, email: true },
-          },
-        },
-      },
-      relations: {
-        debt: { user: true, linkedDebtUser: { user: true } },
-      },
-      where: {
-        debtId,
-      },
-    });
-  }
-
   findAll(request: Request): Promise<LinkedDebtUser[]> {
     return this.repository.find({
       select: {
         debt: {
           id: true,
           name: true,
-          userId: true,
-          user: {
+          responsibleId: true,
+          responsible: {
             id: true,
             firstName: true,
             lastName: true,
@@ -80,11 +45,43 @@ export class LinkedDebtUserService {
         },
       },
       relations: {
-        debt: { user: true, linkedDebtUser: { user: true } },
+        debt: { responsible: true, linkedDebtUser: { user: true } },
+      },
+      where: request.query,
+    });
+  }
+
+  findAllByDebtId(debtId: number): Promise<LinkedDebtUser[]> {
+    return this.repository.find({
+      select: {
+        debt: {
+          id: true,
+          name: true,
+          responsibleId: true,
+          responsible: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+          price: true,
+          payDate: true,
+          dateMonthAndYear: true,
+          isPay: true,
+          linkedDebtUser: {
+            id: true,
+            userId: true,
+            debtId: true,
+            isPay: true,
+            user: { id: true, firstName: true, lastName: true, email: true },
+          },
+        },
+      },
+      relations: {
+        debt: { responsible: true, linkedDebtUser: { user: true } },
       },
       where: {
-        userId: Number(request.query.userId),
-        debt: { dateMonthAndYear: request.query.dateMonthAndYear.toString() },
+        debtId,
       },
     });
   }

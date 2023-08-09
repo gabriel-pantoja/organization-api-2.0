@@ -24,7 +24,7 @@ export class DebtService {
     return this.repository.find({
       relations: {
         debtType: true,
-        user: true,
+        responsible: true,
         linkedDebtUser: { user: true, debt: true },
       },
       where: request.query,
@@ -35,7 +35,7 @@ export class DebtService {
     return this.repository.findOne({
       relations: {
         debtType: true,
-        user: true,
+        responsible: true,
         linkedDebtUser: { user: true, debt: true },
       },
       where: { id },

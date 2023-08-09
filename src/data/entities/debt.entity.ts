@@ -24,11 +24,11 @@ export class Debt {
   @ManyToOne(() => DebtType, (debtType) => debtType.debt)
   debtType: DebtType;
 
-  @Column()
-  userId: number;
+  @Column({ name: 'responsibleId' })
+  responsibleId: number;
 
   @ManyToOne(() => User, (user) => user.debt, { nullable: false })
-  user: User;
+  responsible: User;
 
   @Column({
     name: 'price',
@@ -52,6 +52,12 @@ export class Debt {
     cascade: true,
   })
   linkedDebtUser: LinkedDebtUser[];
+
+  @Column({ name: 'creatorUserId' })
+  creatorUserId: number;
+
+  @ManyToOne(() => User, (user) => user.debt, { nullable: false })
+  creatorUser: User;
 
   @CreateDateColumn()
   createdAt: Date;
