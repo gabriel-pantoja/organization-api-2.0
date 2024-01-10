@@ -15,6 +15,7 @@ import { MensalidadeModule } from './modules/mensalidade/mensalidade.module';
 import { VinculoAmigoModule } from './modules/vinculo-amigo/vinculo-amigo.module';
 import { ContaModule } from './modules/conta/conta.module';
 import { AmigoModule } from './modules/amigo/amigo.module';
+import { NotificarModule } from './modules/notificar/notificar.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AmigoModule } from './modules/amigo/amigo.module';
     VinculoAmigoModule,
     ContaModule,
     AmigoModule,
+    NotificarModule,
   ],
   controllers: [],
   providers: [
