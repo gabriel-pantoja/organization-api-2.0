@@ -21,7 +21,7 @@ import { CriarSenhaPost } from 'src/modules/usuario/request/criar-senha.post';
 import { RedefinirSenhaPost } from 'src/modules/usuario/request/redefinir-senha.post';
 import { Profiles } from 'src/core/decorators/profiles.decorator';
 import { ETipoPerfil } from 'src/core/enums/perfil.enum';
-import { ConvidarAmigoPost } from 'src/modules/usuario/request/convidar-amigo.post';
+import { ConvidarAmigoPost } from 'src/modules/amigo/request/convidar-amigo.post';
 import { EntrarPlanoPut } from 'src/modules/usuario/request/entrar-plano.put';
 import { UsuarioDomain } from './usuario.domain';
 
@@ -95,32 +95,6 @@ export class UsuarioController {
       .send(await this.usuarioDomain.deletar(+id));
   }
 
-  @Get('amigo/:email')
-  @Profiles(ETipoPerfil.Admin)
-  @ApiOperation({ summary: 'Obter Amigo por E-mail' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async findFriend(
-    @Res() res: Response,
-    @Param('email') email: string,
-  ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.usuarioDomain.obterAmigoPorEmail(email));
-  }
-
-  @Get('reset-senha/:id')
-  @Profiles(ETipoPerfil.Admin)
-  @ApiOperation({ summary: 'Reset Senha' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async resetPassword(
-    @Res() res: Response,
-    @Param('id') id: string,
-  ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.usuarioDomain.resetSenha(+id));
-  }
-
   @Public()
   @Post('criar-senha')
   @ApiOperation({ summary: 'Criar Senha' })
@@ -183,19 +157,6 @@ export class UsuarioController {
     return res
       .status(HttpStatus.NO_CONTENT)
       .send(await this.usuarioDomain.entrarPlano(+id, body));
-  }
-
-  @Post('convidar-amigo')
-  @Profiles(ETipoPerfil.Admin)
-  @ApiOperation({ summary: 'Convidar Amigo' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async inviteFriend(
-    @Res() res: Response,
-    @Body() body: ConvidarAmigoPost,
-  ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.usuarioDomain.convidarAmigo(body));
   }
 
   @Public()

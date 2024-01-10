@@ -47,9 +47,9 @@ export class VinculoAmigoDomain {
     linkedFriendList.forEach((x) => {
       if (x.usuarioId === body.amigoId) {
         if (x.status === EFriendStatus.Pending) {
-          throw new BadRequestException(`Friend ${body.amigoId} pending`);
+          throw new BadRequestException(`Amigo ${body.amigoId} pending`);
         } else if (x.status === EFriendStatus.Accepted) {
-          throw new BadRequestException(`Friend ${body.amigoId} accepted`);
+          throw new BadRequestException(`Amigo ${body.amigoId} accepted`);
         }
       }
     });
@@ -67,7 +67,7 @@ export class VinculoAmigoDomain {
   }
 
   async listar(request: Request) {
-    (await this.vinculoAmigoService.listar(request)).map((x) => {
+    return (await this.vinculoAmigoService.listar(request)).map((x) => {
       return VinculoAmigoDto.listar(x);
     });
   }

@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { ContaService } from './conta.service';
+import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
 
 @Injectable()
 export class ContaDomanin {
-  constructor(private readonly contaService: ContaService) {}
+  constructor(
+    private readonly vinculoDebitoUsuarioService: VinculoDebitoUsuarioService,
+  ) {}
 
   async listar(request: Request) {
-    return await this.contaService.listar(request);
+    return await this.vinculoDebitoUsuarioService.listarConta(request);
   }
 }

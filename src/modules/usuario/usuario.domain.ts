@@ -13,9 +13,7 @@ import { NovoUsuarioPost } from './request/novo-usuario.post';
 import { CriarSenhaPost } from './request/criar-senha.post';
 import { RedefinirSenhaPost } from './request/redefinir-senha.post';
 import { PlanoService } from '../../core/services/plano.service';
-import { EPerfil } from '../../core/enums/perfil.enum';
 import { MensalidadeService } from '../mensalidade/mensalidade.service';
-import { ConvidarAmigoPost } from './request/convidar-amigo.post';
 import { EntrarPlanoPut } from './request/entrar-plano.put';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { UsuarioService } from './usuario.service';
@@ -59,23 +57,17 @@ export class UsuarioDomain {
     return await this.usuarioService.criar(body);
   }
 
-  async listar(request: Request): Promise<any> {
-    (await this.usuarioService.listar(request)).map((x) => {
+  async listar(request: Request) {
+    return (await this.usuarioService.listar(request)).map((x) => {
       return UsuarioDto.listarDto(x);
     });
   }
 
-  async obterPorId(id: number): Promise<any> {
+  async obterPorId(id: number) {
     return UsuarioDto.listarDto(await this.usuarioService.obterPorId(+id));
   }
 
-  async obterAmigoPorEmail(email: string): Promise<any> {
-    return UsuarioDto.listarDto(
-      await this.usuarioService.obterAmigoPorEmail(email),
-    );
-  }
-
-  async novoUsuario(body: NovoUsuarioPost): Promise<any> {
+  async novoUsuario(body: NovoUsuarioPost) {
     const data = await this.usuarioService.novoUsuario(body);
 
     this.mensalidadeService.criar({
@@ -93,19 +85,7 @@ export class UsuarioDomain {
     };
   }
 
-  async resetSenha(id: number): Promise<any> {
-    const usuario = await this.usuarioService.obterPorId(id);
-    if (!usuario) {
-      throw new NotFoundException(`User ${id} not found`);
-    }
-    const hash = await bcrypt.hash(
-      usuario.nome.toUpperCase(),
-      await bcrypt.genSalt(),
-    );
-    await this.usuarioService.resetSenha(id, hash);
-  }
-
-  async esqueceuSenha(email: string): Promise<any> {
+  async esqueceuSenha(email: string) {
     const user = await this.usuarioService.obterPorEmail(email);
     if (!user) {
       throw new NotFoundException(`User ${email} not found`);
@@ -118,11 +98,11 @@ export class UsuarioDomain {
     };
   }
 
-  async editar(id: number, body: UsuarioPut): Promise<Usuario> {
+  async editar(id: number, body: UsuarioPut) {
     return await this.usuarioService.editar(id, body);
   }
 
-  async entrarPlano(id: number, body: EntrarPlanoPut): Promise<Usuario> {
+  async entrarPlano(id: number, body: EntrarPlanoPut) {
     const usuario = await this.usuarioService.entrarPlano(id, body);
 
     this.mensalidadeService.criar({
@@ -158,9 +138,5 @@ export class UsuarioDomain {
 
   async atualizarUltimoAcesso(id: number) {
     await this.usuarioService.atualizarUltimoAcesso(id);
-  }
-
-  convidarAmigo(body: ConvidarAmigoPost) {
-    return { message: `${body.email} e-mail enviado!` };
   }
 }

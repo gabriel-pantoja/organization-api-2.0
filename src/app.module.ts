@@ -14,6 +14,7 @@ import { ProfileGuard } from './core/guards/profile.guard';
 import { MensalidadeModule } from './modules/mensalidade/mensalidade.module';
 import { VinculoAmigoModule } from './modules/vinculo-amigo/vinculo-amigo.module';
 import { ContaModule } from './modules/conta/conta.module';
+import { AmigoModule } from './modules/amigo/amigo.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ContaModule } from './modules/conta/conta.module';
     MensalidadeModule,
     VinculoAmigoModule,
     ContaModule,
+    AmigoModule,
   ],
   controllers: [],
   providers: [
