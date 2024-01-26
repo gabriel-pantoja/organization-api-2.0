@@ -15,8 +15,8 @@ export class DebitoService {
 
   async criar(body: DebitoPost) {
     body.nome = body.nome.toUpperCase();
-    body.pago = false;
     const debito = this.repository.create(body);
+    debito.pago = false;
     return await this.repository.save(debito);
   }
 

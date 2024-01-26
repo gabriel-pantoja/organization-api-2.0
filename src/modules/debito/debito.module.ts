@@ -6,10 +6,16 @@ import { Debito } from 'src/database/entities/debito.entity';
 import { VinculoDebitoUsuarioService } from 'src/modules/vinculo-debito-usuario/vinculo-debito-usuario.service';
 import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
 import { DebitoDomain } from './debito.domain';
+import { EmailService } from 'src/core/services/email.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Debito, VinculoDebitoUsuario])],
   controllers: [DebitoController],
-  providers: [DebitoService, VinculoDebitoUsuarioService, DebitoDomain],
+  providers: [
+    DebitoService,
+    VinculoDebitoUsuarioService,
+    DebitoDomain,
+    EmailService,
+  ],
 })
 export class DebitoModule {}

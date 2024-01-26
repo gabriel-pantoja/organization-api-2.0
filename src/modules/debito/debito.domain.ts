@@ -5,16 +5,24 @@ import { DebitoDto } from './dto/debito.dto';
 import { Request } from 'express';
 import { DebitoPut } from './request/debito.put';
 import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
+import { EmailService } from 'src/core/services/email.service';
 
 @Injectable()
 export class DebitoDomain {
   constructor(
     private readonly debitoService: DebitoService,
     private readonly vinculoDebitoUsuarioService: VinculoDebitoUsuarioService,
+    private readonly emailService: EmailService,
   ) {}
 
   async criar(body: DebitoPost) {
-    return await this.debitoService.criar(body);
+    const debito = await this.debitoService.criar(body);
+
+    body.vinculoDebitoUsuario.forEach(async (x) => {
+      await this.emailService.sendVinculadoNovoDebito(x.email, body);
+    });
+
+    return debito;
   }
 
   async listar(request: Request) {

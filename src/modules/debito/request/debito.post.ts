@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayMinSize,
   IsArray,
   IsBoolean,
   IsNotEmpty,
@@ -17,15 +18,13 @@ export class DebitoPost {
   @Transform(({ value }) => validator.trim(value))
   nome: string;
 
-  // @ApiProperty({ example: '1' })
-  // @IsNumber()
-  // @IsNotEmpty()
-  // tipoDebitoId: number;
-
   @ApiProperty({ example: '1' })
   @IsNumber()
   @IsNotEmpty()
   responsavelId: number;
+
+  @ApiProperty({ example: 'Responsável' })
+  responsavelNome: string;
 
   @ApiProperty({ example: '100' })
   @IsNotEmpty()
@@ -40,13 +39,14 @@ export class DebitoPost {
   @IsNotEmpty()
   referenteMesAno: string;
 
-  @ApiProperty({ example: null })
-  // @IsBoolean()
-  pago: boolean;
-
-  @ApiProperty({ example: 'Usuários' })
+  @ApiProperty({ example: 'Usuários Vinculados' })
+  @ArrayMinSize(1)
   @IsArray()
-  vinculoDebitoUsuario: VinculoDebitoUsuario[];
+  vinculoDebitoUsuario: {
+    debitoId: number;
+    usuarioId: number;
+    email: string;
+  }[];
 
   @ApiProperty({ example: '1' })
   @IsNumber()
