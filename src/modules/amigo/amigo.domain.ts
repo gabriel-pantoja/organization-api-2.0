@@ -55,7 +55,7 @@ export class AmigoDomain {
     await this.emailService.sendConvidarAmigo({
       nome: amigo.nome,
       email: amigo.email,
-      url: 'http://localhost:4200/#/novo-usuario',
+      url: process.env.URL,
     });
   }
 }

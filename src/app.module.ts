@@ -4,8 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/data.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { DebitoModule } from './modules/debito/debito.module';
-import { GrupoModule } from './modules/grupo/grupo.module';
-import { VinculoUsuarioGrupoModule } from './modules/vinculo-usuario-grupo/vinculo-usuario-grupo.module';
 import { VinculoDebitoUsuarioModule } from './modules/vinculo-debito-usuario/vinculo-debito-usuario.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './core/guards/auth.guard';
@@ -25,8 +23,6 @@ import { PlanoModule } from './modules/plano/plano.module';
     UsuarioModule,
     AuthModule,
     DebitoModule,
-    GrupoModule,
-    VinculoUsuarioGrupoModule,
     VinculoDebitoUsuarioModule,
     MensalidadeModule,
     VinculoAmigoModule,

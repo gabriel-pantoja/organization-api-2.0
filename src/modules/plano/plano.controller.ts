@@ -15,8 +15,8 @@ import { Response, Request } from 'express';
 import { Profiles } from 'src/core/decorators/profiles.decorator';
 import { ETipoPerfil } from 'src/core/enums/perfil.enum';
 import { PlanoDomain } from './plano.domain';
-import { PessoaPost } from './request/pessoa.post';
-import { PessoaPut } from './request/pessoa.put';
+import { PessoaPlanoPost } from './request/pessoa-plano.post';
+import { PessoaPlanoPut } from './request/pessoa-plano.put';
 
 @Controller('plano')
 export class PlanoController {
@@ -28,11 +28,11 @@ export class PlanoController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async addPerson(
     @Res() res: Response,
-    @Body() body: PessoaPost,
+    @Body() body: PessoaPlanoPost,
   ): Promise<Response> {
     return res
       .status(HttpStatus.CREATED)
-      .send(await this.planoDomain.adicionarPessoa(body));
+      .send(await this.planoDomain.add(body));
   }
 
   @Get('pessoa')
@@ -45,7 +45,7 @@ export class PlanoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.planoDomain.listarPessoas(request));
+      .send(await this.planoDomain.listar(request));
   }
 
   @Get('pessoa/:id')
@@ -58,7 +58,7 @@ export class PlanoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.planoDomain.obterPessoaPorId(+id));
+      .send(await this.planoDomain.obterPorId(+id));
   }
 
   @Put('pessoa/:id')
@@ -68,11 +68,11 @@ export class PlanoController {
   async update(
     @Res() res: Response,
     @Param('id') id: string,
-    @Body() body: PessoaPut,
+    @Body() body: PessoaPlanoPut,
   ): Promise<Response> {
     return res
       .status(HttpStatus.NO_CONTENT)
-      .send(await this.planoDomain.editarPessoa(+id, body));
+      .send(await this.planoDomain.editar(+id, body));
   }
 
   @Delete('pessoa/:id')
@@ -83,9 +83,7 @@ export class PlanoController {
     @Res() res: Response,
     @Param('id') id: string,
   ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.planoDomain.deletarPessoa(+id));
+    return res.status(HttpStatus.OK).send(await this.planoDomain.deletar(+id));
   }
 
   @Get('pessoa/reset-senha/:id')
@@ -98,6 +96,6 @@ export class PlanoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.planoDomain.resetSenhaPessoa(+id));
+      .send(await this.planoDomain.resetSenha(+id));
   }
 }

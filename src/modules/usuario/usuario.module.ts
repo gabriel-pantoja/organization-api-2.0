@@ -10,6 +10,7 @@ import { MensalidadeService } from '../mensalidade/mensalidade.service';
 import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
 import { Plano } from 'src/database/entities/plano.entity';
 import { Mensalidade } from 'src/database/entities/mensalidade.entity';
+import { EmailService } from 'src/core/services/email.service';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { Mensalidade } from 'src/database/entities/mensalidade.entity';
     VinculoDebitoUsuarioService,
     PlanoService,
     MensalidadeService,
+    EmailService,
   ],
 })
 export class UsuarioModule {}

@@ -25,6 +25,19 @@ export class UsuarioController {
   constructor(private readonly usuarioDomain: UsuarioDomain) {}
 
   @Public()
+  @Post()
+  @ApiOperation({ summary: 'Adicionar Novo Usuario' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async newUser(
+    @Res() res: Response,
+    @Body() body: NovoUsuarioPost,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.CREATED)
+      .send(await this.usuarioDomain.add(body));
+  }
+
+  @Public()
   @Post('criar-senha')
   @ApiOperation({ summary: 'Criar Senha' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
@@ -86,18 +99,5 @@ export class UsuarioController {
     return res
       .status(HttpStatus.NO_CONTENT)
       .send(await this.usuarioDomain.entrarPlano(+id, body));
-  }
-
-  @Public()
-  @Post('novo-usuario')
-  @ApiOperation({ summary: 'Novo Usuario' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async newUser(
-    @Res() res: Response,
-    @Body() body: NovoUsuarioPost,
-  ): Promise<Response> {
-    return res
-      .status(HttpStatus.CREATED)
-      .send(await this.usuarioDomain.novoUsuario(body));
   }
 }

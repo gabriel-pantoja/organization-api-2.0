@@ -3,12 +3,12 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import { PessoaPost } from './request/pessoa.post';
+import { PessoaPlanoPost } from './request/pessoa-plano.post';
 import { UsuarioService } from '../usuario/usuario.service';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { PlanoService } from 'src/modules/plano/plano.service';
 import { EPlano } from 'src/core/enums/plano.enum';
-import { PessoaPut } from './request/pessoa.put';
+import { PessoaPlanoPut } from './request/pessoa-plano.put';
 import { PessoaDto } from './dto/pessoa.dto';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
@@ -20,7 +20,7 @@ export class PlanoDomain {
     private readonly planoService: PlanoService,
   ) {}
 
-  async adicionarPessoa(body: PessoaPost): Promise<Usuario> {
+  async add(body: PessoaPlanoPost): Promise<Usuario> {
     const usuario = await this.usuarioService.obterPorId(body.usuarioId);
     if (!usuario) {
       throw new NotFoundException(`Usuário não encontrado`);
@@ -45,28 +45,28 @@ export class PlanoDomain {
       }
     }
 
-    return await this.usuarioService.criar(body);
+    return await this.usuarioService.addPessoaPlano(body);
   }
 
-  async listarPessoas(request: Request) {
+  async listar(request: Request) {
     return (await this.usuarioService.listar(request)).map((x) => {
       return PessoaDto.listarDto(x);
     });
   }
 
-  async obterPessoaPorId(id: number) {
+  async obterPorId(id: number) {
     return PessoaDto.listarDto(await this.usuarioService.obterPorId(+id));
   }
 
-  async editarPessoa(id: number, body: PessoaPut) {
-    return await this.usuarioService.editar(id, body);
+  async editar(id: number, body: PessoaPlanoPut) {
+    return await this.usuarioService.editarPessoaPlano(id, body);
   }
 
-  async deletarPessoa(id: number) {
-    return await this.usuarioService.deletar(id);
+  async deletar(id: number) {
+    return await this.usuarioService.deletarPessoaPlano(id);
   }
 
-  async resetSenhaPessoa(id: number) {
+  async resetSenha(id: number) {
     const usuario = await this.usuarioService.obterPorId(id);
     if (!usuario) {
       throw new NotFoundException(`Usuário não encontrado`);
@@ -75,6 +75,6 @@ export class PlanoDomain {
       usuario.nome.toUpperCase(),
       await bcrypt.genSalt(),
     );
-    await this.usuarioService.resetSenha(id, hash);
+    await this.usuarioService.resetSenhaPessoaPlano(id, hash);
   }
 }

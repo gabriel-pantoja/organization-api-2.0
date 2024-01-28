@@ -10,7 +10,6 @@ import {
   Unique,
 } from 'typeorm';
 import { Debito } from './debito.entity';
-import { VinculoUsuarioGrupo } from './vinculo-usuario-grupo.entity';
 import { VinculoDebitoUsuario } from './vinculo-debito-usuario.entity';
 import { Plano } from './plano.entity';
 import { Perfil } from './perfil.entity';
@@ -50,21 +49,20 @@ export class Usuario {
   // role: Role;
 
   @OneToMany(
-    () => VinculoUsuarioGrupo,
-    (vinculoUsuarioGrupo) => vinculoUsuarioGrupo.usuario,
-  )
-  vinculoUsuarioGrupo: VinculoUsuarioGrupo[];
-
-  @OneToMany(
     () => VinculoDebitoUsuario,
     (vinculoDebitoUsuario) => vinculoDebitoUsuario.usuario,
+    {
+      cascade: true,
+    },
   )
   vinculoDebitoUsuario: VinculoDebitoUsuario[];
 
   @OneToMany(() => Debito, (debito) => debito.responsavel)
   debito: Debito[];
 
-  @OneToMany(() => Mensalidade, (mensalidade) => mensalidade.usuario)
+  @OneToMany(() => Mensalidade, (mensalidade) => mensalidade.usuario, {
+    cascade: true,
+  })
   mensalidade: Mensalidade[];
 
   @Column({ default: null, nullable: true })

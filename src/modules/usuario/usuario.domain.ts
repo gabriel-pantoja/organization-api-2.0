@@ -12,17 +12,19 @@ import { RedefinirSenhaPost } from './request/redefinir-senha.post';
 import { MensalidadeService } from '../mensalidade/mensalidade.service';
 import { EntrarPlanoPut } from './request/entrar-plano.put';
 import { UsuarioService } from './usuario.service';
+import { EmailService } from 'src/core/services/email.service';
 
 @Injectable()
 export class UsuarioDomain {
   constructor(
-    private usuarioService: UsuarioService,
-    private mensalidadeService: MensalidadeService,
-    private jwtService: JwtService,
+    private readonly usuarioService: UsuarioService,
+    private readonly mensalidadeService: MensalidadeService,
+    private readonly jwtService: JwtService,
+    private readonly emailService: EmailService,
   ) {}
 
-  async novoUsuario(body: NovoUsuarioPost) {
-    const data = await this.usuarioService.novoUsuario(body);
+  async add(body: NovoUsuarioPost) {
+    const data = await this.usuarioService.addNovoUsuaio(body);
 
     this.mensalidadeService.criar({
       usuarioId: data.id,
@@ -34,9 +36,11 @@ export class UsuarioDomain {
     const payload = { id: data.id, email: data.email };
     const token = await this.jwtService.signAsync(payload);
 
-    return {
-      url: process.env.URL + '/#/senha/criar/' + token,
-    };
+    await this.emailService.sendNovaSenha({
+      nome: data.nome,
+      email: data.email,
+      url: `${process.env.URL}/#/senha/criar/${token}`,
+    });
   }
 
   async esqueceuSenha(email: string) {

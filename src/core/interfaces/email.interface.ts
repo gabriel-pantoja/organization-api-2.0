@@ -30,3 +30,9 @@ export class IConvidarAmigo {
   email: string;
   url: string;
 }
+
+export class INovaSenha {
+  nome: string;
+  email: string;
+  url: string;
+}

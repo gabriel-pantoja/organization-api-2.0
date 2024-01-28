@@ -11,8 +11,8 @@ import { EntrarPlanoPut } from './request/entrar-plano.put';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { EPerfil } from 'src/core/enums/perfil.enum';
 import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
-import { PessoaPost } from '../plano/request/pessoa.post';
-import { PessoaPut } from '../plano/request/pessoa.put';
+import { PessoaPlanoPost } from '../plano/request/pessoa-plano.post';
+import { PessoaPlanoPut } from '../plano/request/pessoa-plano.put';
 
 @Injectable()
 export class UsuarioService {
@@ -22,11 +22,19 @@ export class UsuarioService {
     private vinculoDebitoUsuarioService: VinculoDebitoUsuarioService,
   ) {}
 
-  async criar(body: PessoaPost): Promise<Usuario> {
+  async addPessoaPlano(body: PessoaPlanoPost): Promise<Usuario> {
     const data = this.repository.create(body);
     data.email = data.email.toLowerCase();
     data.perfilId = EPerfil.Usuario;
     data.ativo = true;
+    return await this.repository.save(data);
+  }
+
+  async addNovoUsuaio(body: NovoUsuarioPost) {
+    body.email = body.email.toLowerCase();
+    const data = this.repository.create(body);
+    data.perfilId = EPerfil.Admin;
+
     return await this.repository.save(data);
   }
 
@@ -56,7 +64,7 @@ export class UsuarioService {
     });
   }
 
-  async resetSenha(id: number, senha): Promise<any> {
+  async resetSenhaPessoaPlano(id: number, senha): Promise<any> {
     const data = await this.repository.preload({
       id: id,
       senha: senha,
@@ -64,7 +72,7 @@ export class UsuarioService {
     this.repository.save(data);
   }
 
-  async editar(id: number, body: PessoaPut): Promise<Usuario> {
+  async editarPessoaPlano(id: number, body: PessoaPlanoPut): Promise<Usuario> {
     body.email = body.email.toLowerCase();
     const data = await this.repository.preload({
       id: id,
@@ -89,7 +97,7 @@ export class UsuarioService {
     return await this.repository.save(data);
   }
 
-  async deletar(id: number): Promise<any> {
+  async deletarPessoaPlano(id: number): Promise<any> {
     const data = await this.obterPorId(id);
     if (!data) {
       throw new NotFoundException(`User ${id} not found`);
@@ -148,14 +156,6 @@ export class UsuarioService {
     }
 
     this.repository.save(data);
-  }
-
-  async novoUsuario(body: NovoUsuarioPost) {
-    body.email = body.email.toLowerCase();
-    const data = this.repository.create(body);
-    data.perfilId = EPerfil.Admin;
-
-    return await this.repository.save(data);
   }
 
   async listarPorUsuarioId(usuarioId: number) {

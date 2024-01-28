@@ -10,7 +10,9 @@ export class VinculoDebitoUsuario {
   @Column()
   usuarioId: number;
 
-  @ManyToOne(() => Usuario, (usuario) => usuario.vinculoDebitoUsuario)
+  @ManyToOne(() => Usuario, (usuario) => usuario.vinculoDebitoUsuario, {
+    onDelete: 'CASCADE',
+  })
   usuario: Usuario;
 
   @Column()

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { VinculoDebitoUsuarioDto } from '../../vinculo-debito-usuario/dto/linked-debt-user.dto';
+import { VinculoDebitoUsuarioDto } from '../../vinculo-debito-usuario/dto/vinculo-debito-usuario.dto';
 import { UsuarioDto } from '../../usuario/dto/usuario.dto';
 import { Debito } from 'src/database/entities/debito.entity';
 

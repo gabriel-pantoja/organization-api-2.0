@@ -4,9 +4,70 @@ import {
   IDebitoAtrasado,
   IDebitoTresDiasAntesVencer,
   IDebitoVenceHoje,
+  INovaSenha,
 } from '../interfaces/email.interface';
 
 export class TemplateEmailHelper {
+  static NovaSenha(body: INovaSenha): string {
+    return `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Criação de Senha</title>
+      <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+    
+        .container {
+          max-width: 600px;
+          margin: 20px auto;
+          padding: 20px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        h2 {
+          color: #333;
+        }
+    
+        p {
+          color: #555;
+        }
+    
+        .cta-button {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #3498db;
+          color: #fff;
+          text-decoration: none;
+          border-radius: 3px;
+        }
+    
+        .cta-button:hover {
+          background-color: #2980b9;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h2>Bem-vindo ao Organization</h2>
+        <p>Olá ${body.nome},</p>
+        <p>Obrigado por se cadastrar no nosso sistema! Para garantir a segurança da sua conta, precisamos que você crie uma senha. Clique no botão abaixo para definir sua senha agora:</p>
+        <a href="${body.url}" class="cta-button">Criar Senha</a>
+        <p>Se precisar de alguma assistência, não hesite em entrar em contato conosco.</p>
+        <p>Obrigado!</p>
+        <p>Atenciosamente,<br>Equipe da Organization</p>
+      </div>
+    </body>
+    </html>
+    `;
+  }
+
   static ConvidarAmigo(body: IConvidarAmigo): string {
     return `<!DOCTYPE html>
     <html lang="en">
