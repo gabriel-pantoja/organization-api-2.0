@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Get,
   Param,
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -17,6 +18,19 @@ import { AmigoDomain } from './amigo.domain';
 @Controller('amigo')
 export class AmigoController {
   constructor(private readonly amigoDomain: AmigoDomain) {}
+
+  @Get(':id')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Obter Informações do Amigo por Id' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async findOne(
+    @Res() res: Response,
+    @Param('id') id: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.amigoDomain.obterPorId(+id));
+  }
 
   @Get('email/:email')
   @Profiles(ETipoPerfil.Admin)
@@ -31,17 +45,15 @@ export class AmigoController {
       .send(await this.amigoDomain.obterEmail(email));
   }
 
-  @Get('reset-senha/:id')
+  @Post('adicionar')
   @Profiles(ETipoPerfil.Admin)
-  @ApiOperation({ summary: 'Reset Senha' })
+  @ApiOperation({ summary: 'Adicionar Amigo' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async resetPassword(
+  async add(
     @Res() res: Response,
-    @Param('id') id: string,
+    @Body() body: ConvidarAmigoPost,
   ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.amigoDomain.resetSenha(+id));
+    return res.status(HttpStatus.OK).send(await this.amigoDomain.add(body));
   }
 
   @Post('convidar')

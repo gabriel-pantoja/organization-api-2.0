@@ -1,13 +1,25 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { TemplateEmailHelper } from '../helpers/template-email.helper';
-import { DebitoAtrasadoPost } from 'src/modules/notificar/request/debito-atrasado.post';
 import { DebitoPost } from 'src/modules/debito/request/debito.post';
-import { PrazoLimitePost } from 'src/modules/notificar/request/prazo-limite.post';
+import {
+  IConvidarAmigo,
+  IDebitoAtrasado,
+  IDebitoTresDiasAntesVencer,
+  IDebitoVenceHoje,
+} from '../interfaces/email.interface';
 
 @Injectable()
 export class EmailService {
   constructor(private mailerService: MailerService) {}
+
+  async sendConvidarAmigo(body: IConvidarAmigo) {
+    await this.mailerService.sendMail({
+      to: body.email,
+      subject: 'Opa! Parece que seu amigo te convidou',
+      html: TemplateEmailHelper.ConvidarAmigo(body),
+    });
+  }
 
   async sendLembrete(email: string) {
     await this.mailerService.sendMail({
@@ -17,7 +29,15 @@ export class EmailService {
     });
   }
 
-  async sendDebitoAtrasado(body: DebitoAtrasadoPost) {
+  async sendDebitoTresDiasAntesVencer(body: IDebitoTresDiasAntesVencer) {
+    await this.mailerService.sendMail({
+      to: body.email,
+      subject: 'Opa! Parece que seu debito vence daqui a 3 dias',
+      html: TemplateEmailHelper.DebitoTresDiasAntesVencer(body),
+    });
+  }
+
+  async sendDebitoAtrasado(body: IDebitoAtrasado) {
     await this.mailerService.sendMail({
       to: body.email,
       subject: 'Opa! Parece que voce se esqueceu',
@@ -25,11 +45,11 @@ export class EmailService {
     });
   }
 
-  async sendPrazoLimite(body: PrazoLimitePost) {
+  async sendDebitoVenceHoje(body: IDebitoVenceHoje) {
     await this.mailerService.sendMail({
       to: body.email,
       subject: 'Opa! Parece prazo vence hoje',
-      html: TemplateEmailHelper.PrazoLimite(body),
+      html: TemplateEmailHelper.DebitoVenceHoje(body),
     });
   }
 

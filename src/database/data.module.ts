@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Usuario } from './entities/usuario.entity';
 import { Debito } from './entities/debito.entity';
-import { TipoDebito } from './entities/tipo-debito.entity';
 import { Grupo } from './entities/grupo.entity';
 import { VinculoUsuarioGrupo } from './entities/vinculo-usuario-grupo.entity';
 import { VinculoDebitoUsuario } from './entities/vinculo-debito-usuario.entity';
@@ -31,7 +30,6 @@ import { VinculoAmigo } from './entities/vinculo-amigo.entity';
         Grupo,
         VinculoUsuarioGrupo,
         Debito,
-        TipoDebito,
         VinculoDebitoUsuario,
         Plano,
         Perfil,

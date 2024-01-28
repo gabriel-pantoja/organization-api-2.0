@@ -6,7 +6,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TipoDebito } from './tipo-debito.entity';
 import { Usuario } from './usuario.entity';
 import { VinculoDebitoUsuario } from './vinculo-debito-usuario.entity';
 
@@ -17,12 +16,6 @@ export class Debito {
 
   @Column({ name: 'nome', type: 'varchar', length: 50 })
   nome: string;
-
-  @Column({ nullable: true })
-  tipoDebitoId: number;
-
-  @ManyToOne(() => TipoDebito, (tipoDebito) => tipoDebito.debito)
-  tipoDebito: TipoDebito;
 
   @Column({ name: 'responsavelId' })
   responsavelId: number;

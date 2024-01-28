@@ -3,7 +3,6 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/data.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { TipoDebitoModule } from './modules/tipo-debito/tipo-debito.module';
 import { DebitoModule } from './modules/debito/debito.module';
 import { GrupoModule } from './modules/grupo/grupo.module';
 import { VinculoUsuarioGrupoModule } from './modules/vinculo-usuario-grupo/vinculo-usuario-grupo.module';
@@ -16,6 +15,8 @@ import { VinculoAmigoModule } from './modules/vinculo-amigo/vinculo-amigo.module
 import { ContaModule } from './modules/conta/conta.module';
 import { AmigoModule } from './modules/amigo/amigo.module';
 import { NotificarModule } from './modules/notificar/notificar.module';
+import { TaskSchedulingSModule } from './modules/task-scheduling/task-scheduling.module';
+import { PlanoModule } from './modules/plano/plano.module';
 
 @Module({
   imports: [
@@ -23,7 +24,6 @@ import { NotificarModule } from './modules/notificar/notificar.module';
     DatabaseModule,
     UsuarioModule,
     AuthModule,
-    TipoDebitoModule,
     DebitoModule,
     GrupoModule,
     VinculoUsuarioGrupoModule,
@@ -32,7 +32,9 @@ import { NotificarModule } from './modules/notificar/notificar.module';
     VinculoAmigoModule,
     ContaModule,
     AmigoModule,
+    PlanoModule,
     NotificarModule,
+    TaskSchedulingSModule,
   ],
   controllers: [],
   providers: [

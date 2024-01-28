@@ -3,8 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UsuarioPost } from './request/usuario.post';
-import { UsuarioPut } from './request/usuario.put';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
@@ -13,6 +11,8 @@ import { EntrarPlanoPut } from './request/entrar-plano.put';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { EPerfil } from 'src/core/enums/perfil.enum';
 import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
+import { PessoaPost } from '../plano/request/pessoa.post';
+import { PessoaPut } from '../plano/request/pessoa.put';
 
 @Injectable()
 export class UsuarioService {
@@ -22,7 +22,7 @@ export class UsuarioService {
     private vinculoDebitoUsuarioService: VinculoDebitoUsuarioService,
   ) {}
 
-  async criar(body: UsuarioPost): Promise<Usuario> {
+  async criar(body: PessoaPost): Promise<Usuario> {
     const data = this.repository.create(body);
     data.email = data.email.toLowerCase();
     data.perfilId = EPerfil.Usuario;
@@ -64,7 +64,7 @@ export class UsuarioService {
     this.repository.save(data);
   }
 
-  async editar(id: number, body: UsuarioPut): Promise<Usuario> {
+  async editar(id: number, body: PessoaPut): Promise<Usuario> {
     body.email = body.email.toLowerCase();
     const data = await this.repository.preload({
       id: id,

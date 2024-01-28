@@ -4,6 +4,9 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import validator from 'validator';
 
 export class ConvidarAmigoPost {
+  @ApiProperty({ example: 'null' })
+  usuarioId: number;
+
   @ApiProperty({ example: 'pantoja@pantoja.com' })
   @IsString()
   @IsNotEmpty()

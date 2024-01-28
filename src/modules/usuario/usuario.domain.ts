@@ -3,69 +3,23 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import { UsuarioPost } from './request/usuario.post';
 import * as bcrypt from 'bcrypt';
 import { EditarSenhaPut } from './request/editar-senha.put';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
-import { EPlano } from '../../core/enums/plano.enum';
 import { NovoUsuarioPost } from './request/novo-usuario.post';
 import { CriarSenhaPost } from './request/criar-senha.post';
 import { RedefinirSenhaPost } from './request/redefinir-senha.post';
-import { PlanoService } from '../../core/services/plano.service';
 import { MensalidadeService } from '../mensalidade/mensalidade.service';
 import { EntrarPlanoPut } from './request/entrar-plano.put';
-import { Usuario } from 'src/database/entities/usuario.entity';
 import { UsuarioService } from './usuario.service';
-import { UsuarioDto } from './dto/usuario.dto';
-import { UsuarioPut } from './request/usuario.put';
 
 @Injectable()
 export class UsuarioDomain {
   constructor(
     private usuarioService: UsuarioService,
-    private planoService: PlanoService,
     private mensalidadeService: MensalidadeService,
     private jwtService: JwtService,
   ) {}
-
-  async criar(body: UsuarioPost): Promise<Usuario> {
-    const usuario = await this.usuarioService.obterPorId(body.usuarioId);
-    if (!usuario) {
-      throw new NotFoundException(`User ${body.usuarioId} not found`);
-    }
-
-    const quantiyUsers = (
-      await this.usuarioService.listarPorUsuarioId(usuario.id)
-    ).length;
-    const plano = await this.planoService.obterPorId(usuario.planoId);
-
-    if (plano.id == EPlano.Basic) {
-      if (5 == quantiyUsers) {
-        throw new BadRequestException(
-          `Plano: Basic - Excedeu quantitade de usuários`,
-        );
-      }
-    } else if (plano.id === EPlano.Plus) {
-      if (10 == quantiyUsers) {
-        throw new BadRequestException(
-          `Plano: Plus - Excedeu quantitade de usuários`,
-        );
-      }
-    }
-
-    return await this.usuarioService.criar(body);
-  }
-
-  async listar(request: Request) {
-    return (await this.usuarioService.listar(request)).map((x) => {
-      return UsuarioDto.listarDto(x);
-    });
-  }
-
-  async obterPorId(id: number) {
-    return UsuarioDto.listarDto(await this.usuarioService.obterPorId(+id));
-  }
 
   async novoUsuario(body: NovoUsuarioPost) {
     const data = await this.usuarioService.novoUsuario(body);
@@ -98,10 +52,6 @@ export class UsuarioDomain {
     };
   }
 
-  async editar(id: number, body: UsuarioPut) {
-    return await this.usuarioService.editar(id, body);
-  }
-
   async entrarPlano(id: number, body: EntrarPlanoPut) {
     const usuario = await this.usuarioService.entrarPlano(id, body);
 
@@ -113,10 +63,6 @@ export class UsuarioDomain {
     });
 
     return usuario;
-  }
-
-  async deletar(id: number) {
-    return await this.usuarioService.deletar(id);
   }
 
   async criarSenha(body: CriarSenhaPost) {
