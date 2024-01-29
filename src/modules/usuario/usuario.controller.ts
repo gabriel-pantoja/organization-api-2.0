@@ -19,10 +19,38 @@ import { Profiles } from 'src/core/decorators/profiles.decorator';
 import { ETipoPerfil } from 'src/core/enums/perfil.enum';
 import { EntrarPlanoPut } from 'src/modules/usuario/request/entrar-plano.put';
 import { UsuarioDomain } from './usuario.domain';
+import { UsuarioPut } from './request/usuario.put';
 
 @Controller('usuario')
 export class UsuarioController {
   constructor(private readonly usuarioDomain: UsuarioDomain) {}
+
+  @Get(':id')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Obter Pessoa por Id' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async findOne(
+    @Res() res: Response,
+    @Param('id') id: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.usuarioDomain.obterPorId(+id));
+  }
+
+  @Put(':id')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Editar Pessoa' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async update(
+    @Res() res: Response,
+    @Param('id') id: string,
+    @Body() body: UsuarioPut,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.NO_CONTENT)
+      .send(await this.usuarioDomain.editar(+id, body));
+  }
 
   @Public()
   @Post()

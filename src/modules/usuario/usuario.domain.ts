@@ -13,6 +13,8 @@ import { MensalidadeService } from '../mensalidade/mensalidade.service';
 import { EntrarPlanoPut } from './request/entrar-plano.put';
 import { UsuarioService } from './usuario.service';
 import { EmailService } from 'src/core/services/email.service';
+import { UsuarioDto } from './dto/usuario.dto';
+import { UsuarioPut } from './request/usuario.put';
 
 @Injectable()
 export class UsuarioDomain {
@@ -41,6 +43,14 @@ export class UsuarioDomain {
       email: data.email,
       url: `${process.env.URL}/#/senha/criar/${token}`,
     });
+  }
+
+  async obterPorId(id: number) {
+    return UsuarioDto.listarDto(await this.usuarioService.obterPorId(+id));
+  }
+
+  async editar(id: number, body: UsuarioPut) {
+    return await this.usuarioService.editar(id, body);
   }
 
   async esqueceuSenha(email: string) {

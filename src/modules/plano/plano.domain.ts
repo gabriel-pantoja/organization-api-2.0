@@ -54,19 +54,19 @@ export class PlanoDomain {
     });
   }
 
-  async obterPorId(id: number) {
+  async obterPessoaPorId(id: number) {
     return PessoaDto.listarDto(await this.usuarioService.obterPorId(+id));
   }
 
-  async editar(id: number, body: PessoaPlanoPut) {
+  async editarPessoaPlano(id: number, body: PessoaPlanoPut) {
     return await this.usuarioService.editarPessoaPlano(id, body);
   }
 
-  async deletar(id: number) {
+  async deletarPessoaPlano(id: number) {
     return await this.usuarioService.deletarPessoaPlano(id);
   }
 
-  async resetSenha(id: number) {
+  async resetSenhaPessoaPlano(id: number) {
     const usuario = await this.usuarioService.obterPorId(id);
     if (!usuario) {
       throw new NotFoundException(`Usuário não encontrado`);

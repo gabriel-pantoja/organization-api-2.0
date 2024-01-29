@@ -13,6 +13,7 @@ import { EPerfil } from 'src/core/enums/perfil.enum';
 import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
 import { PessoaPlanoPost } from '../plano/request/pessoa-plano.post';
 import { PessoaPlanoPut } from '../plano/request/pessoa-plano.put';
+import { UsuarioPut } from './request/usuario.put';
 
 @Injectable()
 export class UsuarioService {
@@ -70,6 +71,18 @@ export class UsuarioService {
       senha: senha,
     });
     this.repository.save(data);
+  }
+
+  async editar(id: number, body: UsuarioPut): Promise<Usuario> {
+    body.email = body.email.toLowerCase();
+    const data = await this.repository.preload({
+      id: id,
+      ...body,
+    });
+    if (!data) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+    return await this.repository.save(data);
   }
 
   async editarPessoaPlano(id: number, body: PessoaPlanoPut): Promise<Usuario> {

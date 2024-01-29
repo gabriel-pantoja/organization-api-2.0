@@ -7,9 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
 import { VinculoAmigo } from 'src/database/entities/vinculo-amigo.entity';
-import { VinculoAmigoPost } from './request/vinculo-amigo.post';
 import { EFriendStatus } from 'src/core/enums/friend-status.enum';
-import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
+import { VinculoDebitoUsuarioService } from '../../modules/vinculo-debito-usuario/vinculo-debito-usuario.service';
+import { VinculoAmigoPost } from 'src/modules/amigo/request/vinculo-amigo.post';
 
 @Injectable()
 export class VinculoAmigoService {

@@ -58,7 +58,7 @@ export class PlanoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.planoDomain.obterPorId(+id));
+      .send(await this.planoDomain.obterPessoaPorId(+id));
   }
 
   @Put('pessoa/:id')
@@ -72,7 +72,7 @@ export class PlanoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.NO_CONTENT)
-      .send(await this.planoDomain.editar(+id, body));
+      .send(await this.planoDomain.editarPessoaPlano(+id, body));
   }
 
   @Delete('pessoa/:id')
@@ -83,7 +83,9 @@ export class PlanoController {
     @Res() res: Response,
     @Param('id') id: string,
   ): Promise<Response> {
-    return res.status(HttpStatus.OK).send(await this.planoDomain.deletar(+id));
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.planoDomain.deletarPessoaPlano(+id));
   }
 
   @Get('pessoa/reset-senha/:id')
@@ -96,6 +98,6 @@ export class PlanoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.planoDomain.resetSenha(+id));
+      .send(await this.planoDomain.resetSenhaPessoaPlano(+id));
   }
 }

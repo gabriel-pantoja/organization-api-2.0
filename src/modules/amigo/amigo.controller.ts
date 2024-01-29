@@ -7,17 +7,33 @@ import {
   Get,
   Param,
   Req,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { ETipoPerfil } from 'src/core/enums/perfil.enum';
 import { Profiles } from 'src/core/decorators/profiles.decorator';
 import { ConvidarAmigoPost } from './request/convidar-amigo.post';
 import { AmigoDomain } from './amigo.domain';
+import { AdicionarAmigoPost } from './request/adicionar-amigo.post';
 
 @Controller('amigo')
 export class AmigoController {
   constructor(private readonly amigoDomain: AmigoDomain) {}
+
+  @Get('vinculo/listar')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Listar' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async findAll(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.amigoDomain.listarVinculo(request));
+  }
 
   @Get(':id')
   @Profiles(ETipoPerfil.Admin)
@@ -45,13 +61,13 @@ export class AmigoController {
       .send(await this.amigoDomain.obterEmail(email));
   }
 
-  @Post('adicionar')
+  @Post('adicionar-amizade')
   @Profiles(ETipoPerfil.Admin)
   @ApiOperation({ summary: 'Adicionar Amigo' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async add(
     @Res() res: Response,
-    @Body() body: ConvidarAmigoPost,
+    @Body() body: AdicionarAmigoPost,
   ): Promise<Response> {
     return res.status(HttpStatus.OK).send(await this.amigoDomain.add(body));
   }
@@ -67,5 +83,31 @@ export class AmigoController {
     return res
       .status(HttpStatus.OK)
       .send(await this.amigoDomain.convidar(body));
+  }
+
+  @Put('vinculo/status/:id')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Editar Vinculo Status' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async updateVinculoStatus(
+    @Res() res: Response,
+    @Param('id') id: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.NO_CONTENT)
+      .send(await this.amigoDomain.editarVinculoStatus(+id));
+  }
+
+  @Delete('vinculo/:id')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Deletar Vinculo' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async removeVinculo(
+    @Res() res: Response,
+    @Param('id') id: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.amigoDomain.deletarVinculo(+id));
   }
 }

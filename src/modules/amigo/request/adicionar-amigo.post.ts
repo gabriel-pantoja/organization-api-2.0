@@ -1,16 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import validator from 'validator';
 
 export class AdicionarAmigoPost {
-  @ApiProperty({ example: 'null' })
+  @ApiProperty({ example: '1' })
+  @IsNumber()
+  @IsNotEmpty()
   usuarioId: number;
 
-  @ApiProperty({ example: 'pantoja@pantoja.com' })
-  @IsString()
+  @ApiProperty({ example: '1' })
+  @IsNumber()
   @IsNotEmpty()
-  @IsEmail()
-  @Transform(({ value }) => validator.trim(value))
-  email: string;
+  amigoId: number;
 }

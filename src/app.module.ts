@@ -9,7 +9,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileGuard } from './core/guards/profile.guard';
 import { MensalidadeModule } from './modules/mensalidade/mensalidade.module';
-import { VinculoAmigoModule } from './modules/vinculo-amigo/vinculo-amigo.module';
 import { ContaModule } from './modules/conta/conta.module';
 import { AmigoModule } from './modules/amigo/amigo.module';
 import { NotificarModule } from './modules/notificar/notificar.module';
@@ -25,7 +24,6 @@ import { PlanoModule } from './modules/plano/plano.module';
     DebitoModule,
     VinculoDebitoUsuarioModule,
     MensalidadeModule,
-    VinculoAmigoModule,
     ContaModule,
     AmigoModule,
     PlanoModule,
