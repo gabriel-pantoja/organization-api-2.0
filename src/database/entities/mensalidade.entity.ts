@@ -6,16 +6,23 @@ export class Mensalidade {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'formPayment', type: 'varchar', length: 10, nullable: true })
+  @Column({
+    name: 'formaPagamento',
+    type: 'varchar',
+    length: 10,
+    nullable: true,
+  })
   formaPagamento: string;
 
-  @Column({ name: 'hasPay', type: 'bool', nullable: true })
+  @Column({ name: 'pago', type: 'bool', nullable: true })
   pago: boolean;
 
   @Column()
   usuarioId: number;
 
-  @ManyToOne(() => Usuario, (usuario) => usuario.mensalidade, { nullable: false })
+  @ManyToOne(() => Usuario, (usuario) => usuario.mensalidade, {
+    nullable: false,
+  })
   usuario: Usuario;
 
   @Column({ name: 'vencimento', type: 'datetime' })

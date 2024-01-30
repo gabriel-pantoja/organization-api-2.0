@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { EditarSenhaPut } from './request/editar-senha.put';
+import { AlterarSenhaPut } from './request/alterar-senha.put';
 import { JwtService } from '@nestjs/jwt';
 import { NovoUsuarioPost } from './request/novo-usuario.post';
 import { CriarSenhaPost } from './request/criar-senha.post';
@@ -15,6 +15,7 @@ import { UsuarioService } from './usuario.service';
 import { EmailService } from 'src/core/services/email.service';
 import { UsuarioDto } from './dto/usuario.dto';
 import { UsuarioPut } from './request/usuario.put';
+import { EPlano } from 'src/core/enums/plano.enum';
 
 @Injectable()
 export class UsuarioDomain {
@@ -28,12 +29,14 @@ export class UsuarioDomain {
   async add(body: NovoUsuarioPost) {
     const data = await this.usuarioService.addNovoUsuaio(body);
 
-    this.mensalidadeService.criar({
-      usuarioId: data.id,
-      formaPagamento: body.formaPagamento,
-      pago: true,
-      vencimento: new Date(),
-    });
+    if (body.planoId != EPlano.Free) {
+      this.mensalidadeService.criar({
+        usuarioId: data.id,
+        formaPagamento: body.formaPagamento,
+        pago: true,
+        vencimento: new Date(),
+      });
+    }
 
     const payload = { id: data.id, email: data.email };
     const token = await this.jwtService.signAsync(payload);
@@ -91,9 +94,9 @@ export class UsuarioDomain {
     await this.usuarioService.redefinirSenha(id, hash);
   }
 
-  async editarSenha(id: number, body: EditarSenhaPut) {
+  async alterarSenha(id: number, body: AlterarSenhaPut) {
     const hash = await bcrypt.hash(body.senha, await bcrypt.genSalt());
-    await this.usuarioService.editarSenha(id, hash);
+    await this.usuarioService.alterarSenha(id, hash);
   }
 
   async atualizarUltimoAcesso(id: number) {

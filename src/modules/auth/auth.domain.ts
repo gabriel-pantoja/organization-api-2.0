@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UsuarioService } from '../usuario/usuario.service';
 import { MensalidadeService } from '../mensalidade/mensalidade.service';
+import { EPlano } from 'src/core/enums/plano.enum';
 
 @Injectable()
 export class AuthDomain {
@@ -26,7 +27,7 @@ export class AuthDomain {
       throw new UnauthorizedException();
     }
 
-    if (usuario.usuarioId == null || usuario.planoId != null) {
+    if (usuario.usuarioId == null && usuario.planoId != EPlano.Free) {
       const financialControl = usuario.mensalidade.find(
         (x) =>
           x.vencimento.getMonth() == new Date().getMonth() &&

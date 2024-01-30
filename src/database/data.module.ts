@@ -12,7 +12,7 @@ import { VinculoAmigo } from './entities/vinculo-amigo.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      // envFilePath: '.env.prod',
+      //envFilePath: '.env.prod',
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',

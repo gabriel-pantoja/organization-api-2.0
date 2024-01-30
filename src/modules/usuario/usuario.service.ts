@@ -147,7 +147,7 @@ export class UsuarioService {
     await this.repository.save(data);
   }
 
-  async editarSenha(id: number, hash: string): Promise<void> {
+  async alterarSenha(id: number, hash: string): Promise<void> {
     const data = await this.repository.preload({
       id: id,
       senha: hash,

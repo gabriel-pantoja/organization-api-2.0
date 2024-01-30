@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request } from 'express';
-import { EditarSenhaPut } from './request/editar-senha.put';
+import { AlterarSenhaPut } from './request/alterar-senha.put';
 import { Public } from 'src/core/decorators/public.decorator';
 import { NovoUsuarioPost } from 'src/modules/usuario/request/novo-usuario.post';
 import { CriarSenhaPost } from 'src/modules/usuario/request/criar-senha.post';
@@ -102,17 +102,17 @@ export class UsuarioController {
       .send(await this.usuarioDomain.redefinirSenha(body));
   }
 
-  @Put('editar-senha/:id')
+  @Put('alterar-senha/:id')
   @ApiOperation({ summary: 'Editar Senha' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async updatePassword(
     @Res() res: Response,
     @Param('id') id: string,
-    @Body() body: EditarSenhaPut,
+    @Body() body: AlterarSenhaPut,
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.usuarioDomain.editarSenha(+id, body));
+      .send(await this.usuarioDomain.alterarSenha(+id, body));
   }
 
   @Put('entrar-plano/:id')
