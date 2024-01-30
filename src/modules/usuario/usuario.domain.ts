@@ -57,16 +57,18 @@ export class UsuarioDomain {
   }
 
   async esqueceuSenha(email: string) {
-    const user = await this.usuarioService.obterPorEmail(email);
-    if (!user) {
-      throw new NotFoundException(`User ${email} not found`);
+    const usuario = await this.usuarioService.obterPorEmail(email);
+    if (!usuario) {
+      throw new NotFoundException(`Usuário não encontrado`);
     }
-    const payload = { id: user.id, email: user.email };
+    const payload = { id: usuario.id, email: usuario.email };
     const token = await this.jwtService.signAsync(payload);
 
-    return {
-      url: process.env.URL + '/#/senha/redefinir/' + token,
-    };
+    await this.emailService.sendEsqueceuSenha({
+      nome: usuario.nome,
+      email: usuario.email,
+      url: `${process.env.URL}/#/senha/redefinir/${token}`,
+    });
   }
 
   async entrarPlano(id: number, body: EntrarPlanoPut) {

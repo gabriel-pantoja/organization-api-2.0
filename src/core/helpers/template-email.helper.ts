@@ -4,10 +4,73 @@ import {
   IDebitoAtrasado,
   IDebitoTresDiasAntesVencer,
   IDebitoVenceHoje,
+  IEsqueceuSenha,
   INovaSenha,
 } from '../interfaces/email.interface';
 
 export class TemplateEmailHelper {
+  static EsqueceuSenha(body: IEsqueceuSenha): string {
+    return `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Criação de Senha</title>
+      <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+    
+        .container {
+          max-width: 600px;
+          margin: 20px auto;
+          padding: 20px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        h2 {
+          color: #333;
+        }
+    
+        p {
+          color: #555;
+        }
+    
+        .cta-button {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #3498db;
+          color: #fff;
+          text-decoration: none;
+          border-radius: 3px;
+        }
+    
+        .cta-button:hover {
+          background-color: #2980b9;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h2>Esqueceu a senha</h2>
+        <p>Olá ${body.nome},</p>
+        <p>Recebemos uma solicitação para recuperar a senha da sua conta. Se você não fez essa solicitação, por favor, ignore este e-mail.</p>
+        <p>Para redefinir sua senha, clique no link abaixo:</p>
+        <a href="${body.url}" class="cta-button">Redefinir Senha</a>
+        <p>O link expirará em 24 horas.</p>
+        <p>Se precisar de alguma assistência, não hesite em entrar em contato conosco.</p>
+        <p>Obrigado!</p>
+        <p>Atenciosamente,<br>Equipe da Organization</p>
+      </div>
+    </body>
+    </html>
+    `;
+  }
+
   static NovaSenha(body: INovaSenha): string {
     return `<!DOCTYPE html>
     <html lang="en">

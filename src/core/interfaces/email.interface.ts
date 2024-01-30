@@ -36,3 +36,9 @@ export class INovaSenha {
   email: string;
   url: string;
 }
+
+export class IEsqueceuSenha {
+  nome: string;
+  email: string;
+  url: string;
+}

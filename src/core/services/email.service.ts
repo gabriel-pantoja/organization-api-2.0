@@ -7,12 +7,21 @@ import {
   IDebitoAtrasado,
   IDebitoTresDiasAntesVencer,
   IDebitoVenceHoje,
+  IEsqueceuSenha,
   INovaSenha,
 } from '../interfaces/email.interface';
 
 @Injectable()
 export class EmailService {
   constructor(private mailerService: MailerService) {}
+
+  async sendEsqueceuSenha(body: IEsqueceuSenha) {
+    await this.mailerService.sendMail({
+      to: body.email,
+      subject: 'Opa! Vamos redefinir a sua senha',
+      html: TemplateEmailHelper.EsqueceuSenha(body),
+    });
+  }
 
   async sendNovaSenha(body: INovaSenha) {
     await this.mailerService.sendMail({

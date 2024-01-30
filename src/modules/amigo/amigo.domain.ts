@@ -64,7 +64,7 @@ export class AmigoDomain {
   async convidar(body: ConvidarAmigoPost) {
     const amigo = await this.usuarioService.obterPorEmail(body.email);
     if (amigo) {
-      throw new BadRequestException(`Vinculo existente`);
+      throw new BadRequestException(`O usuário já tem uma conta cadastrada.`);
     }
     await this.emailService.sendConvidarAmigo({
       nome: amigo.nome,
