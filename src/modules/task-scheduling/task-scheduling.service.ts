@@ -33,7 +33,7 @@ export class TaskSchedulingService {
         debito: { responsavel: true },
       },
       where: {
-        debito: { vencimento: LessThan(new Date()) },
+        debito: { vencimento: LessThan(new Date()), pago: false },
       },
     });
 
@@ -67,6 +67,7 @@ export class TaskSchedulingService {
             today,
             new Date(today.getTime() + 24 * 60 * 60 * 1000),
           ),
+          pago: false,
         },
       },
     });
@@ -102,6 +103,7 @@ export class TaskSchedulingService {
             startOfDay(threeDaysAfter),
             endOfDay(threeDaysAfter),
           ),
+          pago: false,
         },
       },
     });
