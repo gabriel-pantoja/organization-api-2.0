@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from 'src/core/constants/jwt.constant';
 import { AuthDomain } from './auth.domain';
 import { UsuarioService } from '../usuario/usuario.service';
 import { MensalidadeService } from '../mensalidade/mensalidade.service';
@@ -16,7 +15,7 @@ import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuar
     TypeOrmModule.forFeature([Usuario, Mensalidade, VinculoDebitoUsuario]),
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
+      secret: process.env.KEY_JWT,
       signOptions: { expiresIn: '1d' },
     }),
   ],

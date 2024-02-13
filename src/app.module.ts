@@ -17,7 +17,9 @@ import { PlanoModule } from './modules/plano/plano.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      //envFilePath: '.env.prod'
+    }),
     DatabaseModule,
     UsuarioModule,
     AuthModule,
