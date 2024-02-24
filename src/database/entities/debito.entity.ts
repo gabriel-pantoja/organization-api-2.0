@@ -26,7 +26,7 @@ export class Debito {
   responsavel: Usuario;
 
   @Column({
-    name: 'price',
+    name: 'valor',
     type: 'decimal',
     precision: 10,
     scale: 2,

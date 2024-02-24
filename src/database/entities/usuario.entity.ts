@@ -16,6 +16,8 @@ import { Perfil } from './perfil.entity';
 import { EPerfil } from 'src/core/enums/perfil.enum';
 import { Mensalidade } from './mensalidade.entity';
 import { VinculoAmigo } from './vinculo-amigo.entity';
+import { Item } from './item.entity';
+import { Compra } from './compra.entity';
 
 @Entity()
 export class Usuario {
@@ -64,6 +66,16 @@ export class Usuario {
     cascade: true,
   })
   mensalidade: Mensalidade[];
+
+  @OneToMany(() => Item, (item) => item.usuario, {
+    cascade: true,
+  })
+  item: Item[];
+
+  @OneToMany(() => Compra, (compra) => compra.usuario, {
+    cascade: true,
+  })
+  compra: Compra[];
 
   @Column({ default: null, nullable: true })
   planoId: number;

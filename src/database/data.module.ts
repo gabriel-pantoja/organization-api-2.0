@@ -8,6 +8,9 @@ import { Plano } from './entities/plano.entity';
 import { Perfil } from './entities/perfil.entity';
 import { Mensalidade } from './entities/mensalidade.entity';
 import { VinculoAmigo } from './entities/vinculo-amigo.entity';
+import { Item } from './entities/item.entity';
+import { Produto } from './entities/produto.entity';
+import { Compra } from './entities/compra.entity';
 
 @Module({
   imports: [
@@ -31,6 +34,9 @@ import { VinculoAmigo } from './entities/vinculo-amigo.entity';
         Perfil,
         Mensalidade,
         VinculoAmigo,
+        Compra,
+        Item,
+        Produto,
       ],
       migrations: [],
       subscribers: [],
