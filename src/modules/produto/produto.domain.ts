@@ -10,8 +10,8 @@ export class ProdutoDomain {
   constructor(private readonly produtoService: ProdutoService) {}
 
   async criar(body: ProdutoPost) {
-    const debito = await this.produtoService.criar(body);
-    return debito;
+    const data = await this.produtoService.criar(body);
+    return data;
   }
 
   async listar(request: Request) {

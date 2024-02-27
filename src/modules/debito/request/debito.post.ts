@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import validator from 'validator';
-import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
+import { VinculoDebitoUsuarioPost } from 'src/modules/vinculo-debito-usuario/request/vinculo-debito-usuario.post';
 
 export class DebitoPost {
   @ApiProperty({ example: 'NET' })
@@ -42,11 +42,7 @@ export class DebitoPost {
   @ApiProperty({ example: 'Usuários Vinculados' })
   @ArrayMinSize(1)
   @IsArray()
-  vinculoDebitoUsuario: {
-    debitoId: number;
-    usuarioId: number;
-    email: string;
-  }[];
+  vinculoDebitoUsuario: VinculoDebitoUsuarioPost[];
 
   @ApiProperty({ example: '1' })
   @IsNumber()

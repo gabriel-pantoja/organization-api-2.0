@@ -2,21 +2,15 @@ import { Produto } from 'src/database/entities/produto.entity';
 
 export class ProdutoDto {
   id: number;
-  itemId: number;
-  item: string;
-  preco: number;
-  unidadePeso: number;
-  comprarId: number;
+  nome: string;
+  marca: string;
 
   static listar(data: Produto): ProdutoDto {
     const dto = new ProdutoDto();
 
     dto.id = data.id;
-    dto.itemId = data.itemId;
-    dto.item = `${data.item.nome} - ${data.item.marca}`;
-    dto.preco = data.preco;
-    dto.unidadePeso = data.unidadePeso;
-    dto.comprarId = data.compraId;
+    dto.nome = data.nome;
+    dto.marca = data.marca;
 
     return dto;
   }

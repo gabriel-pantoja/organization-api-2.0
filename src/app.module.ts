@@ -14,9 +14,10 @@ import { AmigoModule } from './modules/amigo/amigo.module';
 import { NotificarModule } from './modules/notificar/notificar.module';
 import { TaskSchedulingSModule } from './modules/task-scheduling/task-scheduling.module';
 import { PlanoModule } from './modules/plano/plano.module';
-import { ItemModule } from './modules/item/item.module';
 import { ProdutoModule } from './modules/produto/produto.module';
 import { CompraModule } from './modules/compra-mensal/compra.module';
+import { MeuDebitoModule } from './modules/meu-debito/meu-debito.module';
+import { VinculoCompraProdutoModule } from './modules/vinculo-compra-produto/vinculo-compra-produto.module';
 
 @Module({
   imports: [
@@ -33,9 +34,10 @@ import { CompraModule } from './modules/compra-mensal/compra.module';
     AmigoModule,
     PlanoModule,
     NotificarModule,
-    ItemModule,
     ProdutoModule,
     CompraModule,
+    MeuDebitoModule,
+    VinculoCompraProdutoModule,
     TaskSchedulingSModule,
   ],
   controllers: [],

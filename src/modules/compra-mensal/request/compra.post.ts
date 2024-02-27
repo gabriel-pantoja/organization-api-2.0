@@ -6,7 +6,7 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { ProdutoPost } from 'src/modules/produto/request/produto.post';
+import { VinculoCompraProdutoPost } from 'src/modules/vinculo-compra-produto/request/vinculo-compra-produto.post';
 
 export class CompraPost {
   @ApiProperty({ example: 'Lista' })
@@ -19,8 +19,8 @@ export class CompraPost {
   @IsNotEmpty()
   usuarioId: number;
 
-  @ApiProperty({ example: 'Produtos' })
+  @ApiProperty({ example: 'Produtos Vinculados' })
   @ArrayMinSize(1)
   @IsArray()
-  produto: ProdutoPost[];
+  vinculoCompraProduto: VinculoCompraProdutoPost[];
 }

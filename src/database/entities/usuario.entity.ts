@@ -5,7 +5,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
@@ -16,8 +15,10 @@ import { Perfil } from './perfil.entity';
 import { EPerfil } from 'src/core/enums/perfil.enum';
 import { Mensalidade } from './mensalidade.entity';
 import { VinculoAmigo } from './vinculo-amigo.entity';
-import { Item } from './item.entity';
 import { Compra } from './compra.entity';
+import { MeuDebito } from './meu-debito.entity';
+import { Produto } from './produto.entity';
+import { VinculoCompraProduto } from './vinculo-compra-produto.entity';
 
 @Entity()
 export class Usuario {
@@ -67,15 +68,20 @@ export class Usuario {
   })
   mensalidade: Mensalidade[];
 
-  @OneToMany(() => Item, (item) => item.usuario, {
-    cascade: true,
-  })
-  item: Item[];
-
   @OneToMany(() => Compra, (compra) => compra.usuario, {
     cascade: true,
   })
   compra: Compra[];
+
+  @OneToMany(() => Produto, (produto) => produto.usuario, {
+    cascade: true,
+  })
+  produto: Produto[];
+
+  @OneToMany(() => MeuDebito, (meuDebito) => meuDebito.usuario, {
+    cascade: false,
+  })
+  meuDebito: MeuDebito[];
 
   @Column({ default: null, nullable: true })
   planoId: number;

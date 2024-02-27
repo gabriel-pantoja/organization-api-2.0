@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Usuario } from './usuario.entity';
-import { Produto } from './produto.entity';
+import { VinculoCompraProduto } from './vinculo-compra-produto.entity';
 
 @Entity()
 export class Compra {
@@ -17,11 +17,6 @@ export class Compra {
   @Column({ name: 'nome', type: 'varchar', length: 50 })
   nome: string;
 
-  @OneToMany(() => Produto, (produto) => produto.compra, {
-    cascade: true,
-  })
-  produto: Produto[];
-
   @Column()
   usuarioId: number;
 
@@ -29,6 +24,15 @@ export class Compra {
     nullable: false,
   })
   usuario: Usuario;
+
+  @OneToMany(
+    () => VinculoCompraProduto,
+    (vinculoCompraProduto) => vinculoCompraProduto.compra,
+    {
+      cascade: true,
+    },
+  )
+  vinculoCompraProduto: VinculoCompraProduto[];
 
   @CreateDateColumn()
   criadoEm: Date;

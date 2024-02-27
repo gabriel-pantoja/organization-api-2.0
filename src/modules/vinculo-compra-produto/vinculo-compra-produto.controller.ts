@@ -15,13 +15,15 @@ import { Response } from 'express';
 import { Request } from 'express';
 import { ETipoPerfil } from 'src/core/enums/perfil.enum';
 import { Profiles } from 'src/core/decorators/profiles.decorator';
-import { ItemDomain } from './item.domain';
-import { ItemPost } from './request/item.post';
-import { ItemPut } from './request/item.put';
+import { VinculoCompraProdutoDomain } from './vinculo-compra-produto.domain';
+import { VinculoCompraProdutoPost } from './request/vinculo-compra-produto.post';
+import { VinculoCompraProdutoPut } from './request/vinculo-compra-produto.put';
 
-@Controller('item')
-export class ItemController {
-  constructor(private readonly itemDomain: ItemDomain) {}
+@Controller('vinculo-compra-produto')
+export class VinculoCompraProdutoController {
+  constructor(
+    private readonly vinculoCompraProdutoDomain: VinculoCompraProdutoDomain,
+  ) {}
 
   @Post()
   @Profiles(ETipoPerfil.Admin)
@@ -29,11 +31,11 @@ export class ItemController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(
     @Res() res: Response,
-    @Body() body: ItemPost,
+    @Body() body: VinculoCompraProdutoPost,
   ): Promise<Response> {
     return res
       .status(HttpStatus.CREATED)
-      .send(await this.itemDomain.criar(body));
+      .send(await this.vinculoCompraProdutoDomain.criar(body));
   }
 
   @Get()
@@ -46,7 +48,7 @@ export class ItemController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.itemDomain.listar(request));
+      .send(await this.vinculoCompraProdutoDomain.listar(request));
   }
 
   @Get(':id')
@@ -59,7 +61,7 @@ export class ItemController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.itemDomain.obterPorId(+id));
+      .send(await this.vinculoCompraProdutoDomain.obterPorId(+id));
   }
 
   @Put(':id')
@@ -69,9 +71,9 @@ export class ItemController {
   async update(
     @Res() res: Response,
     @Param('id') id: string,
-    @Body() body: ItemPut,
+    @Body() body: VinculoCompraProdutoPut,
   ): Promise<Response> {
-    await this.itemDomain.editar(+id, body);
+    await this.vinculoCompraProdutoDomain.editar(+id, body);
     return res.status(HttpStatus.NO_CONTENT).send();
   }
 
@@ -83,6 +85,8 @@ export class ItemController {
     @Res() res: Response,
     @Param('id') id: string,
   ): Promise<Response> {
-    return res.status(HttpStatus.OK).send(await this.itemDomain.deletar(+id));
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.vinculoCompraProdutoDomain.deletar(+id));
   }
 }

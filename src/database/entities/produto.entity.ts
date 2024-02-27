@@ -1,37 +1,42 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Item } from './item.entity';
-import { Compra } from './compra.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { VinculoCompraProduto } from './vinculo-compra-produto.entity';
+import { Usuario } from './usuario.entity';
 
 @Entity()
 export class Produto {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  itemId: number;
+  @Column({ name: 'nome', type: 'varchar', length: 50 })
+  nome: string;
 
-  @ManyToOne(() => Item, (item) => item.produto, {
-    nullable: false,
-  })
-  item: Item;
+  @Column({ name: 'marca', type: 'varchar', length: 50 })
+  marca: string;
 
-  @Column({ name: 'unidade-peso' })
-  unidadePeso: number;
-
-  @Column({
-    name: 'preco',
-    type: 'decimal',
-    precision: 10,
-    scale: 2,
-    default: 0,
-  })
-  preco: number;
+  @OneToMany(
+    () => VinculoCompraProduto,
+    (vinculoCompraProduto) => vinculoCompraProduto.produto,
+    {
+      cascade: true,
+    },
+  )
+  vinculoCompraProduto: VinculoCompraProduto[];
 
   @Column()
-  compraId: number;
+  usuarioId: number;
 
-  @ManyToOne(() => Compra, (compra) => compra.produto, {
+  @ManyToOne(() => Usuario, (usuario) => usuario.produto, {
     nullable: false,
   })
-  compra: Compra;
+  usuario: Usuario;
+
+  @CreateDateColumn()
+  criadoEm: Date;
 }

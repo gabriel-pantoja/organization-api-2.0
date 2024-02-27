@@ -10,7 +10,6 @@ import {
   Put,
   Req,
 } from '@nestjs/common';
-import { DebitoService } from './debito.service';
 import { DebitoPost } from './request/debito.post';
 import { DebitoPut } from './request/debito.put';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';

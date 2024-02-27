@@ -26,9 +26,7 @@ export class CompraService {
 
   async obterPorId(id: number): Promise<Compra> {
     return await this.repository.findOne({
-      relations: {
-        produto: { item: true },
-      },
+      relations: { vinculoCompraProduto: { produto: true } },
       where: { id },
     });
   }

@@ -8,9 +8,10 @@ import { Plano } from './entities/plano.entity';
 import { Perfil } from './entities/perfil.entity';
 import { Mensalidade } from './entities/mensalidade.entity';
 import { VinculoAmigo } from './entities/vinculo-amigo.entity';
-import { Item } from './entities/item.entity';
 import { Produto } from './entities/produto.entity';
 import { Compra } from './entities/compra.entity';
+import { MeuDebito } from './entities/meu-debito.entity';
+import { VinculoCompraProduto } from './entities/vinculo-compra-produto.entity';
 
 @Module({
   imports: [
@@ -35,8 +36,9 @@ import { Compra } from './entities/compra.entity';
         Mensalidade,
         VinculoAmigo,
         Compra,
-        Item,
         Produto,
+        VinculoCompraProduto,
+        MeuDebito,
       ],
       migrations: [],
       subscribers: [],
