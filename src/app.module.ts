@@ -18,6 +18,7 @@ import { ProdutoModule } from './modules/produto/produto.module';
 import { CompraModule } from './modules/compra-mensal/compra.module';
 import { MeuDebitoModule } from './modules/meu-debito/meu-debito.module';
 import { VinculoCompraProdutoModule } from './modules/vinculo-compra-produto/vinculo-compra-produto.module';
+import { EstatisticaModule } from './modules/estatistica/estatistica.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { VinculoCompraProdutoModule } from './modules/vinculo-compra-produto/vin
     CompraModule,
     MeuDebitoModule,
     VinculoCompraProdutoModule,
+    EstatisticaModule,
     TaskSchedulingSModule,
   ],
   controllers: [],

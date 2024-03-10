@@ -24,6 +24,15 @@ export class VinculoCompraProdutoService {
     });
   }
 
+  async listaPrecoPorIdProduto(
+    idProduto: number,
+  ): Promise<VinculoCompraProduto[]> {
+    return await this.repository.find({
+      select: { produtoId: true, preco: true, criadoEm: true },
+      where: { produtoId: idProduto },
+    });
+  }
+
   async obterPorId(id: number): Promise<VinculoCompraProduto> {
     return await this.repository.findOne({
       where: { id },
