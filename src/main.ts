@@ -12,6 +12,7 @@ import { HttpExceptionFilter } from './core/security/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  //app.enableCors();
   app.enableCors({
     origin: (origin, callback) => {
       if (process.env.NODE_ENV == 'production') {

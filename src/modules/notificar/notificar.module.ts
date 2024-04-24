@@ -13,7 +13,7 @@ import { EmailService } from 'src/core/services/email.service';
         port: 465, // porta
         auth: {
           user: 'no-reply@pantoja.dev',
-          pass: 'rg&gZVNXRcFd',
+          pass: 'Kvj7{Sy{(b+0',
         },
         ignoreTLS: true,
       },
