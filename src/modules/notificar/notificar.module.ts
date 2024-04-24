@@ -3,22 +3,26 @@ import { NotificarController } from './notificar.controller';
 import { NotificarDomain } from './notificar.domain';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailService } from 'src/core/services/email.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      //envFilePath: '.env.prod',
+    }),
     MailerModule.forRoot({
       transport: {
-        host: 'mail.pantoja.dev', //host smtp
+        host: process.env.EMAIL_HOST, //host smtp
         secure: true, //regras de segurança do serviço smtp
         port: 465, // porta
         auth: {
-          user: 'no-reply@pantoja.dev',
-          pass: 'Kvj7{Sy{(b+0',
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
         },
         ignoreTLS: true,
       },
       defaults: {
-        from: 'no-reply@pantoja.dev',
+        from: process.env.EMAIL_FROM,
       },
     }),
   ],
