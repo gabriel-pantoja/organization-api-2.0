@@ -16,7 +16,7 @@ async function bootstrap() {
   app.enableCors({
     origin: (origin, callback) => {
       if (process.env.NODE_ENV == 'production') {
-        const allowedOrigins = ['https://organization-front.pantoja.dev'];
+        const allowedOrigins = ['https://organization.teamcoder.com.br'];
         if (allowedOrigins.includes(origin)) {
           console.log('allowed cors for:', origin);
           callback(null, true);
