@@ -3,7 +3,7 @@ import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import validator from 'validator';
 
-export class PessoaPlanoPost {
+export class VinculadoPost {
   @ApiProperty({ example: 'Gabriel' })
   @IsString()
   @IsNotEmpty()

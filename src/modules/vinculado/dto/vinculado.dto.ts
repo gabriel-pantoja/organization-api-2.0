@@ -1,14 +1,14 @@
 import { Usuario } from 'src/database/entities/usuario.entity';
 
-export class PessoaDto {
+export class VinculadoDto {
   id: number;
   nome: string;
   sobrenome: string;
   email: string;
   criadoEm: Date;
 
-  static listarDto(data: Usuario): PessoaDto {
-    const dto = new PessoaDto();
+  static listarDto(data: Usuario): VinculadoDto {
+    const dto = new VinculadoDto();
 
     if (data) {
       dto.id = data.id;

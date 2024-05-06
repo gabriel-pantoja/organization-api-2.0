@@ -11,9 +11,9 @@ import { EntrarPlanoPut } from './request/entrar-plano.put';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { EPerfil } from 'src/core/enums/perfil.enum';
 import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
-import { PessoaPlanoPost } from '../plano/request/pessoa-plano.post';
-import { PessoaPlanoPut } from '../plano/request/pessoa-plano.put';
 import { UsuarioPut } from './request/usuario.put';
+import { VinculadoPost } from '../vinculado/request/vinculado.post';
+import { VinculadoPut } from '../vinculado/request/vinculado.put';
 
 @Injectable()
 export class UsuarioService {
@@ -23,7 +23,7 @@ export class UsuarioService {
     private vinculoDebitoUsuarioService: VinculoDebitoUsuarioService,
   ) {}
 
-  async addPessoaPlano(body: PessoaPlanoPost): Promise<Usuario> {
+  async addVinculado(body: VinculadoPost): Promise<Usuario> {
     const data = this.repository.create(body);
     data.email = data.email.toLowerCase();
     data.perfilId = EPerfil.Usuario;
@@ -65,7 +65,7 @@ export class UsuarioService {
     });
   }
 
-  async resetSenhaPessoaPlano(id: number, senha): Promise<any> {
+  async resetSenhaVinculado(id: number, senha): Promise<any> {
     const data = await this.repository.preload({
       id: id,
       senha: senha,
@@ -85,7 +85,7 @@ export class UsuarioService {
     return await this.repository.save(data);
   }
 
-  async editarPessoaPlano(id: number, body: PessoaPlanoPut): Promise<Usuario> {
+  async editarVinculado(id: number, body: VinculadoPut): Promise<Usuario> {
     body.email = body.email.toLowerCase();
     const data = await this.repository.preload({
       id: id,
@@ -110,7 +110,7 @@ export class UsuarioService {
     return await this.repository.save(data);
   }
 
-  async deletarPessoaPlano(id: number): Promise<any> {
+  async deletarVinculado(id: number): Promise<any> {
     const data = await this.obterPorId(id);
     if (!data) {
       throw new NotFoundException(`User ${id} not found`);

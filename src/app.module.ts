@@ -13,12 +13,12 @@ import { ContaModule } from './modules/conta/conta.module';
 import { AmigoModule } from './modules/amigo/amigo.module';
 import { NotificarModule } from './modules/notificar/notificar.module';
 import { TaskSchedulingSModule } from './modules/task-scheduling/task-scheduling.module';
-import { PlanoModule } from './modules/plano/plano.module';
 import { ProdutoModule } from './modules/produto/produto.module';
 import { CompraModule } from './modules/compra-mensal/compra.module';
 import { MeuDebitoModule } from './modules/meu-debito/meu-debito.module';
 import { VinculoCompraProdutoModule } from './modules/vinculo-compra-produto/vinculo-compra-produto.module';
 import { EstatisticaModule } from './modules/estatistica/estatistica.module';
+import { VinculadoModule } from './modules/vinculado/vinculado.module';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { EstatisticaModule } from './modules/estatistica/estatistica.module';
     MensalidadeModule,
     ContaModule,
     AmigoModule,
-    PlanoModule,
+    VinculadoModule,
     NotificarModule,
     ProdutoModule,
     CompraModule,
