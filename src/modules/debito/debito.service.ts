@@ -16,7 +16,6 @@ export class DebitoService {
   async criar(body: DebitoPost) {
     body.nome = body.nome.toUpperCase();
     const debito = this.repository.create(body);
-    debito.pago = false;
     return await this.repository.save(debito);
   }
 
@@ -27,6 +26,7 @@ export class DebitoService {
         vinculoDebitoUsuario: { usuario: true, debito: true },
       },
       where: request.query,
+      order: { pago: 'ASC' },
     });
   }
 

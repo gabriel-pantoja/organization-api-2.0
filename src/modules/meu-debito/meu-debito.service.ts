@@ -22,6 +22,7 @@ export class MeuDebitoService {
   async listar(request: Request): Promise<MeuDebito[]> {
     return this.repository.find({
       where: request.query,
+      order: { pago: 'ASC' },
     });
   }
 

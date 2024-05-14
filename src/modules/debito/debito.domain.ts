@@ -18,9 +18,15 @@ export class DebitoDomain {
   async criar(body: DebitoPost) {
     const debito = await this.debitoService.criar(body);
 
-    // body.vinculoDebitoUsuario.forEach(async (x) => {
-    //   await this.emailService.sendVinculadoNovoDebito(x.email, body);
-    // });
+    body.vinculoDebitoUsuario.forEach(async (x) => {
+      const usuario = await this.vinculoDebitoUsuarioService.obterPorUsuarioId(
+        x.usuarioId,
+      );
+      await this.emailService.sendVinculadoNovoDebito(
+        usuario.usuario.email,
+        body,
+      );
+    });
 
     return debito;
   }

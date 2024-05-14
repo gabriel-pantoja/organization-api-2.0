@@ -40,7 +40,7 @@ export class Debito {
   @Column({ name: 'referenteMesAno', type: 'varchar', length: 10 })
   referenteMesAno: string;
 
-  @Column({ name: 'pago', type: 'bool', default: false })
+  @Column({ name: 'pago', type: 'bool', nullable: true, default: null })
   pago: boolean;
 
   @OneToMany(
