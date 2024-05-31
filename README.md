@@ -56,6 +56,9 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+
+# gerar dados no banco de dados
+$ npm run seed
 ```
 
 ## Support

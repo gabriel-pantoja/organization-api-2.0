@@ -5,6 +5,8 @@ import { Debito } from 'src/database/entities/debito.entity';
 
 export class DebitoDto {
   id: number;
+  categoriaId: number;
+  categoriaNome: string;
   nome: string;
   responsavelId: number;
   responsavel: UsuarioDto;
@@ -19,6 +21,8 @@ export class DebitoDto {
     const dto = new DebitoDto();
 
     dto.id = data.id;
+    dto.categoriaId = data.categoriaId;
+    dto.categoriaNome = data.categoria.nome;
     dto.nome = data.nome;
     dto.responsavelId = data.responsavelId;
     dto.responsavel = data.responsavel;

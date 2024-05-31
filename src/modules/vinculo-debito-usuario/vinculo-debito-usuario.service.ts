@@ -56,6 +56,11 @@ export class VinculoDebitoUsuarioService {
       select: {
         debito: {
           id: true,
+          categoriaId: true,
+          categoria: {
+            id: true,
+            nome: true,
+          },
           nome: true,
           responsavelId: true,
           responsavel: {
@@ -78,7 +83,11 @@ export class VinculoDebitoUsuarioService {
         },
       },
       relations: {
-        debito: { responsavel: true, vinculoDebitoUsuario: { usuario: true } },
+        debito: {
+          categoria: true,
+          responsavel: true,
+          vinculoDebitoUsuario: { usuario: true },
+        },
       },
       where: {
         usuarioId: Number(request.query.usuarioId),

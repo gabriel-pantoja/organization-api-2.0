@@ -97,7 +97,7 @@ export class Usuario {
   // profileId: ProfileIdEnum;
 
   @Column('int')
-  perfilId: EPerfil;
+  perfilId: number;
 
   @ManyToOne(() => Perfil, (perfil) => perfil.usuario)
   perfil: Perfil;

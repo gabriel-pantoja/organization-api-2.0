@@ -20,5 +20,5 @@ export class VinculoAmigo {
   amigo: Usuario;
 
   @Column('int')
-  status: EFriendStatus;
+  status: number;
 }

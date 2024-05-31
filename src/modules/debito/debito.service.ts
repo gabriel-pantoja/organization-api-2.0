@@ -22,6 +22,7 @@ export class DebitoService {
   async listar(request: Request): Promise<Debito[]> {
     return this.repository.find({
       relations: {
+        categoria: true,
         responsavel: true,
         vinculoDebitoUsuario: { usuario: true, debito: true },
       },
@@ -33,6 +34,7 @@ export class DebitoService {
   async obterPorId(id: number): Promise<Debito> {
     return await this.repository.findOne({
       relations: {
+        categoria: true,
         responsavel: true,
         vinculoDebitoUsuario: { usuario: true, debito: true },
       },

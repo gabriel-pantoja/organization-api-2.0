@@ -40,7 +40,7 @@ import { VinculadoModule } from './modules/vinculado/vinculado.module';
     MeuDebitoModule,
     VinculoCompraProdutoModule,
     EstatisticaModule,
-    TaskSchedulingSModule,
+    //TaskSchedulingSModule,
   ],
   controllers: [],
   providers: [

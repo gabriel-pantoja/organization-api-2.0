@@ -78,7 +78,7 @@ export class MeuDebitoController {
 
   @Put('pagar/:id')
   @Profiles(ETipoPerfil.Admin)
-  @ApiOperation({ summary: 'Editar por Id' })
+  @ApiOperation({ summary: 'Pagar' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async pay(
     @Res() res: Response,

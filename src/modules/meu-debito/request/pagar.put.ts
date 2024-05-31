@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import validator from 'validator';
 
 export class PagarPut {
   @ApiProperty({ example: true })
@@ -10,9 +8,12 @@ export class PagarPut {
   @ApiProperty({ example: '100' })
   valorJuros: number;
 
-  @ApiProperty({ example: 'Nubank' })
-  @IsString()
+  @ApiProperty({ example: '1' })
+  @IsNumber()
   @IsNotEmpty()
-  @Transform(({ value }) => validator.trim(value))
-  localPagamento: string;
+  formaPagamentoId: number;
+
+  @ApiProperty({ example: '1' })
+  @IsNumber()
+  cartaoId: number;
 }

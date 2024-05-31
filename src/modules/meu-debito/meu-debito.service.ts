@@ -21,6 +21,11 @@ export class MeuDebitoService {
 
   async listar(request: Request): Promise<MeuDebito[]> {
     return this.repository.find({
+      relations: {
+        categoria: true,
+        formaPagamento: true,
+        cartao: true,
+      },
       where: request.query,
       order: { pago: 'ASC' },
     });
@@ -28,6 +33,11 @@ export class MeuDebitoService {
 
   async obterPorId(id: number): Promise<MeuDebito> {
     return await this.repository.findOne({
+      relations: {
+        categoria: true,
+        formaPagamento: true,
+        cartao: true,
+      },
       where: { id },
     });
   }
