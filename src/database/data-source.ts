@@ -20,6 +20,8 @@ import { FormaPagamento } from './entities/forma-pagamento.entity';
 import FormaPagamentoSeeder from './seeds/forma-pagamento.seed';
 import CartaoSeeder from './seeds/cartao.seed';
 import { Cartao } from './entities/cartao.entity';
+import { TipoDebito } from './entities/tipo-debito.entity';
+import TipoDebitoSeeder from './seeds/tipo-debito.seed';
 
 config();
 //config({ path: '.env.prod' });
@@ -35,6 +37,7 @@ export const options: DataSourceOptions & SeederOptions = {
   entities: [
     Usuario,
     Categoria,
+    TipoDebito,
     Cartao,
     FormaPagamento,
     Debito,
@@ -55,6 +58,7 @@ export const options: DataSourceOptions & SeederOptions = {
     PerfilSeeder,
     PlanoSeeder,
     CategoriaSeeder,
+    TipoDebitoSeeder,
     CartaoSeeder,
     FormaPagamentoSeeder,
   ],

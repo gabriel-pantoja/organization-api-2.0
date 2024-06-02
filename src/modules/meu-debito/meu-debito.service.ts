@@ -23,6 +23,7 @@ export class MeuDebitoService {
     return this.repository.find({
       relations: {
         categoria: true,
+        tipoDebito: true,
         formaPagamento: true,
         cartao: true,
       },
@@ -35,6 +36,7 @@ export class MeuDebitoService {
     return await this.repository.findOne({
       relations: {
         categoria: true,
+        tipoDebito: true,
         formaPagamento: true,
         cartao: true,
       },

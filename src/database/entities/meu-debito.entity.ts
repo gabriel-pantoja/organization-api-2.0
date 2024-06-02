@@ -9,6 +9,7 @@ import { Usuario } from './usuario.entity';
 import { FormaPagamento } from './forma-pagamento.entity';
 import { Cartao } from './cartao.entity';
 import { Categoria } from './categoria.entity';
+import { TipoDebito } from './tipo-debito.entity';
 
 @Entity()
 export class MeuDebito {
@@ -23,8 +24,16 @@ export class MeuDebito {
   })
   categoria: Categoria;
 
-  @Column({ name: 'nome', type: 'varchar', length: 50 })
-  nome: string;
+  @Column({ default: 1 })
+  tipoDebitoId: number;
+
+  @ManyToOne(() => TipoDebito, (tipoDebito) => tipoDebito.meuDebito, {
+    nullable: false,
+  })
+  tipoDebito: TipoDebito;
+
+  @Column({ name: 'descricao', type: 'varchar', length: 50, nullable: true })
+  descricao: string;
 
   @Column({
     name: 'valor',

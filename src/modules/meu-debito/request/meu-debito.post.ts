@@ -4,11 +4,20 @@ import { Transform } from 'class-transformer';
 import validator from 'validator';
 
 export class MeuDebitoPost {
+  @ApiProperty({ example: '1' })
+  @IsNumber()
+  @IsNotEmpty()
+  categoriaId: number;
+
+  @ApiProperty({ example: '1' })
+  @IsNumber()
+  @IsNotEmpty()
+  tipoDebitoId: number;
+
   @ApiProperty({ example: 'Leite' })
   @IsString()
-  @IsNotEmpty()
   @Transform(({ value }) => validator.trim(value))
-  nome: string;
+  descricao: string;
 
   @ApiProperty({ example: '100' })
   @IsNotEmpty()

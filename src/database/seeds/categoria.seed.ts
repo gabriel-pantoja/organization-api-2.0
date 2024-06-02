@@ -50,6 +50,9 @@ export default class CategoriaSeeder implements Seeder {
       {
         nome: 'Delivery',
       },
+      {
+        nome: 'Empresa',
+      },
     ]);
   }
 }
