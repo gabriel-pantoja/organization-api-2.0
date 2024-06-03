@@ -27,7 +27,7 @@ export class DebitoService {
         vinculoDebitoUsuario: { usuario: true, debito: true },
       },
       where: request.query,
-      order: { pago: 'ASC' },
+      order: { pago: 'ASC', vencimento: 'ASC' },
     });
   }
 

@@ -45,7 +45,7 @@ export default class TipoDebitoSeeder implements Seeder {
         nome: 'Spotify',
       },
       {
-        nome: 'Internet',
+        nome: 'Serviço',
       },
       {
         nome: 'Amazon Prime',
@@ -82,6 +82,33 @@ export default class TipoDebitoSeeder implements Seeder {
       },
       {
         nome: 'Contabilidade',
+      },
+      {
+        nome: 'Plano de Saúde',
+      },
+      {
+        nome: 'Dentista',
+      },
+      {
+        nome: 'Academia',
+      },
+      {
+        nome: 'Mercado',
+      },
+      {
+        nome: 'Seguro do Carro',
+      },
+      {
+        nome: 'Gasolina',
+      },
+      {
+        nome: 'Loja',
+      },
+      {
+        nome: 'Banco Digital',
+      },
+      {
+        nome: 'Banco Tradicional',
       },
     ]);
   }
