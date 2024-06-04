@@ -15,7 +15,7 @@ export class MeuDebitoService {
   ) {}
 
   async criar(body: MeuDebitoPost) {
-    body.descricao = body.descricao.trim();
+    body.descricao = body.descricao?.trim();
     const data = this.repository.create(body);
     return await this.repository.save(data);
   }

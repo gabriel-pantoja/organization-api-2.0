@@ -1,7 +1,6 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { TemplateEmailHelper } from '../helpers/template-email.helper';
-import { DebitoPost } from 'src/modules/debito/request/debito.post';
 import {
   IConvidarAmigo,
   IDebitoAtrasado,
@@ -10,6 +9,7 @@ import {
   IEsqueceuSenha,
   INovaSenha,
 } from '../interfaces/email.interface';
+import { DebitoCompartilhadoPost } from 'src/modules/debito-compartilhado/request/debito-compartilhado.post';
 
 @Injectable()
 export class EmailService {
@@ -71,7 +71,7 @@ export class EmailService {
     });
   }
 
-  async sendVinculadoNovoDebito(email: string, data: DebitoPost) {
+  async sendVinculadoNovoDebito(email: string, data: DebitoCompartilhadoPost) {
     await this.mailerService.sendMail({
       to: email,
       subject: 'Opa! Parece que você tem um novo débito',

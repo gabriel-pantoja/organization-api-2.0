@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Debito } from './debito.entity';
+import { DebitoCompartilhado } from './debito-compartilhado.entity';
 import { MeuDebito } from './meu-debito.entity';
 
 @Entity()
@@ -10,8 +10,11 @@ export class Categoria {
   @Column({ name: 'nome', type: 'varchar', length: 50 })
   nome: string;
 
-  @OneToMany(() => Debito, (debito) => debito.categoria)
-  debito: Debito[];
+  @OneToMany(
+    () => DebitoCompartilhado,
+    (debitoCompartilhado) => debitoCompartilhado.categoria,
+  )
+  debitoCompartilhado: DebitoCompartilhado[];
 
   @OneToMany(() => MeuDebito, (meuDebito) => meuDebito.categoria)
   meuDebito: MeuDebito[];

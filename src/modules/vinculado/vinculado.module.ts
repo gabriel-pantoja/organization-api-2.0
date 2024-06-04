@@ -2,21 +2,23 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlanoService } from 'src/core/services/plano.service';
 import { Usuario } from 'src/database/entities/usuario.entity';
-import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { Plano } from 'src/database/entities/plano.entity';
-import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
 import { VinculadoController } from './vinculado.controller';
 import { VinculadoDomain } from './vinculado.domain';
+import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
+import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Plano, Usuario, VinculoDebitoUsuario])],
+  imports: [
+    TypeOrmModule.forFeature([Plano, Usuario, DebitoCompartilhadoUsuario]),
+  ],
   controllers: [VinculadoController],
   providers: [
     PlanoService,
     VinculadoDomain,
     UsuarioService,
-    VinculoDebitoUsuarioService,
+    DebitoCompartilhadoUsuarioService,
   ],
 })
 export class VinculadoModule {}

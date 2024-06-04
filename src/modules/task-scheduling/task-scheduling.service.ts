@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
-import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
 import { Between, LessThan, Repository } from 'typeorm';
 import { EmailService } from '../../core/services/email.service';
 import {
@@ -10,12 +9,13 @@ import {
   IDebitoVenceHoje,
 } from '../../core/interfaces/email.interface';
 import { addDays, endOfDay, startOfDay } from 'date-fns';
+import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
 
 @Injectable()
 export class TaskSchedulingService {
   constructor(
-    @InjectRepository(VinculoDebitoUsuario)
-    private readonly repository: Repository<VinculoDebitoUsuario>,
+    @InjectRepository(DebitoCompartilhadoUsuario)
+    private readonly repository: Repository<DebitoCompartilhadoUsuario>,
     private readonly emailService: EmailService,
   ) {}
 
@@ -30,21 +30,21 @@ export class TaskSchedulingService {
     const data = await this.repository.find({
       relations: {
         usuario: true,
-        debito: { responsavel: true },
+        debitoCompartilhado: { responsavel: true },
       },
       where: {
-        debito: { vencimento: LessThan(new Date()), pago: false },
+        debitoCompartilhado: { vencimento: LessThan(new Date()), pago: false },
       },
     });
 
     data.forEach(async (x) => {
       const body: IDebitoAtrasado = {
         email: x.usuario.email,
-        debito: x.debito.nome,
-        valor: x.debito.valor,
-        referenteMesAno: x.debito.referenteMesAno,
-        responsavel: x.debito.responsavel.nome,
-        vencimento: x.debito.vencimento,
+        debito: x.debitoCompartilhado.nome,
+        valor: x.debitoCompartilhado.valor,
+        referenteMesAno: x.debitoCompartilhado.referenteMesAno,
+        responsavel: x.debitoCompartilhado.responsavel.nome,
+        vencimento: x.debitoCompartilhado.vencimento,
       };
 
       await this.emailService.sendDebitoAtrasado(body);
@@ -59,10 +59,10 @@ export class TaskSchedulingService {
     const data = await this.repository.find({
       relations: {
         usuario: true,
-        debito: { responsavel: true },
+        debitoCompartilhado: { responsavel: true },
       },
       where: {
-        debito: {
+        debitoCompartilhado: {
           vencimento: Between(
             today,
             new Date(today.getTime() + 24 * 60 * 60 * 1000),
@@ -75,11 +75,11 @@ export class TaskSchedulingService {
     data.forEach(async (x) => {
       const body: IDebitoVenceHoje = {
         email: x.usuario.email,
-        debito: x.debito.nome,
-        valor: x.debito.valor,
-        referenteMesAno: x.debito.referenteMesAno,
-        responsavel: x.debito.responsavel.nome,
-        vencimento: x.debito.vencimento,
+        debito: x.debitoCompartilhado.nome,
+        valor: x.debitoCompartilhado.valor,
+        referenteMesAno: x.debitoCompartilhado.referenteMesAno,
+        responsavel: x.debitoCompartilhado.responsavel.nome,
+        vencimento: x.debitoCompartilhado.vencimento,
       };
 
       await this.emailService.sendDebitoVenceHoje(body);
@@ -95,10 +95,10 @@ export class TaskSchedulingService {
     const data = await this.repository.find({
       relations: {
         usuario: true,
-        debito: { responsavel: true },
+        debitoCompartilhado: { responsavel: true },
       },
       where: {
-        debito: {
+        debitoCompartilhado: {
           vencimento: Between(
             startOfDay(threeDaysAfter),
             endOfDay(threeDaysAfter),
@@ -111,11 +111,11 @@ export class TaskSchedulingService {
     data.forEach(async (x) => {
       const body: IDebitoTresDiasAntesVencer = {
         email: x.usuario.email,
-        debito: x.debito.nome,
-        valor: x.debito.valor,
-        referenteMesAno: x.debito.referenteMesAno,
-        responsavel: x.debito.responsavel.nome,
-        vencimento: x.debito.vencimento,
+        debito: x.debitoCompartilhado.nome,
+        valor: x.debitoCompartilhado.valor,
+        referenteMesAno: x.debitoCompartilhado.referenteMesAno,
+        responsavel: x.debitoCompartilhado.responsavel.nome,
+        vencimento: x.debitoCompartilhado.vencimento,
       };
 
       await this.emailService.sendDebitoTresDiasAntesVencer(body);

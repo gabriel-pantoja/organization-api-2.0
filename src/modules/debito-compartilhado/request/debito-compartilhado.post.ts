@@ -9,9 +9,9 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import validator from 'validator';
-import { VinculoDebitoUsuarioPost } from 'src/modules/vinculo-debito-usuario/request/vinculo-debito-usuario.post';
+import { DebitoCompartilhadoUsuarioPost } from 'src/modules/debito-compartilhado-usuario/request/debito-compartilhado-usuario.post';
 
-export class DebitoPost {
+export class DebitoCompartilhadoPost {
   @ApiProperty({ example: 'NET' })
   @IsString()
   @IsNotEmpty()
@@ -42,7 +42,7 @@ export class DebitoPost {
   @ApiProperty({ example: 'Usuários Vinculados' })
   @ArrayMinSize(1)
   @IsArray()
-  vinculoDebitoUsuario: VinculoDebitoUsuarioPost[];
+  debitoCompartilhadoUsuario: DebitoCompartilhadoUsuarioPost[];
 
   @ApiProperty({ example: '1' })
   @IsNumber()

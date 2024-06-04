@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { VinculoDebitoUsuarioDto } from '../../vinculo-debito-usuario/dto/vinculo-debito-usuario.dto';
 import { UsuarioDto } from '../../usuario/dto/usuario.dto';
-import { Debito } from 'src/database/entities/debito.entity';
+import { DebitoCompartilhado } from 'src/database/entities/debito-compartilhado.entity';
+import { DebitoCompartilhadoUsuarioDto } from 'src/modules/debito-compartilhado-usuario/dto/debito-compartilhado-usuario.dto';
 
-export class DebitoDto {
+export class DebitoCompartilhadoDto {
   id: number;
   categoriaId: number;
   categoriaNome: string;
@@ -14,11 +14,11 @@ export class DebitoDto {
   vencimento: Date;
   referenteMesAno: string;
   pago: boolean;
-  vinculoDebitoUsuario: VinculoDebitoUsuarioDto[] = [];
+  debitoCompartilhadoUsuario: DebitoCompartilhadoUsuarioDto[] = [];
   criadoEm: Date;
 
-  static listar(data: Debito): DebitoDto {
-    const dto = new DebitoDto();
+  static listar(data: DebitoCompartilhado): DebitoCompartilhadoDto {
+    const dto = new DebitoCompartilhadoDto();
 
     dto.id = data.id;
     dto.categoriaId = data.categoriaId;
@@ -30,9 +30,11 @@ export class DebitoDto {
     dto.vencimento = data.vencimento;
     dto.referenteMesAno = data.referenteMesAno;
     dto.pago = data.pago;
-    dto.vinculoDebitoUsuario = data.vinculoDebitoUsuario.map((x) => {
-      return VinculoDebitoUsuarioDto.listar(x);
-    });
+    dto.debitoCompartilhadoUsuario = data.debitoCompartilhadoUsuario.map(
+      (x) => {
+        return DebitoCompartilhadoUsuarioDto.listar(x);
+      },
+    );
     dto.criadoEm = data.criadoEm;
 
     return dto;

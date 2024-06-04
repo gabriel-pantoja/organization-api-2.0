@@ -7,11 +7,11 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Usuario } from './usuario.entity';
-import { VinculoDebitoUsuario } from './vinculo-debito-usuario.entity';
+import { DebitoCompartilhadoUsuario } from './debito-compartilhado-usuario.entity';
 import { Categoria } from './categoria.entity';
 
 @Entity()
-export class Debito {
+export class DebitoCompartilhado {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,7 +21,7 @@ export class Debito {
   @Column({ default: 1 })
   categoriaId: number;
 
-  @ManyToOne(() => Categoria, (categoria) => categoria.debito, {
+  @ManyToOne(() => Categoria, (categoria) => categoria.debitoCompartilhado, {
     nullable: false,
   })
   categoria: Categoria;
@@ -29,7 +29,7 @@ export class Debito {
   @Column({ name: 'responsavelId' })
   responsavelId: number;
 
-  @ManyToOne(() => Usuario, (responsavel) => responsavel.debito, {
+  @ManyToOne(() => Usuario, (responsavel) => responsavel.debitoCompartilhado, {
     nullable: false,
   })
   responsavel: Usuario;
@@ -53,18 +53,19 @@ export class Debito {
   pago: boolean;
 
   @OneToMany(
-    () => VinculoDebitoUsuario,
-    (vinculoDebitoUsuario) => vinculoDebitoUsuario.debito,
+    () => DebitoCompartilhadoUsuario,
+    (debitoCompartilhadoUsuario) =>
+      debitoCompartilhadoUsuario.debitoCompartilhado,
     {
       cascade: true,
     },
   )
-  vinculoDebitoUsuario: VinculoDebitoUsuario[];
+  debitoCompartilhadoUsuario: DebitoCompartilhadoUsuario[];
 
   @Column({ name: 'criadoPorUsuarioId' })
   criadoPorUsuarioId: number;
 
-  @ManyToOne(() => Usuario, (criadorPor) => criadorPor.debito, {
+  @ManyToOne(() => Usuario, (criadorPor) => criadorPor.debitoCompartilhado, {
     nullable: false,
   })
   criadoPorUsuario: Usuario;

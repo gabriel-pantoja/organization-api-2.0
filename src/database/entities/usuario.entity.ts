@@ -8,17 +8,15 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { Debito } from './debito.entity';
-import { VinculoDebitoUsuario } from './vinculo-debito-usuario.entity';
+import { DebitoCompartilhado } from './debito-compartilhado.entity';
 import { Plano } from './plano.entity';
 import { Perfil } from './perfil.entity';
-import { EPerfil } from 'src/core/enums/perfil.enum';
 import { Mensalidade } from './mensalidade.entity';
 import { VinculoAmigo } from './vinculo-amigo.entity';
 import { Compra } from './compra.entity';
 import { MeuDebito } from './meu-debito.entity';
 import { Produto } from './produto.entity';
-import { VinculoCompraProduto } from './vinculo-compra-produto.entity';
+import { DebitoCompartilhadoUsuario } from './debito-compartilhado-usuario.entity';
 
 @Entity()
 export class Usuario {
@@ -52,16 +50,19 @@ export class Usuario {
   // role: Role;
 
   @OneToMany(
-    () => VinculoDebitoUsuario,
-    (vinculoDebitoUsuario) => vinculoDebitoUsuario.usuario,
+    () => DebitoCompartilhadoUsuario,
+    (debitoCompartilhadoUsuario) => debitoCompartilhadoUsuario.usuario,
     {
       cascade: true,
     },
   )
-  vinculoDebitoUsuario: VinculoDebitoUsuario[];
+  debitoCompartilhadoUsuario: DebitoCompartilhadoUsuario[];
 
-  @OneToMany(() => Debito, (debito) => debito.responsavel)
-  debito: Debito[];
+  @OneToMany(
+    () => DebitoCompartilhado,
+    (debitoCompartilhado) => debitoCompartilhado.responsavel,
+  )
+  debitoCompartilhado: DebitoCompartilhado[];
 
   @OneToMany(() => Mensalidade, (mensalidade) => mensalidade.usuario, {
     cascade: true,

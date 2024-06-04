@@ -3,8 +3,6 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/data.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { DebitoModule } from './modules/debito/debito.module';
-import { VinculoDebitoUsuarioModule } from './modules/vinculo-debito-usuario/vinculo-debito-usuario.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileGuard } from './core/guards/profile.guard';
@@ -19,17 +17,19 @@ import { MeuDebitoModule } from './modules/meu-debito/meu-debito.module';
 import { VinculoCompraProdutoModule } from './modules/vinculo-compra-produto/vinculo-compra-produto.module';
 import { EstatisticaModule } from './modules/estatistica/estatistica.module';
 import { VinculadoModule } from './modules/vinculado/vinculado.module';
+import { DebitoCompartilhadoModule } from './modules/debito-compartilhado/debito-compartilhado.module';
+import { DebitoCompartilhadoUsuarioModule } from './modules/debito-compartilhado-usuario/debito-compartilhado-usuario.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      //envFilePath: '.env.prod'
+      //envFilePath: '.env.prod',
     }),
     DatabaseModule,
     UsuarioModule,
     AuthModule,
-    DebitoModule,
-    VinculoDebitoUsuarioModule,
+    DebitoCompartilhadoModule,
+    DebitoCompartilhadoUsuarioModule,
     MensalidadeModule,
     ContaModule,
     AmigoModule,

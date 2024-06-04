@@ -1,7 +1,6 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
-import { Debito } from './entities/debito.entity';
-import { VinculoDebitoUsuario } from './entities/vinculo-debito-usuario.entity';
+import { DebitoCompartilhado } from './entities/debito-compartilhado.entity';
 import { Plano } from './entities/plano.entity';
 import { Perfil } from './entities/perfil.entity';
 import { Mensalidade } from './entities/mensalidade.entity';
@@ -22,6 +21,7 @@ import CartaoSeeder from './seeds/cartao.seed';
 import { Cartao } from './entities/cartao.entity';
 import { TipoDebito } from './entities/tipo-debito.entity';
 import TipoDebitoSeeder from './seeds/tipo-debito.seed';
+import { DebitoCompartilhadoUsuario } from './entities/debito-compartilhado-usuario.entity';
 
 config();
 //config({ path: '.env.prod' });
@@ -40,8 +40,8 @@ export const options: DataSourceOptions & SeederOptions = {
     TipoDebito,
     Cartao,
     FormaPagamento,
-    Debito,
-    VinculoDebitoUsuario,
+    DebitoCompartilhado,
+    DebitoCompartilhadoUsuario,
     Plano,
     Perfil,
     Mensalidade,

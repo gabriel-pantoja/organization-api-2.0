@@ -1,27 +1,27 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { VinculoDebitoUsuarioPost } from './request/vinculo-debito-usuario.post';
-import { VinculoDebitoUsuarioPut } from './request/vinculo-debito-usuario.put';
+import { DebitoCompartilhadoUsuarioPost } from './request/debito-compartilhado-usuario.post';
+import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-usuario.put';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
-import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
+import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
 
 @Injectable()
-export class VinculoDebitoUsuarioService {
+export class DebitoCompartilhadoUsuarioService {
   constructor(
-    @InjectRepository(VinculoDebitoUsuario)
-    private repository: Repository<VinculoDebitoUsuario>,
+    @InjectRepository(DebitoCompartilhadoUsuario)
+    private repository: Repository<DebitoCompartilhadoUsuario>,
   ) {}
 
-  async criar(body: VinculoDebitoUsuarioPost) {
+  async criar(body: DebitoCompartilhadoUsuarioPost) {
     const data = this.repository.create(body);
     return await this.repository.save(data);
   }
 
-  async listar(request: Request): Promise<VinculoDebitoUsuario[]> {
+  async listar(request: Request): Promise<DebitoCompartilhadoUsuario[]> {
     return await this.repository.find({
       select: {
-        debito: {
+        debitoCompartilhado: {
           id: true,
           nome: true,
           responsavelId: true,
@@ -35,26 +35,29 @@ export class VinculoDebitoUsuarioService {
           vencimento: true,
           referenteMesAno: true,
           pago: true,
-          vinculoDebitoUsuario: {
+          debitoCompartilhadoUsuario: {
             id: true,
             usuarioId: true,
-            debitoId: true,
+            debitoCompartilhadoId: true,
             pago: true,
             usuario: { id: true, nome: true, sobrenome: true, email: true },
           },
         },
       },
       relations: {
-        debito: { responsavel: true, vinculoDebitoUsuario: { usuario: true } },
+        debitoCompartilhado: {
+          responsavel: true,
+          debitoCompartilhadoUsuario: { usuario: true },
+        },
       },
       where: request.query,
     });
   }
 
-  async listarConta(request: Request): Promise<VinculoDebitoUsuario[]> {
+  async listarConta(request: Request): Promise<DebitoCompartilhadoUsuario[]> {
     return await this.repository.find({
       select: {
-        debito: {
+        debitoCompartilhado: {
           id: true,
           categoriaId: true,
           categoria: {
@@ -73,33 +76,37 @@ export class VinculoDebitoUsuarioService {
           vencimento: true,
           referenteMesAno: true,
           pago: true,
-          vinculoDebitoUsuario: {
+          debitoCompartilhadoUsuario: {
             id: true,
             usuarioId: true,
-            debitoId: true,
+            debitoCompartilhadoId: true,
             pago: true,
             usuario: { id: true, nome: true, sobrenome: true, email: true },
           },
         },
       },
       relations: {
-        debito: {
+        debitoCompartilhado: {
           categoria: true,
           responsavel: true,
-          vinculoDebitoUsuario: { usuario: true },
+          debitoCompartilhadoUsuario: { usuario: true },
         },
       },
       where: {
         usuarioId: Number(request.query.usuarioId),
-        debito: { referenteMesAno: request.query.referenteMesAno.toString() },
+        debitoCompartilhado: {
+          referenteMesAno: request.query.referenteMesAno.toString(),
+        },
       },
     });
   }
 
-  async listarPorDebitoId(debitoId: number): Promise<VinculoDebitoUsuario[]> {
+  async listarPorDebitoId(
+    debitoCompartilhadoId: number,
+  ): Promise<DebitoCompartilhadoUsuario[]> {
     return await this.repository.find({
       select: {
-        debito: {
+        debitoCompartilhado: {
           id: true,
           nome: true,
           responsavelId: true,
@@ -113,29 +120,32 @@ export class VinculoDebitoUsuarioService {
           vencimento: true,
           referenteMesAno: true,
           pago: true,
-          vinculoDebitoUsuario: {
+          debitoCompartilhadoUsuario: {
             id: true,
             usuarioId: true,
-            debitoId: true,
+            debitoCompartilhadoId: true,
             pago: true,
             usuario: { id: true, nome: true, sobrenome: true, email: true },
           },
         },
       },
       relations: {
-        debito: { responsavel: true, vinculoDebitoUsuario: { usuario: true } },
+        debitoCompartilhado: {
+          responsavel: true,
+          debitoCompartilhadoUsuario: { usuario: true },
+        },
       },
       where: {
-        debitoId,
+        debitoCompartilhadoId,
       },
     });
   }
 
-  async obterPorId(id: number): Promise<VinculoDebitoUsuario> {
+  async obterPorId(id: number): Promise<DebitoCompartilhadoUsuario> {
     return await this.repository.findOne({
       relations: {
         usuario: true,
-        debito: true,
+        debitoCompartilhado: true,
       },
       where: { id },
     });
@@ -143,13 +153,13 @@ export class VinculoDebitoUsuarioService {
 
   async obterPorUsuarioId(
     usuarioId: number,
-  ): Promise<VinculoDebitoUsuario | null> {
+  ): Promise<DebitoCompartilhadoUsuario | null> {
     return await this.repository.findOne({
       where: { usuarioId },
     });
   }
 
-  async editar(id: number, body: VinculoDebitoUsuarioPut) {
+  async editar(id: number, body: DebitoCompartilhadoUsuarioPut) {
     const data = await this.repository.preload({
       id: id,
       ...body,

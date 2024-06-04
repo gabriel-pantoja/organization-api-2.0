@@ -13,7 +13,6 @@ export class MeuDebitoPost {
   tipoDebitoId: number;
 
   @ApiProperty({ example: 'Leite' })
-  @IsString()
   descricao: string;
 
   @ApiProperty({ example: '100' })

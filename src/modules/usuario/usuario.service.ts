@@ -10,17 +10,17 @@ import { NovoUsuarioPost } from './request/novo-usuario.post';
 import { EntrarPlanoPut } from './request/entrar-plano.put';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { EPerfil } from 'src/core/enums/perfil.enum';
-import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
 import { UsuarioPut } from './request/usuario.put';
 import { VinculadoPost } from '../vinculado/request/vinculado.post';
 import { VinculadoPut } from '../vinculado/request/vinculado.put';
+import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
 
 @Injectable()
 export class UsuarioService {
   constructor(
     @InjectRepository(Usuario)
     private repository: Repository<Usuario>,
-    private vinculoDebitoUsuarioService: VinculoDebitoUsuarioService,
+    private debitoCompartilhadoUsuarioService: DebitoCompartilhadoUsuarioService,
   ) {}
 
   async addVinculado(body: VinculadoPost): Promise<Usuario> {
@@ -115,7 +115,8 @@ export class UsuarioService {
     if (!data) {
       throw new NotFoundException(`User ${id} not found`);
     }
-    const debito = await this.vinculoDebitoUsuarioService.obterPorUsuarioId(id);
+    const debito =
+      await this.debitoCompartilhadoUsuarioService.obterPorUsuarioId(id);
     if (debito) {
       throw new BadRequestException(`Debito vinculado este usuário`);
     }

@@ -7,12 +7,16 @@ import { MensalidadeService } from '../mensalidade/mensalidade.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { Mensalidade } from 'src/database/entities/mensalidade.entity';
-import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
-import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
+import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
+import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Usuario, Mensalidade, VinculoDebitoUsuario]),
+    TypeOrmModule.forFeature([
+      Usuario,
+      Mensalidade,
+      DebitoCompartilhadoUsuario,
+    ]),
     JwtModule.register({
       global: true,
       secret: process.env.KEY_JWT,
@@ -24,7 +28,7 @@ import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuar
     AuthDomain,
     UsuarioService,
     MensalidadeService,
-    VinculoDebitoUsuarioService,
+    DebitoCompartilhadoUsuarioService,
   ],
 })
 export class AuthModule {}

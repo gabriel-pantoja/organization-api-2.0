@@ -4,19 +4,19 @@ import { UsuarioController } from './usuario.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { UsuarioDomain } from './usuario.domain';
-import { VinculoDebitoUsuarioService } from '../vinculo-debito-usuario/vinculo-debito-usuario.service';
 import { PlanoService } from 'src/core/services/plano.service';
 import { MensalidadeService } from '../mensalidade/mensalidade.service';
-import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
 import { Plano } from 'src/database/entities/plano.entity';
 import { Mensalidade } from 'src/database/entities/mensalidade.entity';
 import { EmailService } from 'src/core/services/email.service';
+import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
+import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Usuario,
-      VinculoDebitoUsuario,
+      DebitoCompartilhadoUsuario,
       Plano,
       Mensalidade,
     ]),
@@ -25,7 +25,7 @@ import { EmailService } from 'src/core/services/email.service';
   providers: [
     UsuarioService,
     UsuarioDomain,
-    VinculoDebitoUsuarioService,
+    DebitoCompartilhadoUsuarioService,
     PlanoService,
     MensalidadeService,
     EmailService,

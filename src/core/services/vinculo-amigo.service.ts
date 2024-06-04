@@ -8,15 +8,15 @@ import { Repository } from 'typeorm';
 import { Request } from 'express';
 import { VinculoAmigo } from 'src/database/entities/vinculo-amigo.entity';
 import { EFriendStatus } from 'src/core/enums/friend-status.enum';
-import { VinculoDebitoUsuarioService } from '../../modules/vinculo-debito-usuario/vinculo-debito-usuario.service';
 import { VinculoAmigoPost } from 'src/modules/amigo/request/vinculo-amigo.post';
+import { DebitoCompartilhadoUsuarioService } from 'src/modules/debito-compartilhado-usuario/debito-compartilhado-usuario.service';
 
 @Injectable()
 export class VinculoAmigoService {
   constructor(
     @InjectRepository(VinculoAmigo)
     private repository: Repository<VinculoAmigo>,
-    private readonly vinculoDebitoUsuarioService: VinculoDebitoUsuarioService,
+    private readonly debitoCompartilhadoUsuarioService: DebitoCompartilhadoUsuarioService,
   ) {}
 
   async criar(body: VinculoAmigoPost) {
@@ -67,9 +67,10 @@ export class VinculoAmigoService {
     if (!data) {
       throw new NotFoundException(`LinkedFriend ${id} not found`);
     }
-    const debito = await this.vinculoDebitoUsuarioService.obterPorUsuarioId(
-      data.usuarioId,
-    );
+    const debito =
+      await this.debitoCompartilhadoUsuarioService.obterPorUsuarioId(
+        data.usuarioId,
+      );
     if (debito) {
       throw new BadRequestException(`Debito vinculado este usuário`);
     }

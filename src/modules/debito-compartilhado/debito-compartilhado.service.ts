@@ -1,48 +1,54 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DebitoPost } from './request/debito.post';
-import { DebitoPut } from './request/debito.put';
+import { DebitoCompartilhadoPost } from './request/debito-compartilhado.post';
+import { DebitoCompartilhadoPut } from './request/debito-compartilhado.put';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Debito } from 'src/database/entities/debito.entity';
 import { Request } from 'express';
+import { DebitoCompartilhado } from 'src/database/entities/debito-compartilhado.entity';
 
 @Injectable()
-export class DebitoService {
+export class DebitoCompartilhadoService {
   constructor(
-    @InjectRepository(Debito)
-    private repository: Repository<Debito>,
+    @InjectRepository(DebitoCompartilhado)
+    private repository: Repository<DebitoCompartilhado>,
   ) {}
 
-  async criar(body: DebitoPost) {
+  async criar(body: DebitoCompartilhadoPost) {
     body.nome = body.nome.toUpperCase();
     const debito = this.repository.create(body);
     return await this.repository.save(debito);
   }
 
-  async listar(request: Request): Promise<Debito[]> {
+  async listar(request: Request): Promise<DebitoCompartilhado[]> {
     return this.repository.find({
       relations: {
         categoria: true,
         responsavel: true,
-        vinculoDebitoUsuario: { usuario: true, debito: true },
+        debitoCompartilhadoUsuario: {
+          usuario: true,
+          debitoCompartilhado: true,
+        },
       },
       where: request.query,
       order: { pago: 'ASC', vencimento: 'ASC' },
     });
   }
 
-  async obterPorId(id: number): Promise<Debito> {
+  async obterPorId(id: number): Promise<DebitoCompartilhado> {
     return await this.repository.findOne({
       relations: {
         categoria: true,
         responsavel: true,
-        vinculoDebitoUsuario: { usuario: true, debito: true },
+        debitoCompartilhadoUsuario: {
+          usuario: true,
+          debitoCompartilhado: true,
+        },
       },
       where: { id },
     });
   }
 
-  async editar(id: number, body: DebitoPut) {
+  async editar(id: number, body: DebitoCompartilhadoPut) {
     const debito = await this.repository.preload({
       id: id,
       ...body,

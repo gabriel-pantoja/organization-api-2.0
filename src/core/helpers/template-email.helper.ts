@@ -1,4 +1,4 @@
-import { DebitoPost } from 'src/modules/debito/request/debito.post';
+import { DebitoCompartilhadoPost } from 'src/modules/debito-compartilhado/request/debito-compartilhado.post';
 import {
   IConvidarAmigo,
   IDebitoAtrasado,
@@ -265,7 +265,7 @@ export class TemplateEmailHelper {
     </html>`;
   }
 
-  static VinculadoNovoDebito(data: DebitoPost): string {
+  static VinculadoNovoDebito(data: DebitoCompartilhadoPost): string {
     return `<!DOCTYPE html>
     <html lang="en">
     <head>

@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TaskSchedulingService } from 'src/modules/task-scheduling/task-scheduling.service';
-import { VinculoDebitoUsuario } from 'src/database/entities/vinculo-debito-usuario.entity';
 import { EmailService } from 'src/core/services/email.service';
+import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([VinculoDebitoUsuario]),
+    TypeOrmModule.forFeature([DebitoCompartilhadoUsuario]),
     ScheduleModule.forRoot(),
   ],
   controllers: [],
