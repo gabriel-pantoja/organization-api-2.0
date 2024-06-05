@@ -32,6 +32,9 @@ export class MeuDebito {
   })
   tipoDebito: TipoDebito;
 
+  @Column({ name: 'nome', type: 'varchar', length: 50 })
+  nome: string;
+
   @Column({ name: 'descricao', type: 'varchar', length: 50, nullable: true })
   descricao: string;
 
@@ -63,13 +66,13 @@ export class MeuDebito {
   @Column({ name: 'pago', type: 'bool', nullable: true, default: null })
   pago: boolean;
 
-  @Column({ default: 1 })
+  @Column({ nullable: true, default: null })
   formaPagamentoId: number;
 
   @ManyToOne(() => FormaPagamento, (formaPagamento) => formaPagamento.meuDebito)
   formaPagamento: FormaPagamento;
 
-  @Column({ default: 1, nullable: true })
+  @Column({ default: null, nullable: true })
   cartaoId: number;
 
   @ManyToOne(() => Cartao, (cartao) => cartao.meuDebito)

@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import validator from 'validator';
 
 export class MeuDebitoPost {
   @ApiProperty({ example: '1' })
@@ -11,6 +13,12 @@ export class MeuDebitoPost {
   @IsNumber()
   @IsNotEmpty()
   tipoDebitoId: number;
+
+  @ApiProperty({ example: 'Leite' })
+  @IsString()
+  @IsNotEmpty()
+  @Transform(({ value }) => validator.trim(value))
+  nome: string;
 
   @ApiProperty({ example: 'Leite' })
   descricao: string;

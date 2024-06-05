@@ -23,8 +23,8 @@ import { TipoDebito } from './entities/tipo-debito.entity';
 import TipoDebitoSeeder from './seeds/tipo-debito.seed';
 import { DebitoCompartilhadoUsuario } from './entities/debito-compartilhado-usuario.entity';
 
-config();
-//config({ path: '.env.prod' });
+//config();
+config({ path: '.env.prod' });
 
 export const options: DataSourceOptions & SeederOptions = {
   type: 'mysql',

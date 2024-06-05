@@ -6,7 +6,8 @@ export class MeuDebitoDto {
   categoriaNome: string;
   tipoDebitoId: number;
   tipoDebitoNome: string;
-  descricao: string;
+  nome: string;
+  descricao?: string;
   valor: number;
   vencimento: Date;
   pago: boolean;
@@ -27,6 +28,7 @@ export class MeuDebitoDto {
     dto.categoriaNome = data.categoria.nome;
     dto.tipoDebitoId = data.tipoDebitoId;
     dto.tipoDebitoNome = data.tipoDebito.nome;
+    dto.nome = data.nome;
     dto.descricao = data.descricao;
     dto.valor = data.valor;
     dto.vencimento = data.vencimento;
@@ -35,7 +37,7 @@ export class MeuDebitoDto {
     dto.juros = data.juros;
     dto.valorJuros = data.valorJuros;
     dto.formaPagamentoId = data.formaPagamentoId;
-    dto.formaPagamentoNome = data.formaPagamento.nome;
+    dto.formaPagamentoNome = data.formaPagamento?.nome;
     dto.cartaoId = data.cartaoId;
     dto.cartaoNome = data.cartao?.nome;
     dto.dataPagamento = data.dataPagamento;

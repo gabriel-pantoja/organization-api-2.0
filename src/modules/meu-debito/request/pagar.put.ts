@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class PagarPut {
   @ApiProperty({ example: true })
@@ -13,7 +13,6 @@ export class PagarPut {
   @IsNotEmpty()
   formaPagamentoId: number;
 
-  @ApiProperty({ example: '1' })
-  @IsNumber()
+  @ApiProperty({ example: '1', nullable: true })
   cartaoId: number;
 }
