@@ -11,9 +11,9 @@ import { EntrarPlanoPut } from './request/entrar-plano.put';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { EPerfil } from 'src/core/enums/perfil.enum';
 import { UsuarioPut } from './request/usuario.put';
-import { VinculadoPost } from '../vinculado/request/vinculado.post';
-import { VinculadoPut } from '../vinculado/request/vinculado.put';
 import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
+import { VinculadoUsuarioPost } from '../vinculado-usuario/request/vinculado-usuario.post';
+import { VinculadoUsuarioPut } from '../vinculado-usuario/request/vinculado-usuario.put';
 
 @Injectable()
 export class UsuarioService {
@@ -23,7 +23,7 @@ export class UsuarioService {
     private debitoCompartilhadoUsuarioService: DebitoCompartilhadoUsuarioService,
   ) {}
 
-  async addVinculado(body: VinculadoPost): Promise<Usuario> {
+  async addVinculado(body: VinculadoUsuarioPost): Promise<Usuario> {
     const data = this.repository.create(body);
     data.email = data.email.toLowerCase();
     data.perfilId = EPerfil.Usuario;
@@ -85,7 +85,7 @@ export class UsuarioService {
     return await this.repository.save(data);
   }
 
-  async editarVinculado(id: number, body: VinculadoPut): Promise<Usuario> {
+  async editarVinculado(id: number, body: VinculadoUsuarioPut): Promise<Usuario> {
     body.email = body.email.toLowerCase();
     const data = await this.repository.preload({
       id: id,

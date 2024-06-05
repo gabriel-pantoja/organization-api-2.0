@@ -9,18 +9,18 @@ import { PlanoService } from 'src/core/services/plano.service';
 import { EPlano } from 'src/core/enums/plano.enum';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
-import { VinculadoPost } from './request/vinculado.post';
-import { VinculadoDto } from './dto/vinculado.dto';
-import { VinculadoPut } from './request/vinculado.put';
+import { VinculadoUsuarioPost } from './request/vinculado-usuario.post';
+import { VinculadoUsuarioDto } from './dto/vinculado-usuario.dto';
+import { VinculadoUsuarioPut } from './request/vinculado-usuario.put';
 
 @Injectable()
-export class VinculadoDomain {
+export class VinculadoUsuarioDomain {
   constructor(
     private readonly usuarioService: UsuarioService,
     private readonly planoService: PlanoService,
   ) {}
 
-  async add(body: VinculadoPost): Promise<Usuario> {
+  async add(body: VinculadoUsuarioPost): Promise<Usuario> {
     const usuario = await this.usuarioService.obterPorId(body.usuarioId);
     if (!usuario) {
       throw new NotFoundException(`Usuário não encontrado`);
@@ -50,15 +50,15 @@ export class VinculadoDomain {
 
   async listar(request: Request) {
     return (await this.usuarioService.listar(request)).map((x) => {
-      return VinculadoDto.listarDto(x);
+      return VinculadoUsuarioDto.listarDto(x);
     });
   }
 
   async obterPessoaPorId(id: number) {
-    return VinculadoDto.listarDto(await this.usuarioService.obterPorId(+id));
+    return VinculadoUsuarioDto.listarDto(await this.usuarioService.obterPorId(+id));
   }
 
-  async editarVinculado(id: number, body: VinculadoPut) {
+  async editarVinculado(id: number, body: VinculadoUsuarioPut) {
     return await this.usuarioService.editarVinculado(id, body);
   }
 

@@ -33,6 +33,21 @@ export class MeuDebitoService {
     });
   }
 
+  async home(request: Request): Promise<MeuDebito[]> {
+    return this.repository.find({
+      relations: {
+        categoria: true,
+        tipoDebito: true,
+        formaPagamento: true,
+        cartao: true,
+      },
+      where: {
+        usuarioId: Number(request.query.usuarioId),
+        referenteMesAno: request.query.referenteMesAno.toString(),
+      },
+    });
+  }
+
   async obterPorId(id: number): Promise<MeuDebito> {
     return await this.repository.findOne({
       relations: {

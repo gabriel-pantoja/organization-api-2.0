@@ -14,13 +14,13 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request } from 'express';
 import { Profiles } from 'src/core/decorators/profiles.decorator';
 import { ETipoPerfil } from 'src/core/enums/perfil.enum';
-import { VinculadoDomain } from './vinculado.domain';
-import { VinculadoPost } from './request/vinculado.post';
-import { VinculadoPut } from './request/vinculado.put';
+import { VinculadoUsuarioDomain } from './vinculado-usuario.domain';
+import { VinculadoUsuarioPost } from './request/vinculado-usuario.post';
+import { VinculadoUsuarioPut } from './request/vinculado-usuario.put';
 
-@Controller('vinculado')
-export class VinculadoController {
-  constructor(private readonly vinculadoDomain: VinculadoDomain) {}
+@Controller('vinculado-usuario')
+export class VinculadoUsuarioController {
+  constructor(private readonly vinculadoUsuarioDomain: VinculadoUsuarioDomain) {}
 
   @Post()
   @Profiles(ETipoPerfil.Admin)
@@ -28,11 +28,11 @@ export class VinculadoController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async addPerson(
     @Res() res: Response,
-    @Body() body: VinculadoPost,
+    @Body() body: VinculadoUsuarioPost,
   ): Promise<Response> {
     return res
       .status(HttpStatus.CREATED)
-      .send(await this.vinculadoDomain.add(body));
+      .send(await this.vinculadoUsuarioDomain.add(body));
   }
 
   @Get()
@@ -45,7 +45,7 @@ export class VinculadoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.vinculadoDomain.listar(request));
+      .send(await this.vinculadoUsuarioDomain.listar(request));
   }
 
   @Get(':id')
@@ -58,7 +58,7 @@ export class VinculadoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.vinculadoDomain.obterPessoaPorId(+id));
+      .send(await this.vinculadoUsuarioDomain.obterPessoaPorId(+id));
   }
 
   @Put(':id')
@@ -68,11 +68,11 @@ export class VinculadoController {
   async update(
     @Res() res: Response,
     @Param('id') id: string,
-    @Body() body: VinculadoPut,
+    @Body() body: VinculadoUsuarioPut,
   ): Promise<Response> {
     return res
       .status(HttpStatus.NO_CONTENT)
-      .send(await this.vinculadoDomain.editarVinculado(+id, body));
+      .send(await this.vinculadoUsuarioDomain.editarVinculado(+id, body));
   }
 
   @Delete(':id')
@@ -85,7 +85,7 @@ export class VinculadoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.vinculadoDomain.deletarVinculado(+id));
+      .send(await this.vinculadoUsuarioDomain.deletarVinculado(+id));
   }
 
   @Get('reset-senha/:id')
@@ -98,6 +98,6 @@ export class VinculadoController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.vinculadoDomain.resetSenhaVinculado(+id));
+      .send(await this.vinculadoUsuarioDomain.resetSenhaVinculado(+id));
   }
 }

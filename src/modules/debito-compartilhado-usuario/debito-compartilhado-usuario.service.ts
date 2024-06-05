@@ -54,7 +54,7 @@ export class DebitoCompartilhadoUsuarioService {
     });
   }
 
-  async listarConta(request: Request): Promise<DebitoCompartilhadoUsuario[]> {
+  async home(request: Request): Promise<DebitoCompartilhadoUsuario[]> {
     return await this.repository.find({
       select: {
         debitoCompartilhado: {

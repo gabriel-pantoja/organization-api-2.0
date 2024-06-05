@@ -1,13 +1,13 @@
 import { Controller, Get, HttpStatus, Req, Res } from '@nestjs/common';
 import { Profiles } from 'src/core/decorators/profiles.decorator';
-import { ContaDomanin } from 'src/modules/conta/conta.domain';
 import { ETipoPerfil } from 'src/core/enums/perfil.enum';
 import { Response, Request } from 'express';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { HomeDomanin } from './home.domain';
 
-@Controller('conta')
-export class ContaController {
-  constructor(private readonly contaDomanin: ContaDomanin) {}
+@Controller('home')
+export class HomeController {
+  constructor(private readonly homeDomanin: HomeDomanin) {}
 
   @Get()
   @Profiles(ETipoPerfil.Admin, ETipoPerfil.Usuario)
@@ -18,6 +18,6 @@ export class ContaController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.contaDomanin.listar(request));
+      .send(await this.homeDomanin.listar(request));
   }
 }
