@@ -50,6 +50,16 @@ export class MeuDebitoController {
       .send(await this.meuDebitoDomain.listar(request));
   }
 
+  @Get('select-nome')
+  @ApiOperation({ summary: 'Select Nome' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Profiles(ETipoPerfil.Admin)
+  async findAllNome(@Res() res: Response): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.meuDebitoDomain.selectNome());
+  }
+
   @Get(':id')
   @Profiles(ETipoPerfil.Admin)
   @ApiOperation({ summary: 'Obter por Id' })

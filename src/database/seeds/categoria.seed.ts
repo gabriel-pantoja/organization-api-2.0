@@ -12,7 +12,7 @@ export default class CategoriaSeeder implements Seeder {
     const repository = dataSource.getRepository(Categoria);
     await repository.insert([
       {
-        nome: 'Casa | Apto',
+        nome: 'Moradia',
       },
       {
         nome: 'Prossional',

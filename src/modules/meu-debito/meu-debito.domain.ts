@@ -25,6 +25,12 @@ export class MeuDebitoDomain {
     });
   }
 
+  async selectNome() {
+    return (await this.meuDebitoService.selectNome()).map((x) => {
+      return MeuDebitoDto.selectNome(x);
+    });
+  }
+
   async obterPorId(id: number) {
     return MeuDebitoDto.listar(await this.meuDebitoService.obterPorId(+id));
   }

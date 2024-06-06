@@ -44,4 +44,11 @@ export class MeuDebitoDto {
 
     return dto;
   }
+
+  static selectNome(data: MeuDebito): MeuDebitoDto {
+    const dto = new MeuDebitoDto();
+    dto.nome = data.nome;
+
+    return dto;
+  }
 }

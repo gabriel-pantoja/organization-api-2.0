@@ -33,6 +33,15 @@ export class MeuDebitoService {
     });
   }
 
+  async selectNome(): Promise<MeuDebito[]> {
+    return this.repository
+      .createQueryBuilder('meuDebito')
+      .select('DISTINCT meuDebito.nome')
+      .where("meuDebito.nome IS NOT NULL AND meuDebito.nome <> ''")
+      .orderBy('meuDebito.nome', 'ASC')
+      .getRawMany();
+  }
+
   async home(request: Request): Promise<MeuDebito[]> {
     return this.repository.find({
       relations: {
@@ -45,6 +54,7 @@ export class MeuDebitoService {
         usuarioId: Number(request.query.usuarioId),
         referenteMesAno: request.query.referenteMesAno.toString(),
       },
+      order: { nome: 'ASC' },
     });
   }
 
