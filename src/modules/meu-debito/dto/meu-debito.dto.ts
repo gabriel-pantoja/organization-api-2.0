@@ -14,6 +14,8 @@ export class MeuDebitoDto {
   referenteMesAno: string;
   juros: boolean;
   valorJuros: number;
+  debitoRecorrente: boolean;
+  parcelas: number;
   formaPagamentoId: number;
   formaPagamentoNome: string;
   bancoId: number;
@@ -22,6 +24,7 @@ export class MeuDebitoDto {
   localPagamentoNome: string;
   dataPagamento: Date;
   pagamento: string;
+  debitoParceladoId: number;
 
   static listar(data: MeuDebito): MeuDebitoDto {
     const dto = new MeuDebitoDto();
@@ -39,6 +42,8 @@ export class MeuDebitoDto {
     dto.referenteMesAno = data.referenteMesAno;
     dto.juros = data.juros;
     dto.valorJuros = data.valorJuros;
+    dto.debitoRecorrente = data.debitoRecorrente;
+    dto.parcelas = data.parcelas;
     dto.formaPagamentoId = data.formaPagamentoId;
     dto.formaPagamentoNome = data.formaPagamento?.nome;
     dto.bancoId = data.bancoId;
@@ -56,6 +61,7 @@ export class MeuDebitoDto {
         : ''
     }
     ${data.banco?.nome != undefined ? ` - ${data.banco?.nome}` : ''}`;
+    dto.debitoParceladoId = data.debitoParceladoId;
 
     return dto;
   }

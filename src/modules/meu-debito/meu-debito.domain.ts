@@ -9,14 +9,34 @@ import { MeuDebitoService } from './meu-debito.service';
 import { MeuDebitoPut } from './request/meu-debito.put';
 import { MeuDebitoPost } from './request/meu-debito.post';
 import { PagarPut } from './request/pagar.put';
+import * as moment from 'moment';
 
 @Injectable()
 export class MeuDebitoDomain {
   constructor(private readonly meuDebitoService: MeuDebitoService) {}
 
   async criar(body: MeuDebitoPost) {
-    const data = await this.meuDebitoService.criar(body);
-    return data;
+    if (body.debitoRecorrente) {
+      const meuDebito = await this.meuDebitoService.criar(body);
+      for (let index = 1; index < body.parcelas; index++) {
+        let referenteMesAno = moment(body.referenteMesAno, 'MM/YYYY');
+        referenteMesAno.add(1, 'month');
+        let vencimento = moment(body.vencimento);
+        vencimento.add(1, 'month');
+
+        body.vencimento = moment(vencimento).toDate();
+        body.referenteMesAno = moment(referenteMesAno).format('MM/YYYY');
+
+        body.debitoRecorrente = null;
+        body.parcelas = null;
+        body.debitoParceladoId = meuDebito.id;
+        await this.meuDebitoService.criar(body);
+
+        return null;
+      }
+    } else {
+      return await this.meuDebitoService.criar(body);
+    }
   }
 
   async listar(request: Request) {
@@ -36,7 +56,11 @@ export class MeuDebitoDomain {
   }
 
   async editar(id: number, body: MeuDebitoPut) {
-    return this.meuDebitoService.editar(id, body);
+    if (body.debitoRecorrente) {
+      return await this.meuDebitoService.editar(id, body);
+    } else {
+      return await this.meuDebitoService.editar(id, body);
+    }
   }
 
   async pagar(id: number, body: PagarPut) {

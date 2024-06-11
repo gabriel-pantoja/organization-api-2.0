@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -66,6 +67,24 @@ export class MeuDebito {
 
   @Column({ name: 'pago', type: 'bool', nullable: true, default: null })
   pago: boolean;
+
+  @Column({
+    name: 'debitoRecorrente',
+    type: 'bool',
+    nullable: true,
+    default: null,
+  })
+  debitoRecorrente: boolean;
+
+  @Column({ nullable: true, default: null })
+  parcelas: number;
+
+  @Column({ default: null, nullable: true })
+  debitoParceladoId: number;
+
+  @ManyToOne(() => MeuDebito)
+  @JoinColumn({ name: 'debitoParceladoId' })
+  debitosParcelado?: MeuDebito[];
 
   @Column({ nullable: true, default: null })
   formaPagamentoId: number;

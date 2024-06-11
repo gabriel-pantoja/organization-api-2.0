@@ -36,8 +36,16 @@ export class MeuDebitoPost {
   @IsNotEmpty()
   referenteMesAno: string;
 
+  @ApiProperty({ example: false })
+  debitoRecorrente: boolean;
+
+  @ApiProperty({ example: '3' })
+  parcelas: number;
+
   @ApiProperty({ example: '1' })
   @IsNumber()
   @IsNotEmpty()
   usuarioId: number;
+
+  debitoParceladoId: number;
 }
