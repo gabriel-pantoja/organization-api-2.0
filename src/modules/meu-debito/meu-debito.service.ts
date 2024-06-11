@@ -26,7 +26,8 @@ export class MeuDebitoService {
         categoria: true,
         tipoDebito: true,
         formaPagamento: true,
-        cartao: true,
+        banco: true,
+        localPagamento: true,
       },
       where: request.query,
       order: { pago: 'ASC', vencimento: 'ASC' },
@@ -36,7 +37,9 @@ export class MeuDebitoService {
   async selectNome(): Promise<MeuDebito[]> {
     return this.repository
       .createQueryBuilder('meuDebito')
-      .select('DISTINCT meuDebito.nome')
+      .select(
+        'DISTINCT meuDebito.nome, meuDebito.categoriaId, meuDebito.tipoDebitoId',
+      )
       .where("meuDebito.nome IS NOT NULL AND meuDebito.nome <> ''")
       .orderBy('meuDebito.nome', 'ASC')
       .getRawMany();
@@ -48,7 +51,8 @@ export class MeuDebitoService {
         categoria: true,
         tipoDebito: true,
         formaPagamento: true,
-        cartao: true,
+        banco: true,
+        localPagamento: true,
       },
       where: {
         usuarioId: Number(request.query.usuarioId),
@@ -64,7 +68,8 @@ export class MeuDebitoService {
         categoria: true,
         tipoDebito: true,
         formaPagamento: true,
-        cartao: true,
+        banco: true,
+        localPagamento: true,
       },
       where: { id },
     });

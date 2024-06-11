@@ -17,11 +17,13 @@ import CategoriaSeeder from './seeds/categoria.seed';
 import PlanoSeeder from './seeds/plano.seed';
 import { FormaPagamento } from './entities/forma-pagamento.entity';
 import FormaPagamentoSeeder from './seeds/forma-pagamento.seed';
-import CartaoSeeder from './seeds/cartao.seed';
-import { Cartao } from './entities/cartao.entity';
 import { TipoDebito } from './entities/tipo-debito.entity';
 import TipoDebitoSeeder from './seeds/tipo-debito.seed';
 import { DebitoCompartilhadoUsuario } from './entities/debito-compartilhado-usuario.entity';
+import { Banco } from './entities/banco.entity';
+import BancoSeeder from './seeds/banco.seed';
+import { LocalPagamento } from './entities/local-pagemento.entity';
+import LocalPagamentoSeeder from './seeds/local-pagamento.seed';
 
 config();
 //config({ path: '.env.prod' });
@@ -35,32 +37,34 @@ export const options: DataSourceOptions & SeederOptions = {
   database: process.env.DB_DATABASE,
   logging: false,
   entities: [
+    Perfil,
+    Plano,
     Usuario,
     Categoria,
     TipoDebito,
-    Cartao,
+    Banco,
+    LocalPagamento,
     FormaPagamento,
     DebitoCompartilhado,
     DebitoCompartilhadoUsuario,
-    Plano,
-    Perfil,
+    MeuDebito,
     Mensalidade,
-    VinculoAmigo,
     Compra,
     Produto,
+    VinculoAmigo,
     VinculoCompraProduto,
-    MeuDebito,
   ],
   migrations: [],
   subscribers: [],
   synchronize: true, // do not set it true in production application
   seeds: [
-    PerfilSeeder,
-    PlanoSeeder,
-    CategoriaSeeder,
-    TipoDebitoSeeder,
-    CartaoSeeder,
-    FormaPagamentoSeeder,
+    // PerfilSeeder,
+    // BancoSeeder,
+    //LocalPagamentoSeeder,
+    // PlanoSeeder,
+    // CategoriaSeeder,
+    // TipoDebitoSeeder,
+    // FormaPagamentoSeeder,
   ],
 };
 

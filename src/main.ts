@@ -12,23 +12,24 @@ import { HttpExceptionFilter } from './core/security/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
-  //app.enableCors({
-  //   origin: (origin, callback) => {
-  //     if (process.env.NODE_ENV == 'production') {
-  //       const allowedOrigins = ['https://organization.teamcoder.com.br'];
-  //       if (allowedOrigins.includes(origin)) {
-  //         console.log('allowed cors for:', origin);
-  //         callback(null, true);
-  //       } else {
-  //         console.log('blocked cors for:', origin);
-  //         throw new BadRequestException('cors');
-  //       }
-  //     } else {
-  //       callback(null, true);
-  //     }
-  //   },
-  // });
+  //app.enableCors();
+  app.enableCors({
+    origin: (origin, callback) => {
+      if (process.env.NODE_ENV == 'production') {
+        const allowedOrigins = ['https://organization.teamcoder.com.br'];
+        if (allowedOrigins.includes(origin)) {
+          console.log('allowed cors for:', origin);
+          callback(null, true);
+        } else {
+          console.log('blocked cors for:', origin);
+          throw new BadRequestException('cors');
+        }
+      } else {
+        callback(null, true);
+      }
+    },
+  });
+
   //app.use(helmet()); //which adds HTTP headers to make the service a bit more secure;
   //app.use(csurf()); //makes use of csurf to prevent attacks of cross-site request forgery;
 

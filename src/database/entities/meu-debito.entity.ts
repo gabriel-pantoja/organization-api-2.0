@@ -7,9 +7,10 @@ import {
 } from 'typeorm';
 import { Usuario } from './usuario.entity';
 import { FormaPagamento } from './forma-pagamento.entity';
-import { Cartao } from './cartao.entity';
 import { Categoria } from './categoria.entity';
 import { TipoDebito } from './tipo-debito.entity';
+import { Banco } from './banco.entity';
+import { LocalPagamento } from './local-pagemento.entity';
 
 @Entity()
 export class MeuDebito {
@@ -72,11 +73,17 @@ export class MeuDebito {
   @ManyToOne(() => FormaPagamento, (formaPagamento) => formaPagamento.meuDebito)
   formaPagamento: FormaPagamento;
 
-  @Column({ default: null, nullable: true })
-  cartaoId: number;
+  @Column({ nullable: true, default: null })
+  bancoId: number;
 
-  @ManyToOne(() => Cartao, (cartao) => cartao.meuDebito)
-  cartao: Cartao;
+  @ManyToOne(() => Banco, (banco) => banco.meuDebito)
+  banco: Banco;
+
+  @Column({ nullable: true, default: null })
+  localPagamentoId: number;
+
+  @ManyToOne(() => LocalPagamento, (localPagamento) => localPagamento.meuDebito)
+  localPagamento: LocalPagamento;
 
   @Column({ name: 'juros', type: 'bool', nullable: true })
   juros: boolean;

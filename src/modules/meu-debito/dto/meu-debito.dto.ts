@@ -16,9 +16,12 @@ export class MeuDebitoDto {
   valorJuros: number;
   formaPagamentoId: number;
   formaPagamentoNome: string;
-  cartaoId?: number;
-  cartaoNome?: string;
+  bancoId: number;
+  bancoNome: string;
+  localPagamentoId: number;
+  localPagamentoNome: string;
   dataPagamento: Date;
+  pagamento: string;
 
   static listar(data: MeuDebito): MeuDebitoDto {
     const dto = new MeuDebitoDto();
@@ -38,9 +41,21 @@ export class MeuDebitoDto {
     dto.valorJuros = data.valorJuros;
     dto.formaPagamentoId = data.formaPagamentoId;
     dto.formaPagamentoNome = data.formaPagamento?.nome;
-    dto.cartaoId = data.cartaoId;
-    dto.cartaoNome = data.cartao?.nome;
+    dto.bancoId = data.bancoId;
+    dto.bancoNome = data.banco?.nome;
+    dto.localPagamentoId = data.localPagamentoId;
+    dto.localPagamentoNome = data.localPagamento?.nome;
     dto.dataPagamento = data.dataPagamento;
+    dto.pagamento = `${
+      data.formaPagamento?.nome != undefined
+        ? `${data.formaPagamento?.nome}`
+        : ''
+    }${
+      data.localPagamento?.nome != undefined
+        ? ` - ${data.localPagamento?.nome}`
+        : ''
+    }
+    ${data.banco?.nome != undefined ? ` - ${data.banco?.nome}` : ''}`;
 
     return dto;
   }
@@ -48,6 +63,8 @@ export class MeuDebitoDto {
   static selectNome(data: MeuDebito): MeuDebitoDto {
     const dto = new MeuDebitoDto();
     dto.nome = data.nome;
+    dto.categoriaId = data.categoriaId;
+    dto.tipoDebitoId = data.tipoDebitoId;
 
     return dto;
   }

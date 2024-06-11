@@ -1,30 +1,27 @@
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
-import { Cartao } from '../entities/cartao.entity';
+import { LocalPagamento } from '../entities/local-pagemento.entity';
 
-export default class CartaoSeeder implements Seeder {
+export default class LocalPagamentoSeeder implements Seeder {
   public async run(
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
   ): Promise<void> {
     // await dataSource.query('TRUNCATE "perfil" RESTART IDENTITY;');
 
-    const repository = dataSource.getRepository(Cartao);
+    const repository = dataSource.getRepository(LocalPagamento);
     await repository.insert([
       {
-        nome: 'Bradesco',
-      },
-      {
-        nome: 'Nubank',
-      },
-      {
-        nome: 'Itáu',
-      },
-      {
-        nome: 'Banco do Brasil',
+        nome: 'Banco',
       },
       {
         nome: 'Casa Lotérica',
+      },
+      {
+        nome: 'Loja Física',
+      },
+      {
+        nome: 'Caixa Eletrônico',
       },
     ]);
   }
