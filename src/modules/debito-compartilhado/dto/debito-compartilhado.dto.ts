@@ -11,10 +11,13 @@ export class DebitoCompartilhadoDto {
   responsavelId: number;
   responsavel: UsuarioDto;
   valor: number;
+  valorDivido: number;
+  totalUsuario: number;
   vencimento: Date;
   referenteMesAno: string;
   pago: boolean;
   debitoCompartilhadoUsuario: DebitoCompartilhadoUsuarioDto[] = [];
+
   criadoEm: Date;
 
   static listar(data: DebitoCompartilhado): DebitoCompartilhadoDto {
@@ -27,6 +30,8 @@ export class DebitoCompartilhadoDto {
     dto.responsavelId = data.responsavelId;
     dto.responsavel = data.responsavel;
     dto.valor = data.valor;
+    dto.valorDivido = data.valor / data.debitoCompartilhadoUsuario.length;
+    dto.totalUsuario = data.debitoCompartilhadoUsuario.length;
     dto.vencimento = data.vencimento;
     dto.referenteMesAno = data.referenteMesAno;
     dto.pago = data.pago;
