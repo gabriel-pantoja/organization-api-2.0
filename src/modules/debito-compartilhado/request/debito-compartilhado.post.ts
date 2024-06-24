@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  isEmpty,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import validator from 'validator';
@@ -31,12 +32,9 @@ export class DebitoCompartilhadoPost {
   valor: number;
 
   @ApiProperty({ example: '2023-04-27' })
-  @IsNotEmpty()
   vencimento: Date;
 
   @ApiProperty({ example: '04-2023' })
-  @IsString()
-  @IsNotEmpty()
   referenteMesAno: string;
 
   @ApiProperty({ example: 'Usuários Vinculados' })

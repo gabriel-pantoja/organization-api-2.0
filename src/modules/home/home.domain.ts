@@ -11,12 +11,13 @@ export class HomeDomanin {
   ) {}
 
   async listar(request: Request) {
-   const debitoCompartilhadoList =  await this.debitoCompartilhadoUsuarioService.home(request);
-   const meuDebitoList =  await this.meuDebitoService.home(request);
+    const debitoCompartilhadoUsuarioList =
+      await this.debitoCompartilhadoUsuarioService.home(request);
+    const meuDebitoList = await this.meuDebitoService.home(request);
 
     return {
-      debitoCompartilhado: debitoCompartilhadoList,
-      meuDebito: meuDebitoList
-    }
+      debitoCompartilhadoUsuario: debitoCompartilhadoUsuarioList,
+      meuDebito: meuDebitoList,
+    };
   }
 }

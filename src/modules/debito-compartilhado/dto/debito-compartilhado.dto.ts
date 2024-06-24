@@ -28,7 +28,7 @@ export class DebitoCompartilhadoDto {
     dto.categoriaNome = data.categoria.nome;
     dto.nome = data.nome;
     dto.responsavelId = data.responsavelId;
-    dto.responsavel = data.responsavel;
+    dto.responsavel = UsuarioDto.listarDto(data.responsavel);
     dto.valor = data.valor;
     dto.valorDivido = data.valor / data.debitoCompartilhadoUsuario.length;
     dto.totalUsuario = data.debitoCompartilhadoUsuario.length;

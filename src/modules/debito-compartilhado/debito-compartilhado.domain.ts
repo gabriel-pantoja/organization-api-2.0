@@ -38,6 +38,14 @@ export class DebitoCompartilhadoDomain {
     });
   }
 
+  async listarPaginacao(request: Request) {
+    return (await this.debitoCompartilhadoService.listarPaginacao(request)).map(
+      (x) => {
+        return DebitoCompartilhadoDto.listar(x);
+      },
+    );
+  }
+
   async obterPorId(id: number) {
     return DebitoCompartilhadoDto.listar(
       await this.debitoCompartilhadoService.obterPorId(+id),

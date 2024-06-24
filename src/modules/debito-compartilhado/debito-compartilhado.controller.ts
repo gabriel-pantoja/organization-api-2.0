@@ -51,6 +51,19 @@ export class DebitoCompartilhadoController {
       .send(await this.debitoCompartilhadoDomain.listar(request));
   }
 
+  @Get('paginacao')
+  @ApiOperation({ summary: 'Listar com Paginação' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Profiles(ETipoPerfil.Admin)
+  async findAllPagination(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.debitoCompartilhadoDomain.listarPaginacao(request));
+  }
+
   @Get(':id')
   @Profiles(ETipoPerfil.Admin, ETipoPerfil.Usuario)
   @ApiOperation({ summary: 'Obter por Id' })

@@ -4,11 +4,13 @@ import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-us
 import { Request } from 'express';
 import { DebitoCompartilhadoUsuarioService } from './debito-compartilhado-usuario.service';
 import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
+import { DebitoCompartilhadoService } from '../debito-compartilhado/debito-compartilhado.service';
 
 @Injectable()
 export class DebitoCompartilhadoUsuarioDomain {
   constructor(
     private readonly debitoCompartilhadoUsuarioService: DebitoCompartilhadoUsuarioService,
+    private readonly debitoCompartilhadoService: DebitoCompartilhadoService,
   ) {}
 
   async criar(body: DebitoCompartilhadoUsuarioPost) {
@@ -38,6 +40,17 @@ export class DebitoCompartilhadoUsuarioDomain {
   }
 
   async editar(id: number, body: DebitoCompartilhadoUsuarioPut) {
+    const debitoCompartilhado =
+      await this.debitoCompartilhadoService.obterPorId(
+        body.debitoCompartilhadoId,
+      );
+    if (debitoCompartilhado.debitoCompartilhadoUsuario.length == 1) {
+      debitoCompartilhado.pago = body.pago;
+      await this.debitoCompartilhadoService.editar(
+        body.debitoCompartilhadoId,
+        debitoCompartilhado,
+      );
+    }
     return await this.debitoCompartilhadoUsuarioService.editar(id, body);
   }
 

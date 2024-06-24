@@ -43,10 +43,15 @@ export class DebitoCompartilhado {
   })
   valor: number;
 
-  @Column({ name: 'vencimento', type: 'date' })
+  @Column({ name: 'vencimento', type: 'date', nullable: true })
   vencimento: Date;
 
-  @Column({ name: 'referenteMesAno', type: 'varchar', length: 10 })
+  @Column({
+    name: 'referenteMesAno',
+    type: 'varchar',
+    length: 10,
+    nullable: true,
+  })
   referenteMesAno: string;
 
   @Column({ name: 'pago', type: 'bool', nullable: true, default: null })
