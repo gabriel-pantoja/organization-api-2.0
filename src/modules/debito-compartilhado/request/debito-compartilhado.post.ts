@@ -14,7 +14,7 @@ import { DebitoCompartilhadoUsuarioPost } from 'src/modules/debito-compartilhado
 
 export class DebitoCompartilhadoPost {
   @ApiProperty({ example: 'NET' })
-  @IsString()
+  @IsString()  
   @IsNotEmpty()
   @Transform(({ value }) => validator.trim(value))
   nome: string;

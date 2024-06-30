@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { UsuarioDto } from '../../usuario/dto/usuario.dto';
 import { DebitoCompartilhado } from 'src/database/entities/debito-compartilhado.entity';
 import { DebitoCompartilhadoUsuarioDto } from 'src/modules/debito-compartilhado-usuario/dto/debito-compartilhado-usuario.dto';
@@ -17,7 +16,6 @@ export class DebitoCompartilhadoDto {
   referenteMesAno: string;
   pago: boolean;
   debitoCompartilhadoUsuario: DebitoCompartilhadoUsuarioDto[] = [];
-
   criadoEm: Date;
 
   static listar(data: DebitoCompartilhado): DebitoCompartilhadoDto {

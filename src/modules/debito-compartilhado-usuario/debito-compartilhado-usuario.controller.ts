@@ -14,6 +14,7 @@ import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-us
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request } from 'express';
 import { DebitoCompartilhadoUsuarioDomain } from './debito-compartilhado-usuario.domain';
+import { EditarValorDescontadoPut } from './request/editar-valor-descontado';
 
 @Controller('debito-compartilhado-usuario')
 export class DebitoCompartilhadoUsuarioController {
@@ -32,5 +33,18 @@ export class DebitoCompartilhadoUsuarioController {
     return res
       .status(HttpStatus.OK)
       .send(await this.debitoCompartilhadoUsuarioDomain.editar(+id, body));
+  }
+
+  @Put('atualizar-valor-descontado/:id')
+  @ApiOperation({ summary: 'Editar Valor Descontado' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async updateValorDescontado(
+    @Res() res: Response,
+    @Param('id') id: string,
+    @Body() body: EditarValorDescontadoPut,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.debitoCompartilhadoUsuarioDomain.editarValorDescontado(+id, body));
   }
 }

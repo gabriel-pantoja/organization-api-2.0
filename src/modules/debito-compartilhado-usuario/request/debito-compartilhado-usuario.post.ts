@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsInt } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty } from 'class-validator';
 
 export class DebitoCompartilhadoUsuarioPost {
   @ApiProperty({ example: 1 })
@@ -10,6 +10,14 @@ export class DebitoCompartilhadoUsuarioPost {
   @IsInt()
   debitoCompartilhadoId: number;
 
+  @ApiProperty({ example: '100' })
+  @IsNotEmpty()
+  valor: number;
+  
+  @ApiProperty({ example: '100' })
+  @IsNotEmpty()
+  valorDescontado: number;
+  
   @ApiProperty({ example: null })
   @IsBoolean()
   pago: boolean;

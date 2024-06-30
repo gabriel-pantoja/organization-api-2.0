@@ -51,6 +51,10 @@ export class DebitoCompartilhadoService {
         'debito_compartilhado.debitoCompartilhadoUsuario',
         'debito_compartilhado_usuario',
       )
+      .leftJoinAndSelect(
+        'debito_compartilhado_usuario.usuario',
+        'usuario',
+      )
       .where(
         new Brackets((qb) => {
           if (request.query.criadoPorUsuarioId) {

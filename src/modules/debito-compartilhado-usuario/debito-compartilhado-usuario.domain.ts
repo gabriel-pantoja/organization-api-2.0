@@ -5,6 +5,7 @@ import { Request } from 'express';
 import { DebitoCompartilhadoUsuarioService } from './debito-compartilhado-usuario.service';
 import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
 import { DebitoCompartilhadoService } from '../debito-compartilhado/debito-compartilhado.service';
+import { EditarValorDescontadoPut } from './request/editar-valor-descontado';
 
 @Injectable()
 export class DebitoCompartilhadoUsuarioDomain {
@@ -52,6 +53,18 @@ export class DebitoCompartilhadoUsuarioDomain {
       );
     }
     return await this.debitoCompartilhadoUsuarioService.editar(id, body);
+  }
+
+  async editarValorDescontado(id: number, body: EditarValorDescontadoPut) {
+    const debitoCompartilhadoUsuario =
+      await this.debitoCompartilhadoUsuarioService.obterPorId(id);
+    debitoCompartilhadoUsuario.valorDescontado =
+      Number(body.valorDescontado) +
+      Number(debitoCompartilhadoUsuario.valorDescontado);
+    return await this.debitoCompartilhadoUsuarioService.editar(
+      id,
+      debitoCompartilhadoUsuario,
+    );
   }
 
   async deletar(id: number) {

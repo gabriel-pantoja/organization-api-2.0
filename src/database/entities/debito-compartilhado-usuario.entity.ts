@@ -27,6 +27,24 @@ export class DebitoCompartilhadoUsuario {
   )
   debitoCompartilhado: DebitoCompartilhado;
 
+  @Column({
+    name: 'valor',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  valor: number;
+
+  @Column({
+    name: 'valorDescontado',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  valorDescontado: number;
+
   @Column({ name: 'pago', type: 'bool', nullable: true, default: null })
   pago: boolean;
 }
