@@ -17,6 +17,8 @@ import { Compra } from './compra.entity';
 import { MeuDebito } from './meu-debito.entity';
 import { Produto } from './produto.entity';
 import { DebitoCompartilhadoUsuario } from './debito-compartilhado-usuario.entity';
+import { DebitoProporcional } from './debito-proporcioal';
+import { DebitoProporcionalUsuario } from './debito-proporcioal-usuario';
 
 @Entity()
 export class Usuario {
@@ -41,6 +43,16 @@ export class Usuario {
     nullable: true,
   })
   senha?: string;
+
+  @Column({
+    name: 'salario',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: null,
+    nullable: true
+  })
+  salario: number;
 
   // @Column({
   //   type: 'enum',
@@ -83,6 +95,16 @@ export class Usuario {
     cascade: false,
   })
   meuDebito: MeuDebito[];
+  
+  @OneToMany(() => DebitoProporcional, (debitoProporcional) => debitoProporcional.usuario, {
+    cascade: false,
+  })
+  debitoProporcional: DebitoProporcional[];
+
+  @OneToMany(() => DebitoProporcionalUsuario, (debitoProporcionalUsuario) => debitoProporcionalUsuario.usuario, {
+    cascade: false,
+  })
+  debitoProporcionalUsuario: DebitoProporcionalUsuario[];
 
   @Column({ default: null, nullable: true })
   planoId: number;

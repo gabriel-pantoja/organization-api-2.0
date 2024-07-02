@@ -24,6 +24,8 @@ import { Banco } from './entities/banco.entity';
 import BancoSeeder from './seeds/banco.seed';
 import { LocalPagamento } from './entities/local-pagemento.entity';
 import LocalPagamentoSeeder from './seeds/local-pagamento.seed';
+import { DebitoProporcional } from './entities/debito-proporcioal';
+import { DebitoProporcionalUsuario } from './entities/debito-proporcioal-usuario';
 
 config();
 //config({ path: '.env.prod' });
@@ -53,6 +55,8 @@ export const options: DataSourceOptions & SeederOptions = {
     Produto,
     VinculoAmigo,
     VinculoCompraProduto,
+    DebitoProporcional,
+    DebitoProporcionalUsuario
   ],
   migrations: [],
   subscribers: [],

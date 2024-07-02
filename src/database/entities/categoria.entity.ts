@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { DebitoCompartilhado } from './debito-compartilhado.entity';
 import { MeuDebito } from './meu-debito.entity';
+import { DebitoProporcional } from './debito-proporcioal';
 
 @Entity()
 export class Categoria {
@@ -18,4 +19,7 @@ export class Categoria {
 
   @OneToMany(() => MeuDebito, (meuDebito) => meuDebito.categoria)
   meuDebito: MeuDebito[];
+
+  @OneToMany(() => DebitoProporcional, (debitoProporcional) => debitoProporcional.categoria)
+  debitoProporcional: DebitoProporcional[];
 }

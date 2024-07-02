@@ -23,6 +23,9 @@ export class UsuarioPut {
   @Transform(({ value }) => validator.trim(value))
   email: string;
 
+  @ApiProperty({ example: '100' })
+  salario: number;
+
   @ApiProperty({ example: 'null' })
   usuarioId: number;
 }

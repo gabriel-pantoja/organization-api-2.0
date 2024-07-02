@@ -5,6 +5,7 @@ export class UsuarioDto {
   nome: string;
   sobrenome: string;
   email: string;
+  salario: number;
   criadoEm: Date;
 
   static listarDto(data: Usuario): UsuarioDto {
@@ -15,6 +16,7 @@ export class UsuarioDto {
       dto.nome = data.nome;
       dto.sobrenome = data.sobrenome;
       dto.email = data.email;
+      dto.salario = data.salario;
     }
 
     return dto;
