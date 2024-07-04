@@ -20,6 +20,7 @@ import { ETipoPerfil } from 'src/core/enums/perfil.enum';
 import { EntrarPlanoPut } from 'src/modules/usuario/request/entrar-plano.put';
 import { UsuarioDomain } from './usuario.domain';
 import { UsuarioPut } from './request/usuario.put';
+import { RendaMensalPut } from './request/renda-mensal.put';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -113,6 +114,19 @@ export class UsuarioController {
     return res
       .status(HttpStatus.OK)
       .send(await this.usuarioDomain.alterarSenha(+id, body));
+  }
+
+  @Put('renda-mensal/:id')
+  @ApiOperation({ summary: 'Renda Mensal' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async rensaMendal(
+    @Res() res: Response,
+    @Param('id') id: string,
+    @Body() body: RendaMensalPut,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.usuarioDomain.renadaMensal(+id, body));
   }
 
   @Put('entrar-plano/:id')

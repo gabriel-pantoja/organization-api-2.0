@@ -85,7 +85,10 @@ export class UsuarioService {
     return await this.repository.save(data);
   }
 
-  async editarVinculado(id: number, body: VinculadoUsuarioPut): Promise<Usuario> {
+  async editarVinculado(
+    id: number,
+    body: VinculadoUsuarioPut,
+  ): Promise<Usuario> {
     body.email = body.email.toLowerCase();
     const data = await this.repository.preload({
       id: id,
@@ -152,6 +155,18 @@ export class UsuarioService {
     const data = await this.repository.preload({
       id: id,
       senha: hash,
+    });
+    if (!data) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+
+    await this.repository.save(data);
+  }
+
+  async rendaMensal(id: number, salario: number): Promise<void> {
+    const data = await this.repository.preload({
+      id: id,
+      salario: salario,
     });
     if (!data) {
       throw new NotFoundException(`User ${id} not found`);

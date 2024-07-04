@@ -16,6 +16,7 @@ import { EmailService } from 'src/core/services/email.service';
 import { UsuarioDto } from './dto/usuario.dto';
 import { UsuarioPut } from './request/usuario.put';
 import { EPlano } from 'src/core/enums/plano.enum';
+import { RendaMensalPut } from './request/renda-mensal.put';
 
 @Injectable()
 export class UsuarioDomain {
@@ -99,6 +100,10 @@ export class UsuarioDomain {
   async alterarSenha(id: number, body: AlterarSenhaPut) {
     const hash = await bcrypt.hash(body.senha, await bcrypt.genSalt());
     await this.usuarioService.alterarSenha(id, hash);
+  }
+
+  async renadaMensal(id: number, body: RendaMensalPut) {
+    await this.usuarioService.rendaMensal(id, body.salario);
   }
 
   async atualizarUltimoAcesso(id: number) {

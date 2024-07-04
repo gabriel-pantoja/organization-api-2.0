@@ -20,6 +20,7 @@ import { DebitoCompartilhadoUsuarioModule } from './modules/debito-compartilhado
 import { HomeModule } from './modules/home/home.module';
 import { VinculadoUsuarioModule } from './modules/vinculado-usuario/vinculado-usuario.module';
 import { DebitoProporcionalUsuarioModule } from './modules/debito-proporcional-usuario/debito-proporcional-usuario.module';
+import { DebitoProporcionalModule } from './modules/debito-proporcional/debito-proporcional.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { DebitoProporcionalUsuarioModule } from './modules/debito-proporcional-u
     MeuDebitoModule,
     VinculoCompraProdutoModule,
     EstatisticaModule,
+    DebitoProporcionalModule,
     DebitoProporcionalUsuarioModule,
     TaskSchedulingSModule,
   ],
