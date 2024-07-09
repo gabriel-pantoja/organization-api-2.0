@@ -13,11 +13,11 @@ export class DebitoCompartilhadoUsuarioPost {
   @ApiProperty({ example: '100' })
   @IsNotEmpty()
   valor: number;
-  
+
   @ApiProperty({ example: '100' })
   @IsNotEmpty()
   valorDescontado: number;
-  
+
   @ApiProperty({ example: null })
   @IsBoolean()
   pago: boolean;

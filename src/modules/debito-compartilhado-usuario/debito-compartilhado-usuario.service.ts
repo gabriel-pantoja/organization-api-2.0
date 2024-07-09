@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DebitoCompartilhadoUsuarioPost } from './request/debito-compartilhado-usuario.post';
-import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-usuario.put';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository } from 'typeorm';
 import { Request } from 'express';
 import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
+import { DebitoCompartilhadoUsuarioPost } from './request/debito-compartilhado-usuario.post';
+import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-usuario.put';
 
 @Injectable()
 export class DebitoCompartilhadoUsuarioService {
@@ -40,7 +40,12 @@ export class DebitoCompartilhadoUsuarioService {
             usuarioId: true,
             debitoCompartilhadoId: true,
             pago: true,
-            usuario: { id: true, nome: true, sobrenome: true, email: true },
+            usuario: {
+              id: true,
+              nome: true,
+              sobrenome: true,
+              email: true,
+            },
           },
         },
       },
@@ -52,88 +57,6 @@ export class DebitoCompartilhadoUsuarioService {
       },
       where: request.query,
     });
-  }
-
-  // async home(request: Request): Promise<DebitoCompartilhadoUsuario[]> {
-  //   return await this.repository.find({
-  //     select: {
-  //       debitoCompartilhado: {
-  //         id: true,
-  //         categoriaId: true,
-  //         categoria: {
-  //           id: true,
-  //           nome: true,
-  //         },
-  //         nome: true,
-  //         responsavelId: true,
-  //         responsavel: {
-  //           id: true,
-  //           nome: true,
-  //           sobrenome: true,
-  //           email: true,
-  //         },
-  //         valor: true,
-  //         vencimento: true,
-  //         referenteMesAno: true,
-  //         pago: true,
-  //         debitoCompartilhadoUsuario: {
-  //           id: true,
-  //           usuarioId: true,
-  //           debitoCompartilhadoId: true,
-  //           pago: true,
-  //           usuario: { id: true, nome: true, sobrenome: true, email: true },
-  //         },
-  //       },
-  //     },
-  //     relations: {
-  //       debitoCompartilhado: {
-  //         categoria: true,
-  //         responsavel: true,
-  //         debitoCompartilhadoUsuario: { usuario: true },
-  //       },
-  //     },
-  //     where: {
-  //       usuarioId: Number(request.query.usuarioId),
-  //       debitoCompartilhado: {
-  //         referenteMesAno: request.query.referenteMesAno.toString(),
-  //       },
-  //     },
-  //   });
-  // }
-
-  async home(request: Request): Promise<DebitoCompartilhadoUsuario[]> {
-    return await this.repository
-      .createQueryBuilder('debito_compartilhado_usuario')
-      .leftJoinAndSelect(
-        'debito_compartilhado_usuario.debitoCompartilhado',
-        'debito_compartilhado',
-      )
-      .leftJoinAndSelect('debito_compartilhado.categoria', 'categoria')
-      .leftJoinAndSelect('debito_compartilhado.responsavel', 'responsavel')
-      .leftJoinAndSelect(
-        'debito_compartilhado.debitoCompartilhadoUsuario',
-        'debitoCompartilhadoUsuario',
-      )
-      .leftJoinAndSelect('debitoCompartilhadoUsuario.usuario', 'usuario')
-      .where(
-        new Brackets((qb) => {
-          if (request.query.usuarioId) {
-            qb.where('debito_compartilhado_usuario.usuarioId = :usuarioId', {
-              usuarioId: Number(request.query.usuarioId),
-            });
-          }
-        }),
-      )
-      .andWhere(
-        new Brackets((qb) => {
-          qb.where('debito_compartilhado.referenteMesAno = :referenteMesAno', {
-            referenteMesAno: request.query.referenteMesAno
-              ? request.query.referenteMesAno.toString()
-              : null,
-          }).orWhere('debito_compartilhado.referenteMesAno IS NULL');
-        }),
-      )
-      .getMany();
   }
 
   async listarPorDebitoId(
@@ -160,7 +83,12 @@ export class DebitoCompartilhadoUsuarioService {
             usuarioId: true,
             debitoCompartilhadoId: true,
             pago: true,
-            usuario: { id: true, nome: true, sobrenome: true, email: true },
+            usuario: {
+              id: true,
+              nome: true,
+              sobrenome: true,
+              email: true,
+            },
           },
         },
       },
@@ -214,7 +142,9 @@ export class DebitoCompartilhadoUsuarioService {
   }
 
   async deletarPorUsuarioId(usuarioId: number) {
-    const data = await this.repository.findOneBy({ usuarioId: usuarioId });
+    const data = await this.repository.findOneBy({
+      usuarioId: usuarioId,
+    });
     if (!data) {
       throw new NotFoundException(`User Group By User ${usuarioId} not found`);
     }

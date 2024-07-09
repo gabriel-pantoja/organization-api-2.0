@@ -12,8 +12,7 @@ import { Usuario } from 'src/database/entities/usuario.entity';
 import { EPerfil } from 'src/core/enums/perfil.enum';
 import { UsuarioPut } from './request/usuario.put';
 import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
-import { VinculadoUsuarioPost } from '../vinculado-usuario/request/vinculado-usuario.post';
-import { VinculadoUsuarioPut } from '../vinculado-usuario/request/vinculado-usuario.put';
+import { VincularUsuarioPost } from './request/vincular-usuario.post';
 
 @Injectable()
 export class UsuarioService {
@@ -23,14 +22,6 @@ export class UsuarioService {
     private debitoCompartilhadoUsuarioService: DebitoCompartilhadoUsuarioService,
   ) {}
 
-  async addVinculado(body: VinculadoUsuarioPost): Promise<Usuario> {
-    const data = this.repository.create(body);
-    data.email = data.email.toLowerCase();
-    data.perfilId = EPerfil.Usuario;
-    data.ativo = true;
-    return await this.repository.save(data);
-  }
-
   async addNovoUsuaio(body: NovoUsuarioPost) {
     body.email = body.email.toLowerCase();
     const data = this.repository.create(body);
@@ -39,7 +30,15 @@ export class UsuarioService {
     return await this.repository.save(data);
   }
 
-  async listar(request: Request) {
+  async addVincular(body: VincularUsuarioPost): Promise<Usuario> {
+    const data = this.repository.create(body);
+    data.email = data.email.toLowerCase();
+    data.perfilId = EPerfil.Usuario;
+    data.ativo = true;
+    return await this.repository.save(data);
+  }
+
+  async get(request: Request) {
     return await this.repository.find({
       where: request.query,
     });
@@ -74,21 +73,6 @@ export class UsuarioService {
   }
 
   async editar(id: number, body: UsuarioPut): Promise<Usuario> {
-    body.email = body.email.toLowerCase();
-    const data = await this.repository.preload({
-      id: id,
-      ...body,
-    });
-    if (!data) {
-      throw new NotFoundException(`User ${id} not found`);
-    }
-    return await this.repository.save(data);
-  }
-
-  async editarVinculado(
-    id: number,
-    body: VinculadoUsuarioPut,
-  ): Promise<Usuario> {
     body.email = body.email.toLowerCase();
     const data = await this.repository.preload({
       id: id,

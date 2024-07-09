@@ -45,23 +45,6 @@ export class MeuDebitoService {
       .getRawMany();
   }
 
-  async home(request: Request): Promise<MeuDebito[]> {
-    return this.repository.find({
-      relations: {
-        categoria: true,
-        tipoDebito: true,
-        formaPagamento: true,
-        banco: true,
-        localPagamento: true,
-      },
-      where: {
-        usuarioId: Number(request.query.usuarioId),
-        referenteMesAno: request.query.referenteMesAno.toString(),
-      },
-      order: { nome: 'ASC' },
-    });
-  }
-
   async obterPorId(id: number): Promise<MeuDebito> {
     return await this.repository.findOne({
       relations: {

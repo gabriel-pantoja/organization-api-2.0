@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Usuario } from './usuario.entity';
 import { DebitoCompartilhado } from './debito-compartilhado.entity';
+import { Usuario } from './usuario.entity';
 
 @Entity()
 export class DebitoCompartilhadoUsuario {

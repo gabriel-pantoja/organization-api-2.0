@@ -5,8 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, In, Repository } from 'typeorm';
 import { Request } from 'express';
 import { DebitoCompartilhado } from 'src/database/entities/debito-compartilhado.entity';
-import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
-import { Categoria } from 'src/database/entities/categoria.entity';
 
 @Injectable()
 export class DebitoCompartilhadoService {
@@ -51,10 +49,7 @@ export class DebitoCompartilhadoService {
         'debito_compartilhado.debitoCompartilhadoUsuario',
         'debito_compartilhado_usuario',
       )
-      .leftJoinAndSelect(
-        'debito_compartilhado_usuario.usuario',
-        'usuario',
-      )
+      .leftJoinAndSelect('debito_compartilhado_usuario.usuario', 'usuario')
       .where(
         new Brackets((qb) => {
           if (request.query.criadoPorUsuarioId) {

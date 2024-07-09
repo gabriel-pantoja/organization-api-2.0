@@ -7,8 +7,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Usuario } from './usuario.entity';
-import { DebitoCompartilhadoUsuario } from './debito-compartilhado-usuario.entity';
 import { Categoria } from './categoria.entity';
+import { DebitoCompartilhadoUsuario } from './debito-compartilhado-usuario.entity';
+import { DebitoProporcionalUsuario } from './debito-proporcional-usuario.entity';
 
 @Entity()
 export class DebitoCompartilhado {

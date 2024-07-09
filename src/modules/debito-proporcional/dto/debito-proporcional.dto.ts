@@ -1,4 +1,4 @@
-import { DebitoProporcional } from 'src/database/entities/debito-proporcioal';
+import { DebitoProporcional } from 'src/database/entities/debito-proporcional';
 
 export class DebitoProporcionalDto {
   id: number;

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { DebitoCompartilhadoUsuarioPost } from './request/debito-compartilhado-usuario.post';
-import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-usuario.put';
 import { Request } from 'express';
-import { DebitoCompartilhadoUsuarioService } from './debito-compartilhado-usuario.service';
-import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
 import { DebitoCompartilhadoService } from '../debito-compartilhado/debito-compartilhado.service';
 import { EditarValorDescontadoPut } from './request/editar-valor-descontado';
+import { DebitoCompartilhadoUsuarioPost } from './request/debito-compartilhado-usuario.post';
+import { DebitoCompartilhadoUsuarioService } from './debito-compartilhado-usuario.service';
+import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
+import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-usuario.put';
 
 @Injectable()
 export class DebitoCompartilhadoUsuarioDomain {
@@ -41,29 +41,29 @@ export class DebitoCompartilhadoUsuarioDomain {
   }
 
   async editar(id: number, body: DebitoCompartilhadoUsuarioPut) {
-    const debitoCompartilhado =
-      await this.debitoCompartilhadoService.obterPorId(
-        body.debitoCompartilhadoId,
-      );
-    if (debitoCompartilhado.debitoCompartilhadoUsuario.length == 1) {
-      debitoCompartilhado.pago = body.pago;
-      await this.debitoCompartilhadoService.editar(
-        body.debitoCompartilhadoId,
-        debitoCompartilhado,
-      );
-    }
+    // const debitoCompartilhado =
+    //   await this.debitoCompartilhadoService.obterPorId(
+    //     body.debitoCompartilhadoId,
+    //   );
+    // if (debitoCompartilhado.debitoCompartilhadoUsuarioVinculado.length == 1) {
+    //   debitoCompartilhado.pago = body.pago;
+    //   await this.debitoCompartilhadoService.editar(
+    //     body.debitoCompartilhadoId,
+    //     debitoCompartilhado,
+    //   );
+    // }
     return await this.debitoCompartilhadoUsuarioService.editar(id, body);
   }
 
   async editarValorDescontado(id: number, body: EditarValorDescontadoPut) {
-    const debitoCompartilhadoUsuario =
+    const debitoCompartilhadoUsuarioVinculado =
       await this.debitoCompartilhadoUsuarioService.obterPorId(id);
-    debitoCompartilhadoUsuario.valorDescontado =
+    debitoCompartilhadoUsuarioVinculado.valorDescontado =
       Number(body.valorDescontado) +
-      Number(debitoCompartilhadoUsuario.valorDescontado);
+      Number(debitoCompartilhadoUsuarioVinculado.valorDescontado);
     return await this.debitoCompartilhadoUsuarioService.editar(
       id,
-      debitoCompartilhadoUsuario,
+      debitoCompartilhadoUsuarioVinculado,
     );
   }
 

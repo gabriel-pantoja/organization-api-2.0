@@ -8,7 +8,7 @@ export class UsuarioDto {
   salario: number;
   criadoEm: Date;
 
-  static listarDto(data: Usuario): UsuarioDto {
+  static map(data: Usuario): UsuarioDto {
     const dto = new UsuarioDto();
 
     if (data) {

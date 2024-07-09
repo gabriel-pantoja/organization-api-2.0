@@ -12,14 +12,12 @@ export class DebitoCompartilhadoUsuarioDto {
   valorDescontado: number;
   pago: boolean;
 
-  static listar(
-    data: DebitoCompartilhadoUsuario,
-  ): DebitoCompartilhadoUsuarioDto {
+  static map(data: DebitoCompartilhadoUsuario): DebitoCompartilhadoUsuarioDto {
     const dto = new DebitoCompartilhadoUsuarioDto();
 
     dto.id = data.id;
     dto.usuarioId = data.usuarioId;
-    dto.usuario = UsuarioDto.listarDto(data.usuario);
+    dto.usuario = UsuarioDto.map(data.usuario);
     dto.debitoCompartilhadoId = data.debitoCompartilhadoId;
     dto.valor = data.valor;
     dto.valorDescontado = data.valorDescontado;

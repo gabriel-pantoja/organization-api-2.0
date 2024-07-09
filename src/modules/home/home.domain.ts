@@ -1,22 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
-import { MeuDebitoService } from '../meu-debito/meu-debito.service';
+import { HomeService } from './home.service';
 
 @Injectable()
 export class HomeDomanin {
-  constructor(
-    private readonly debitoCompartilhadoUsuarioService: DebitoCompartilhadoUsuarioService,
-    private readonly meuDebitoService: MeuDebitoService,
-  ) {}
+  constructor(private readonly homeService: HomeService) {}
 
-  async listar(request: Request) {
-    const debitoCompartilhadoUsuarioList =
-      await this.debitoCompartilhadoUsuarioService.home(request);
-    const meuDebitoList = await this.meuDebitoService.home(request);
+  async get(request: Request) {
+    const debitoCompartilhadoList =
+      await this.homeService.getDebitoCompartilhado(request);
+    const meuDebitoList = await this.homeService.getMeuDebito(request);
 
     return {
-      debitoCompartilhadoUsuario: debitoCompartilhadoUsuarioList,
+      debitoCompartilhado: debitoCompartilhadoList,
       meuDebito: meuDebitoList,
     };
   }

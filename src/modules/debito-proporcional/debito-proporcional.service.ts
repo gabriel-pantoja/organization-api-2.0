@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { Request } from 'express';
 import { DebitoProporcionalPost } from './request/debito-proporcional.post';
 import { PagarPut } from './request/pagar.put';
-import { DebitoProporcional } from 'src/database/entities/debito-proporcioal';
 import { DebitoProporcionalPut } from './request/debito-proporcional.put';
+import { DebitoProporcional } from 'src/database/entities/debito-proporcional';
 
 @Injectable()
 export class DebitoProporcionalService {

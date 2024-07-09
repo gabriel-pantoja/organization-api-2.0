@@ -9,12 +9,12 @@ import {
   IDebitoVenceHoje,
 } from '../../core/interfaces/email.interface';
 import { addDays, endOfDay, startOfDay } from 'date-fns';
-import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
 import { DebitoCompartilhado } from 'src/database/entities/debito-compartilhado.entity';
 import { DebitoCompartilhadoService } from '../debito-compartilhado/debito-compartilhado.service';
-import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
 import { MeuDebito } from 'src/database/entities/meu-debito.entity';
 import { MeuDebitoService } from '../meu-debito/meu-debito.service';
+import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
+import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
 
 @Injectable()
 export class TaskSchedulingService {
@@ -145,14 +145,14 @@ export class TaskSchedulingService {
         pago: IsNull(),
       },
     });
-    debitoCompartilhado.forEach(async (x) => {
-      x.pago = false;
-      await this.debitoCompartilhadoService.editar(x.id, x);
-      x.debitoCompartilhadoUsuario?.forEach(async (a) => {
-        a.pago = false;
-        await this.debitoCompartilhadoUsuarioService.editar(a.id, a);
-      });
-    });
+    // debitoCompartilhado.forEach(async (x) => {
+    //   x.pago = false;
+    //   await this.debitoCompartilhadoService.editar(x.id, x);
+    //   x.debitoCompartilhadoUsuarioVinculado?.forEach(async (a) => {
+    //     a.pago = false;
+    //     await this.debitoCompartilhadoUsuarioService.editar(a.id, a);
+    //   });
+    // });
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)

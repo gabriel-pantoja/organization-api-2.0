@@ -4,7 +4,6 @@ import { DebitoCompartilhado } from './entities/debito-compartilhado.entity';
 import { Plano } from './entities/plano.entity';
 import { Perfil } from './entities/perfil.entity';
 import { Mensalidade } from './entities/mensalidade.entity';
-import { VinculoAmigo } from './entities/vinculo-amigo.entity';
 import { Produto } from './entities/produto.entity';
 import { Compra } from './entities/compra.entity';
 import { MeuDebito } from './entities/meu-debito.entity';
@@ -19,13 +18,13 @@ import { FormaPagamento } from './entities/forma-pagamento.entity';
 import FormaPagamentoSeeder from './seeds/forma-pagamento.seed';
 import { TipoDebito } from './entities/tipo-debito.entity';
 import TipoDebitoSeeder from './seeds/tipo-debito.seed';
-import { DebitoCompartilhadoUsuario } from './entities/debito-compartilhado-usuario.entity';
 import { Banco } from './entities/banco.entity';
 import BancoSeeder from './seeds/banco.seed';
 import { LocalPagamento } from './entities/local-pagemento.entity';
 import LocalPagamentoSeeder from './seeds/local-pagamento.seed';
-import { DebitoProporcional } from './entities/debito-proporcioal';
-import { DebitoProporcionalUsuario } from './entities/debito-proporcioal-usuario';
+import { DebitoProporcional } from './entities/debito-proporcional';
+import { DebitoCompartilhadoUsuario } from './entities/debito-compartilhado-usuario.entity';
+import { DebitoProporcionalUsuario } from './entities/debito-proporcional-usuario.entity';
 
 config();
 //config({ path: '.env.prod' });
@@ -53,10 +52,9 @@ export const options: DataSourceOptions & SeederOptions = {
     Mensalidade,
     Compra,
     Produto,
-    VinculoAmigo,
     VinculoCompraProduto,
     DebitoProporcional,
-    DebitoProporcionalUsuario
+    DebitoProporcionalUsuario,
   ],
   migrations: [],
   subscribers: [],

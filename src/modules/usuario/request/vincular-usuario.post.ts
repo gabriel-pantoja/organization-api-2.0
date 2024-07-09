@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsBoolean, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import validator from 'validator';
 
-export class DebitoProporcionalUsuarioPost {
+export class VincularUsuarioPost {
   @ApiProperty({ example: 'Gabriel' })
   @IsString()
   @IsNotEmpty()
@@ -15,12 +15,14 @@ export class DebitoProporcionalUsuarioPost {
   @IsNotEmpty()
   @Transform(({ value }) => validator.trim(value))
   sobrenome: string;
-  
-  @ApiProperty({ example: '100' })
-  @IsNotEmpty()
-  salario: number;
 
-  @ApiProperty({ example: 1 })
-  @IsInt()
+  @ApiProperty({ example: 'pantoja@pantoja.com' })
+  @IsString()
+  @IsNotEmpty()
+  @IsEmail()
+  @Transform(({ value }) => validator.trim(value))
+  email: string;
+
+  @ApiProperty({ example: 'null' })
   usuarioId: number;
 }

@@ -10,11 +10,11 @@ import {
   Res,
   Req,
 } from '@nestjs/common';
-import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-usuario.put';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request } from 'express';
-import { DebitoCompartilhadoUsuarioDomain } from './debito-compartilhado-usuario.domain';
 import { EditarValorDescontadoPut } from './request/editar-valor-descontado';
+import { DebitoCompartilhadoUsuarioDomain } from './debito-compartilhado-usuario.domain';
+import { DebitoCompartilhadoUsuarioPut } from './request/debito-compartilhado-usuario.put';
 
 @Controller('debito-compartilhado-usuario')
 export class DebitoCompartilhadoUsuarioController {
@@ -45,6 +45,11 @@ export class DebitoCompartilhadoUsuarioController {
   ): Promise<Response> {
     return res
       .status(HttpStatus.OK)
-      .send(await this.debitoCompartilhadoUsuarioDomain.editarValorDescontado(+id, body));
+      .send(
+        await this.debitoCompartilhadoUsuarioDomain.editarValorDescontado(
+          +id,
+          body,
+        ),
+      );
   }
 }

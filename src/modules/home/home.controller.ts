@@ -16,8 +16,6 @@ export class HomeController {
     @Res() res: Response,
     @Req() request: Request,
   ): Promise<Response> {
-    return res
-      .status(HttpStatus.OK)
-      .send(await this.homeDomanin.listar(request));
+    return res.status(HttpStatus.OK).send(await this.homeDomanin.get(request));
   }
 }

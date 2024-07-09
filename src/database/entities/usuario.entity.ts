@@ -12,13 +12,12 @@ import { DebitoCompartilhado } from './debito-compartilhado.entity';
 import { Plano } from './plano.entity';
 import { Perfil } from './perfil.entity';
 import { Mensalidade } from './mensalidade.entity';
-import { VinculoAmigo } from './vinculo-amigo.entity';
 import { Compra } from './compra.entity';
 import { MeuDebito } from './meu-debito.entity';
 import { Produto } from './produto.entity';
+import { DebitoProporcional } from './debito-proporcional';
 import { DebitoCompartilhadoUsuario } from './debito-compartilhado-usuario.entity';
-import { DebitoProporcional } from './debito-proporcioal';
-import { DebitoProporcionalUsuario } from './debito-proporcioal-usuario';
+import { DebitoProporcionalUsuario } from './debito-proporcional-usuario.entity';
 
 @Entity()
 export class Usuario {
@@ -50,7 +49,7 @@ export class Usuario {
     precision: 10,
     scale: 2,
     default: null,
-    nullable: true
+    nullable: true,
   })
   salario: number;
 
@@ -60,15 +59,6 @@ export class Usuario {
   //   default: Role.Admin,
   // })
   // role: Role;
-
-  @OneToMany(
-    () => DebitoCompartilhadoUsuario,
-    (debitoCompartilhadoUsuario) => debitoCompartilhadoUsuario.usuario,
-    {
-      cascade: true,
-    },
-  )
-  debitoCompartilhadoUsuario: DebitoCompartilhadoUsuario[];
 
   @OneToMany(
     () => DebitoCompartilhado,
@@ -95,15 +85,32 @@ export class Usuario {
     cascade: false,
   })
   meuDebito: MeuDebito[];
-  
-  @OneToMany(() => DebitoProporcional, (debitoProporcional) => debitoProporcional.usuario, {
-    cascade: false,
-  })
+
+  @OneToMany(
+    () => DebitoCompartilhadoUsuario,
+    (debitoCompartilhadoUsuario) => debitoCompartilhadoUsuario.usuario,
+    {
+      cascade: false,
+    },
+  )
+  debitoCompartilhadoUsuario: DebitoCompartilhadoUsuario[];
+
+  @OneToMany(
+    () => DebitoProporcional,
+    (debitoProporcional) => debitoProporcional.usuario,
+    {
+      cascade: false,
+    },
+  )
   debitoProporcional: DebitoProporcional[];
 
-  @OneToMany(() => DebitoProporcionalUsuario, (debitoProporcionalUsuario) => debitoProporcionalUsuario.usuario, {
-    cascade: false,
-  })
+  @OneToMany(
+    () => DebitoProporcionalUsuario,
+    (debitoProporcionalUsuario) => debitoProporcionalUsuario.usuario,
+    {
+      cascade: false,
+    },
+  )
   debitoProporcionalUsuario: DebitoProporcionalUsuario[];
 
   @Column({ default: null, nullable: true })
@@ -137,11 +144,6 @@ export class Usuario {
 
   @Column({ name: 'ultimoAcesso', type: 'datetime', nullable: true })
   ultimoAcesso: Date;
-
-  @OneToMany(() => VinculoAmigo, (vinculoAmigo) => vinculoAmigo.usuario, {
-    cascade: true,
-  })
-  vinculoAmigo: VinculoAmigo[];
 
   @CreateDateColumn()
   criadoEm: Date;

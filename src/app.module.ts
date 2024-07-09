@@ -7,7 +7,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileGuard } from './core/guards/profile.guard';
 import { MensalidadeModule } from './modules/mensalidade/mensalidade.module';
-import { AmigoModule } from './modules/amigo/amigo.module';
 import { NotificarModule } from './modules/notificar/notificar.module';
 import { TaskSchedulingSModule } from './modules/task-scheduling/task-scheduling.module';
 import { ProdutoModule } from './modules/produto/produto.module';
@@ -16,11 +15,9 @@ import { MeuDebitoModule } from './modules/meu-debito/meu-debito.module';
 import { VinculoCompraProdutoModule } from './modules/vinculo-compra-produto/vinculo-compra-produto.module';
 import { EstatisticaModule } from './modules/estatistica/estatistica.module';
 import { DebitoCompartilhadoModule } from './modules/debito-compartilhado/debito-compartilhado.module';
-import { DebitoCompartilhadoUsuarioModule } from './modules/debito-compartilhado-usuario/debito-compartilhado-usuario.module';
 import { HomeModule } from './modules/home/home.module';
-import { VinculadoUsuarioModule } from './modules/vinculado-usuario/vinculado-usuario.module';
-import { DebitoProporcionalUsuarioModule } from './modules/debito-proporcional-usuario/debito-proporcional-usuario.module';
 import { DebitoProporcionalModule } from './modules/debito-proporcional/debito-proporcional.module';
+import { DebitoCompartilhadoUsuarioModule } from './modules/debito-compartilhado-usuario/debito-compartilhado-usuario.module';
 
 @Module({
   imports: [
@@ -34,8 +31,6 @@ import { DebitoProporcionalModule } from './modules/debito-proporcional/debito-p
     DebitoCompartilhadoUsuarioModule,
     MensalidadeModule,
     HomeModule,
-    AmigoModule,
-    VinculadoUsuarioModule,
     NotificarModule,
     ProdutoModule,
     CompraModule,
@@ -43,7 +38,6 @@ import { DebitoProporcionalModule } from './modules/debito-proporcional/debito-p
     VinculoCompraProdutoModule,
     EstatisticaModule,
     DebitoProporcionalModule,
-    DebitoProporcionalUsuarioModule,
     TaskSchedulingSModule,
   ],
   controllers: [],

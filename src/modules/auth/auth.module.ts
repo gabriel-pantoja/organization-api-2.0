@@ -7,8 +7,8 @@ import { MensalidadeService } from '../mensalidade/mensalidade.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from 'src/database/entities/usuario.entity';
 import { Mensalidade } from 'src/database/entities/mensalidade.entity';
-import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
 import { DebitoCompartilhadoUsuario } from 'src/database/entities/debito-compartilhado-usuario.entity';
+import { DebitoCompartilhadoUsuarioService } from '../debito-compartilhado-usuario/debito-compartilhado-usuario.service';
 
 @Module({
   imports: [

@@ -17,12 +17,17 @@ import { UsuarioDto } from './dto/usuario.dto';
 import { UsuarioPut } from './request/usuario.put';
 import { EPlano } from 'src/core/enums/plano.enum';
 import { RendaMensalPut } from './request/renda-mensal.put';
+import { Request } from 'express';
+import { VincularUsuarioPost } from './request/vincular-usuario.post';
+import { Usuario } from 'src/database/entities/usuario.entity';
+import { PlanoService } from 'src/core/services/plano.service';
 
 @Injectable()
 export class UsuarioDomain {
   constructor(
     private readonly usuarioService: UsuarioService,
     private readonly mensalidadeService: MensalidadeService,
+    private readonly planoService: PlanoService,
     private readonly jwtService: JwtService,
     private readonly emailService: EmailService,
   ) {}
@@ -49,8 +54,42 @@ export class UsuarioDomain {
     });
   }
 
+  async vincularUsuario(body: VincularUsuarioPost): Promise<Usuario> {
+    const usuario = await this.usuarioService.obterPorId(body.usuarioId);
+    if (!usuario) {
+      throw new NotFoundException(`Usuário não encontrado`);
+    }
+
+    const totalUsuario = (
+      await this.usuarioService.listarPorUsuarioId(usuario.id)
+    ).length;
+    const plano = await this.planoService.obterPorId(usuario.planoId);
+
+    if (plano.id == EPlano.Basic) {
+      if (5 == totalUsuario) {
+        throw new BadRequestException(
+          `Plano: Basic - Excedeu quantitade de usuários`,
+        );
+      }
+    } else if (plano.id === EPlano.Plus) {
+      if (10 == totalUsuario) {
+        throw new BadRequestException(
+          `Plano: Plus - Excedeu quantitade de usuários`,
+        );
+      }
+    }
+
+    return await this.usuarioService.addVincular(body);
+  }
+
+  async get(request: Request) {
+    return (await this.usuarioService.get(request)).map((x) => {
+      return UsuarioDto.map(x);
+    });
+  }
+
   async obterPorId(id: number) {
-    return UsuarioDto.listarDto(await this.usuarioService.obterPorId(+id));
+    return UsuarioDto.map(await this.usuarioService.obterPorId(+id));
   }
 
   async editar(id: number, body: UsuarioPut) {

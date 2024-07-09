@@ -1,6 +1,6 @@
+import { DebitoCompartilhadoUsuarioDto } from 'src/modules/debito-compartilhado-usuario/dto/debito-compartilhado-usuario.dto';
 import { UsuarioDto } from '../../usuario/dto/usuario.dto';
 import { DebitoCompartilhado } from 'src/database/entities/debito-compartilhado.entity';
-import { DebitoCompartilhadoUsuarioDto } from 'src/modules/debito-compartilhado-usuario/dto/debito-compartilhado-usuario.dto';
 
 export class DebitoCompartilhadoDto {
   id: number;
@@ -26,7 +26,7 @@ export class DebitoCompartilhadoDto {
     dto.categoriaNome = data.categoria.nome;
     dto.nome = data.nome;
     dto.responsavelId = data.responsavelId;
-    dto.responsavel = UsuarioDto.listarDto(data.responsavel);
+    dto.responsavel = UsuarioDto.map(data.responsavel);
     dto.valor = data.valor;
     dto.valorDivido = data.valor / data.debitoCompartilhadoUsuario.length;
     dto.totalUsuario = data.debitoCompartilhadoUsuario.length;
@@ -35,7 +35,7 @@ export class DebitoCompartilhadoDto {
     dto.pago = data.pago;
     dto.debitoCompartilhadoUsuario = data.debitoCompartilhadoUsuario.map(
       (x) => {
-        return DebitoCompartilhadoUsuarioDto.listar(x);
+        return DebitoCompartilhadoUsuarioDto.map(x);
       },
     );
     dto.criadoEm = data.criadoEm;

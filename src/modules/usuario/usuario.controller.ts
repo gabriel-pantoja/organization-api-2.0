@@ -7,6 +7,7 @@ import {
   Put,
   Res,
   HttpStatus,
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response, Request } from 'express';
@@ -21,10 +22,36 @@ import { EntrarPlanoPut } from 'src/modules/usuario/request/entrar-plano.put';
 import { UsuarioDomain } from './usuario.domain';
 import { UsuarioPut } from './request/usuario.put';
 import { RendaMensalPut } from './request/renda-mensal.put';
+import { VincularUsuarioPost } from './request/vincular-usuario.post';
 
 @Controller('usuario')
 export class UsuarioController {
   constructor(private readonly usuarioDomain: UsuarioDomain) {}
+
+  @Post('vincular-usuario')
+  @ApiOperation({ summary: 'Vincular Usuário' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async vincularUsuario(
+    @Res() res: Response,
+    @Body() body: VincularUsuarioPost,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.CREATED)
+      .send(await this.usuarioDomain.vincularUsuario(body));
+  }
+
+  @Get()
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Listar Usuários' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async findAll(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.usuarioDomain.get(request));
+  }
 
   @Get(':id')
   @Profiles(ETipoPerfil.Admin)
