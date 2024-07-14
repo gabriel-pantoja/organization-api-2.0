@@ -19,6 +19,7 @@ import { DebitoProporcionalDomain } from './debito-proporcional.domain';
 import { DebitoProporcionalPost } from './request/debito-proporcional.post';
 import { DebitoProporcionalPut } from './request/debito-proporcional.put';
 import { PagarPut } from './request/pagar.put';
+import { UsuarioVinculadoDebitoProporcionalPost } from './request/usuario-vinculado-debito-proporcional.post';
 
 @Controller('debito-proporcional')
 export class DebitoProporcionalController {
@@ -39,6 +40,19 @@ export class DebitoProporcionalController {
       .send(await this.debitoProporcionalDomain.criar(body));
   }
 
+  @Post('usuario-vinculado')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Criar' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async createUsuarioVinculado(
+    @Res() res: Response,
+    @Body() body: UsuarioVinculadoDebitoProporcionalPost,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.CREATED)
+      .send(await this.debitoProporcionalDomain.criarUsuarioVinculado(body));
+  }
+
   @Get()
   @ApiOperation({ summary: 'Listar' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
@@ -50,6 +64,21 @@ export class DebitoProporcionalController {
     return res
       .status(HttpStatus.OK)
       .send(await this.debitoProporcionalDomain.listar(request));
+  }
+
+  @Get('usuario-vinculado')
+  @ApiOperation({ summary: 'Listar Usuario Vinculado' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Profiles(ETipoPerfil.Admin)
+  async findAllUsuarioVinculado(
+    @Res() res: Response,
+    @Req() request: Request,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(
+        await this.debitoProporcionalDomain.listarUsuarioVinculado(request),
+      );
   }
 
   @Get('select-nome')
@@ -73,6 +102,19 @@ export class DebitoProporcionalController {
     return res
       .status(HttpStatus.OK)
       .send(await this.debitoProporcionalDomain.obterPorId(+id));
+  }
+
+  @Get('usuario-vinculado/:id')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Obter Usuário Vinculado por Id' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async findOneVinculado(
+    @Res() res: Response,
+    @Param('id') id: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.debitoProporcionalDomain.obterPorUsuarioVincladoId(+id));
   }
 
   @Put(':id')
@@ -112,5 +154,18 @@ export class DebitoProporcionalController {
     return res
       .status(HttpStatus.OK)
       .send(await this.debitoProporcionalDomain.deletar(+id));
+  }
+
+  @Delete('usuario-vinculado/:id')
+  @Profiles(ETipoPerfil.Admin)
+  @ApiOperation({ summary: 'Deletar por Usuario Vinculado Id' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async removeUsuarioVInculado(
+    @Res() res: Response,
+    @Param('id') id: string,
+  ): Promise<Response> {
+    return res
+      .status(HttpStatus.OK)
+      .send(await this.debitoProporcionalDomain.deletarUsuarioVinculado(+id));
   }
 }

@@ -10,6 +10,7 @@ import { DebitoProporcionalPut } from './request/debito-proporcional.put';
 import { DebitoProporcionalPost } from './request/debito-proporcional.post';
 import { PagarPut } from './request/pagar.put';
 import * as moment from 'moment';
+import { UsuarioVinculadoDebitoProporcionalPost } from './request/usuario-vinculado-debito-proporcional.post';
 
 @Injectable()
 export class DebitoProporcionalDomain {
@@ -41,10 +42,18 @@ export class DebitoProporcionalDomain {
     }
   }
 
+  async criarUsuarioVinculado(body: UsuarioVinculadoDebitoProporcionalPost) {
+    return await this.debitoProporcionalService.criarUsuarioVinculado(body);
+  }
+
   async listar(request: Request) {
     return (await this.debitoProporcionalService.listar(request)).map((x) => {
       return DebitoProporcionalDto.listar(x);
     });
+  }
+
+  async listarUsuarioVinculado(request: Request) {
+    return await this.debitoProporcionalService.listarUsuarioVinculado(request);
   }
 
   async selectNome() {
@@ -57,6 +66,10 @@ export class DebitoProporcionalDomain {
     return DebitoProporcionalDto.listar(
       await this.debitoProporcionalService.obterPorId(+id),
     );
+  }
+
+  async obterPorUsuarioVincladoId(id: number) {
+    return await this.debitoProporcionalService.obterPorUsuarioVinculadoId(+id);
   }
 
   async editar(id: number, body: DebitoProporcionalPut) {
@@ -79,5 +92,9 @@ export class DebitoProporcionalDomain {
 
   async deletar(id: number) {
     return await this.debitoProporcionalService.deletar(id);
+  }
+
+  async deletarUsuarioVinculado(id: number) {
+    return await this.debitoProporcionalService.deletarUsuarioVinculado(id);
   }
 }

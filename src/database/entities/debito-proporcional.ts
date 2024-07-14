@@ -13,7 +13,6 @@ import { Categoria } from './categoria.entity';
 import { TipoDebito } from './tipo-debito.entity';
 import { Banco } from './banco.entity';
 import { LocalPagamento } from './local-pagemento.entity';
-import { DebitoProporcionalUsuario } from './debito-proporcional-usuario.entity';
 
 @Entity()
 export class DebitoProporcional {
@@ -128,13 +127,4 @@ export class DebitoProporcional {
 
   @CreateDateColumn()
   criadoEm: Date;
-
-  @OneToMany(
-    () => DebitoProporcionalUsuario,
-    (debitoProporcionalUsuario) => debitoProporcionalUsuario.debitoProporcional,
-    {
-      cascade: false,
-    },
-  )
-  debitoProporcionalUsuario: DebitoProporcionalUsuario[];
 }

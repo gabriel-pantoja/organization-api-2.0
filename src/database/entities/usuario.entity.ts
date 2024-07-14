@@ -17,7 +17,7 @@ import { MeuDebito } from './meu-debito.entity';
 import { Produto } from './produto.entity';
 import { DebitoProporcional } from './debito-proporcional';
 import { DebitoCompartilhadoUsuario } from './debito-compartilhado-usuario.entity';
-import { DebitoProporcionalUsuario } from './debito-proporcional-usuario.entity';
+import { UsuarioVinculadoDebitoProporcional } from './usuario-vinculado-debito-proporcional.entity';
 
 @Entity()
 export class Usuario {
@@ -105,13 +105,14 @@ export class Usuario {
   debitoProporcional: DebitoProporcional[];
 
   @OneToMany(
-    () => DebitoProporcionalUsuario,
-    (debitoProporcionalUsuario) => debitoProporcionalUsuario.usuario,
+    () => UsuarioVinculadoDebitoProporcional,
+    (usuarioVinculadoDebitoProporcional) =>
+      usuarioVinculadoDebitoProporcional.usuario,
     {
       cascade: false,
     },
   )
-  debitoProporcionalUsuario: DebitoProporcionalUsuario[];
+  usuarioVinculadoDebitoProporcional: UsuarioVinculadoDebitoProporcional[];
 
   @Column({ default: null, nullable: true })
   planoId: number;

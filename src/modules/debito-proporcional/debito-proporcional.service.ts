@@ -6,18 +6,27 @@ import { DebitoProporcionalPost } from './request/debito-proporcional.post';
 import { PagarPut } from './request/pagar.put';
 import { DebitoProporcionalPut } from './request/debito-proporcional.put';
 import { DebitoProporcional } from 'src/database/entities/debito-proporcional';
+import { UsuarioVinculadoDebitoProporcional } from 'src/database/entities/usuario-vinculado-debito-proporcional.entity';
+import { UsuarioVinculadoDebitoProporcionalPost } from './request/usuario-vinculado-debito-proporcional.post';
 
 @Injectable()
 export class DebitoProporcionalService {
   constructor(
     @InjectRepository(DebitoProporcional)
     private repository: Repository<DebitoProporcional>,
+    @InjectRepository(UsuarioVinculadoDebitoProporcional)
+    private usuarioVinculadoDebitoProporcionalRepository: Repository<UsuarioVinculadoDebitoProporcional>,
   ) {}
 
   async criar(body: DebitoProporcionalPost) {
     body.descricao = body.descricao?.trim();
     const data = this.repository.create(body);
     return await this.repository.save(data);
+  }
+
+  async criarUsuarioVinculado(body: UsuarioVinculadoDebitoProporcionalPost) {
+    const data = this.usuarioVinculadoDebitoProporcionalRepository.create(body);
+    return await this.usuarioVinculadoDebitoProporcionalRepository.save(data);
   }
 
   async listar(request: Request): Promise<DebitoProporcional[]> {
@@ -31,6 +40,18 @@ export class DebitoProporcionalService {
       },
       where: request.query,
       order: { pago: 'ASC', vencimento: 'ASC' },
+    });
+  }
+
+  async listarUsuarioVinculado(
+    request: Request,
+  ): Promise<UsuarioVinculadoDebitoProporcional[]> {
+    return this.usuarioVinculadoDebitoProporcionalRepository.find({
+      relations: {
+        usuario: true,
+        usuarioVinculado: true,
+      },
+      where: request.query,
     });
   }
 
@@ -57,6 +78,26 @@ export class DebitoProporcionalService {
         localPagamento: true,
       },
       where: { id },
+    });
+  }
+
+  async obterUsuarioVinculadoPorId(
+    id: number,
+  ): Promise<UsuarioVinculadoDebitoProporcional> {
+    return await this.usuarioVinculadoDebitoProporcionalRepository.findOne({
+      where: { id },
+    });
+  }
+
+  async obterPorUsuarioVinculadoId(
+    usuarioId: number,
+  ): Promise<UsuarioVinculadoDebitoProporcional> {
+    return await this.usuarioVinculadoDebitoProporcionalRepository.findOne({
+      relations: {
+        usuario: true,
+        usuarioVinculado: true,
+      },
+      where: { usuarioId },
     });
   }
 
@@ -90,5 +131,13 @@ export class DebitoProporcionalService {
       throw new NotFoundException(`Item ${id} not found`);
     }
     return this.repository.remove(data);
+  }
+
+  async deletarUsuarioVinculado(id: number) {
+    const data = await this.obterUsuarioVinculadoPorId(id);
+    if (!data) {
+      throw new NotFoundException(`Item ${id} not found`);
+    }
+    return this.usuarioVinculadoDebitoProporcionalRepository.remove(data);
   }
 }
