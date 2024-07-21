@@ -65,16 +65,22 @@ export class UsuarioDomain {
     ).length;
     const plano = await this.planoService.obterPorId(usuario.planoId);
 
-    if (plano.id == EPlano.Basic) {
+    if (plano.id == EPlano.Free) {
       if (5 == totalUsuario) {
         throw new BadRequestException(
-          `Plano: Basic - Excedeu quantitade de usuários`,
+          `Plano: Free - Excedeu quantitade de usuários.`,
+        );
+      }
+    } else if (plano.id == EPlano.Basic) {
+      if (5 == totalUsuario) {
+        throw new BadRequestException(
+          `Plano: Basic - Excedeu quantitade de usuários.`,
         );
       }
     } else if (plano.id === EPlano.Plus) {
       if (10 == totalUsuario) {
         throw new BadRequestException(
-          `Plano: Plus - Excedeu quantitade de usuários`,
+          `Plano: Plus - Excedeu quantitade de usuários.`,
         );
       }
     }
