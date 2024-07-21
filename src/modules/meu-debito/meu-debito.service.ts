@@ -21,6 +21,10 @@ export class MeuDebitoService {
   }
 
   async listar(request: Request): Promise<MeuDebito[]> {
+    // const quantidade =
+    //   request.query.quantidade == null ? 10 : Number(request.query.quantidade);
+    // const pagina =
+    //   request.query.pagina == null ? 1 : Number(request.query.pagina);
     return this.repository.find({
       relations: {
         categoria: true,
@@ -30,6 +34,8 @@ export class MeuDebitoService {
         localPagamento: true,
       },
       where: request.query,
+      // take: quantidade,
+      // skip: pagina - 1,
       order: { pago: 'ASC', vencimento: 'ASC' },
     });
   }
