@@ -19,6 +19,10 @@ export class DebitoProporcionalDomain {
   ) {}
 
   async criar(body: DebitoProporcionalPost) {
+    const debitos = await this.debitoProporcionalService.listarPorUsuarioId(body.usuarioId);
+    if(debitos.length >= 20) {
+      throw new BadRequestException('Execedeu limite de registro para o Débito Proporcional no plano Free.');
+    }
     if (body.debitoRecorrente) {
       const meuDebito = await this.debitoProporcionalService.criar(body);
       for (let index = 1; index < body.parcelas; index++) {

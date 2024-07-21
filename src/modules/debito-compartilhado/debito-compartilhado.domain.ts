@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DebitoCompartilhadoPost } from './request/debito-compartilhado.post';
 import { DebitoCompartilhadoService } from './debito-compartilhado.service';
 import { DebitoCompartilhadoDto } from './dto/debito-compartilhado.dto';
@@ -16,18 +16,22 @@ export class DebitoCompartilhadoDomain {
   ) {}
 
   async criar(body: DebitoCompartilhadoPost) {
+    const debitos = await this.debitoCompartilhadoService.listarPorUsuarioId(body.criadoPorUsuarioId);
+    if(debitos.length >= 20) {
+      throw new BadRequestException('Execedeu limite de registro para o Débito Compartilhado no plano Free.');
+    }
     const debito = await this.debitoCompartilhadoService.criar(body);
 
-    body.debitoCompartilhadoUsuario.forEach(async (x) => {
-      const usuario =
-        await this.debitoCompartilhadoUsuarioService.obterPorUsuarioId(
-          x.usuarioId,
-        );
-      // await this.emailService.sendVinculadoNovoDebito(
-      //   usuario.usuario.email,
-      //   body,
-      // );
-    });
+    // body.debitoCompartilhadoUsuario.forEach(async (x) => {
+    //   const usuario =
+    //     await this.debitoCompartilhadoUsuarioService.obterPorUsuarioId(
+    //       x.usuarioId,
+    //     );
+    //   await this.emailService.sendVinculadoNovoDebito(
+    //     usuario.usuario.email,
+    //     body,
+    //   );
+    // });
 
     return debito;
   }

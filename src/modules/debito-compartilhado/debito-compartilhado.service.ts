@@ -37,10 +37,10 @@ export class DebitoCompartilhadoService {
   }
 
   async listarPaginacao(request: Request): Promise<DebitoCompartilhado[]> {
-    const quantidade =
-      request.query.quantidade == null ? 10 : Number(request.query.quantidade);
-    const pagina =
-      request.query.pagina == null ? 1 : Number(request.query.pagina);
+    // const quantidade =
+    //   request.query.quantidade == null ? 10 : Number(request.query.quantidade);
+    // const pagina =
+    //   request.query.pagina == null ? 1 : Number(request.query.pagina);
     return this.repository
       .createQueryBuilder('debito_compartilhado')
       .leftJoinAndSelect('debito_compartilhado.categoria', 'categoria')
@@ -73,8 +73,8 @@ export class DebitoCompartilhadoService {
       )
       .orderBy('debito_compartilhado.pago', 'ASC')
       .addOrderBy('debito_compartilhado.vencimento', 'ASC')
-      .take(quantidade)
-      .skip(pagina - 1)
+      // .take(quantidade)
+      // .skip(pagina - 1)
       .getMany();
   }
 
@@ -89,6 +89,20 @@ export class DebitoCompartilhadoService {
         },
       },
       where: { id },
+    });
+  }
+
+  async listarPorUsuarioId(usuarioId: number): Promise<DebitoCompartilhado[]> {
+    return await this.repository.find({
+      relations: {
+        categoria: true,
+        responsavel: true,
+        debitoCompartilhadoUsuario: {
+          usuario: true,
+          debitoCompartilhado: true,
+        },
+      },
+      where: { criadoPorUsuarioId: usuarioId },
     });
   }
 

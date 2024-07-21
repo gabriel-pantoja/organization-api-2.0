@@ -55,6 +55,12 @@ export class DebitoProporcionalService {
     });
   }
 
+  async listarPorUsuarioId(usuarioId: number): Promise<DebitoProporcional[]> {
+    return await this.repository.find({
+      where: { usuarioId: usuarioId },
+    });
+  }
+
   async selectNome(): Promise<DebitoProporcional[]> {
     return this.repository
       .createQueryBuilder('debitoProporcional')

@@ -40,6 +40,12 @@ export class MeuDebitoService {
     });
   }
 
+  async listarPorUsuarioId(usuarioId: number): Promise<MeuDebito[]> {
+    return await this.repository.find({
+      where: { usuarioId: usuarioId },
+    });
+  }
+
   async selectNome(): Promise<MeuDebito[]> {
     return this.repository
       .createQueryBuilder('meuDebito')
