@@ -40,18 +40,19 @@ export class MeuDebitoService {
     });
   }
 
-  async listarPorUsuarioId(usuarioId: number): Promise<MeuDebito[]> {
+  async listarPorReferenteMes(
+    referenteMesAno: string,
+    usuarioId: number,
+  ): Promise<MeuDebito[]> {
     return await this.repository.find({
-      where: { usuarioId: usuarioId },
+      where: { referenteMesAno: referenteMesAno, usuarioId: usuarioId },
     });
   }
 
   async selectNome(): Promise<MeuDebito[]> {
     return this.repository
       .createQueryBuilder('meuDebito')
-      .select(
-        'DISTINCT meuDebito.nome, meuDebito.categoriaId, meuDebito.tipoDebitoId',
-      )
+      .select('DISTINCT meuDebito.nome')
       .where("meuDebito.nome IS NOT NULL AND meuDebito.nome <> ''")
       .orderBy('meuDebito.nome', 'ASC')
       .getRawMany();

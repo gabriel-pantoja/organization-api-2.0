@@ -69,8 +69,6 @@ export class MeuDebitoDto {
   static selectNome(data: MeuDebito): MeuDebitoDto {
     const dto = new MeuDebitoDto();
     dto.nome = data.nome;
-    dto.categoriaId = data.categoriaId;
-    dto.tipoDebitoId = data.tipoDebitoId;
 
     return dto;
   }

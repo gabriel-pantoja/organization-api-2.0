@@ -16,9 +16,14 @@ export class MeuDebitoDomain {
   constructor(private readonly meuDebitoService: MeuDebitoService) {}
 
   async criar(body: MeuDebitoPost) {
-    const debitos = await this.meuDebitoService.listarPorUsuarioId(body.usuarioId);
-    if(debitos.length >= 20) {
-      throw new BadRequestException('Execedeu limite de registro para o Meu Débito no plano Free.');
+    const debitos = await this.meuDebitoService.listarPorReferenteMes(
+      body.referenteMesAno,
+      body.usuarioId,
+    );
+    if (debitos.length >= 20) {
+      throw new BadRequestException(
+        'Execedeu limite de registro para o Meu Débito no plano Free.',
+      );
     }
     if (body.debitoRecorrente) {
       const meuDebito = await this.meuDebitoService.criar(body);
