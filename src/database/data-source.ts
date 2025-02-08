@@ -61,7 +61,7 @@ export const options: DataSourceOptions & SeederOptions = {
   synchronize: true, // do not set it true in production application
   seeds: [
     // PerfilSeeder,
-    // BancoSeeder,
+    //BancoSeeder,
     //LocalPagamentoSeeder,
     // PlanoSeeder,
     // CategoriaSeeder,

@@ -33,6 +33,10 @@ export class UsuarioDomain {
   ) {}
 
   async add(body: NovoUsuarioPost) {
+    const usuario = await this.usuarioService.obterPorEmail(body.email);
+    if (usuario) 
+      throw new BadRequestException(`E-mail ja cadastrado.`);
+    
     const data = await this.usuarioService.addNovoUsuaio(body);
 
     if (body.planoId != EPlano.Free) {

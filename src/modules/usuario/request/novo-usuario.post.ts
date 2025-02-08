@@ -20,7 +20,7 @@ export class NovoUsuarioPost {
   @ApiProperty({ example: 'pantoja@pantoja.com' })
   @IsString()
   @IsNotEmpty()
-  @IsEmail()
+  @IsEmail({}, { message: (args) => `E-mail '${args.value}' não é válido.` })
   @Transform(({ value }) => validator.trim(value))
   email: string;
 
