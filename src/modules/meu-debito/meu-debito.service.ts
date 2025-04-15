@@ -36,7 +36,7 @@ export class MeuDebitoService {
       where: request.query,
       // take: quantidade,
       // skip: pagina - 1,
-      order: { pago: 'ASC', vencimento: 'ASC' },
+      order: { nome: 'ASC', pago: 'ASC', vencimento: 'ASC' },
     });
   }
 
